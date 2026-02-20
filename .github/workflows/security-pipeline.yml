@@ -1,22 +1,18 @@
-name: Vibe Code Security Guard
+name: Vibe Code Security Guard (Pro Engine)
 
-# Wann soll der Roboter loslaufen?
-on: [push] 
+on: [push]
 
 jobs:
-  security-scan:
-    # Wo soll der Roboter arbeiten? (Auf einem kostenlosen Linux-Server von GitHub)
-    runs-on: ubuntu-latest 
-
+  semgrep-scan:
+    name: Semgrep Security Analysis
+    runs-on: ubuntu-latest
+    
     steps:
       - name: 📥 Code vom Nutzer herunterladen
         uses: actions/checkout@v4
 
-      - name: 🐍 Python vorbereiten
-        uses: actions/setup-python@v5
+      - name: 🚨 Semgrep Polyglot Scan
+        uses: returntocorp/semgrep-action@v1
         with:
-          python-version: '3.10'
-
-      - name: 🔍 Security Scan ausführen
-        # Hier führt der Server exakt den Befehl aus, den du gerade im Terminal getippt hast!
-        run: python3 security_scan.py
+          # p/default lädt automatisch hunderte Sicherheitsregeln für Python, JS, TS, Go etc.
+          config: "p/default"
