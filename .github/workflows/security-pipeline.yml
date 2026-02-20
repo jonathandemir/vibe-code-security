@@ -1,0 +1,22 @@
+name: Vibe Code Security Guard
+
+# Wann soll der Roboter loslaufen?
+on: [push] 
+
+jobs:
+  security-scan:
+    # Wo soll der Roboter arbeiten? (Auf einem kostenlosen Linux-Server von GitHub)
+    runs-on: ubuntu-latest 
+
+    steps:
+      - name: 📥 Code vom Nutzer herunterladen
+        uses: actions/checkout@v4
+
+      - name: 🐍 Python vorbereiten
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 🔍 Security Scan ausführen
+        # Hier führt der Server exakt den Befehl aus, den du gerade im Terminal getippt hast!
+        run: python3 security_scan.py
