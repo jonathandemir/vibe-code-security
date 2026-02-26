@@ -10,7 +10,26 @@ ZIP_FILE="vibeguard_repo.zip"
 echo "📦 Packaging repository (excluding .git and node_modules)..."
 
 # Zip the current workspace
-zip -r "$ZIP_FILE" . -x "*.git*" -x "*node_modules*" -x "*venv*" -x "*.venv*" > /dev/null
+# Zip the current workspace, excluding sensitive files and directories
+zip -r "$ZIP_FILE" . \
+    -x "*.git*" \
+    -x "*node_modules*" \
+    -x "*venv*" \
+    -x "*.venv*" \
+    -x "*.env*" \
+    -x "*id_rsa*" \
+    -x "*id_ed25519*" \
+    -x "*.pem" \
+    -x "*.key" \
+    -x "*.p12" \
+    -x "*.pfx" \
+    -x "*credentials*" \
+    -x "*service-account*" \
+    -x "*.npmrc" \
+    -x "*.pypirc" \
+    -x "*.netrc" \
+    -x "*__pycache__*" \
+    > /dev/null
 
 if [ ! -f "$ZIP_FILE" ]; then
     echo "❌ Failed to create repository archive."

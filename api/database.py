@@ -5,12 +5,13 @@ Handles SQLite persistence for scan history.
 import sqlite3
 import uuid
 import json
+import os
 from datetime import datetime, timezone
 from typing import Optional
 
-DB_PATH = "vibeguard.db"
-
-
+# SECURITY NOTE: For production, point VIBEGUARD_DB_PATH to an encrypted volume.
+# SQLite stores data in plaintext by default.
+DB_PATH = os.environ.get("VIBEGUARD_DB_PATH", "vibeguard.db")
 def _get_connection() -> sqlite3.Connection:
     """Get a database connection with row_factory for dict-like access."""
     conn = sqlite3.connect(DB_PATH)

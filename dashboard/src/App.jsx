@@ -12,8 +12,12 @@ function App() {
   const [scanHistory, setScanHistory] = useState([]);
   const [activeScanId, setActiveScanId] = useState(null);
 
-  // Hardcode the local API URL for the MVP
-  const API_BASE = 'http://localhost:8000';
+  // API Config — configurable for deployment
+  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000';
+  const API_KEY = import.meta.env.VITE_API_KEY || '';
+
+  // Shared headers for authenticated API calls
+  const authHeaders = API_KEY ? { 'X-API-Key': API_KEY } : {};
 
   // Fetch scan history on mount
   useEffect(() => {
@@ -48,6 +52,7 @@ function App() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...authHeaders,
         },
         body: JSON.stringify({
           code: code,
@@ -74,7 +79,7 @@ function App() {
 
   const handleSelectScan = async (scanId) => {
     try {
-      const res = await fetch(`${API_BASE}/scans/${scanId}`);
+      const res = await fetch(`${API_BASE}/scans/${scanId}`, { headers: authHeaders });
       if (res.ok) {
         const data = await res.json();
         setResults(data);
@@ -88,7 +93,7 @@ function App() {
 
   const handleDeleteScan = async (scanId) => {
     try {
-      const res = await fetch(`${API_BASE}/scans/${scanId}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/scans/${scanId}`, { method: 'DELETE', headers: authHeaders });
       if (res.ok) {
         // If the deleted scan was active, clear results
         if (activeScanId === scanId) {

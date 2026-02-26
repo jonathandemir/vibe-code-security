@@ -1,5 +1,6 @@
 import os
 import json
+import re
 from google import genai
 from google.genai import types
 
@@ -10,6 +11,26 @@ api_key = os.environ.get("GEMINI_API_KEY")
 client = None
 if api_key:
     client = genai.Client(api_key=api_key)
+
+# --- Prompt Injection Protection ---
+INJECTION_PATTERNS = re.compile(
+    r'(ignore\s+(all\s+)?previous|system\s*:|<\|im_start\|>|<\|im_end\|>|'
+    r'\[INST\]|\[/INST\]|<<SYS>>|<</SYS>>|'
+    r'you\s+are\s+now\s+|forget\s+your\s+instructions|'
+    r'override\s+security|bypass\s+filters)',
+    re.IGNORECASE
+)
+MAX_INPUT_SIZE = 100_000  # 100KB max for LLM input
+
+
+def sanitize_for_prompt(text: str) -> str:
+    """Sanitize user-supplied text before embedding in an LLM prompt."""
+    # Truncate overly long input
+    if len(text) > MAX_INPUT_SIZE:
+        text = text[:MAX_INPUT_SIZE] + "\n[TRUNCATED BY VIBEGUARD]"
+    # Strip known prompt injection patterns
+    text = INJECTION_PATTERNS.sub("[BLOCKED]", text)
+    return text
 
 def translate_findings(code_snippet: str, language: str, findings: list) -> dict:
     """
@@ -24,7 +45,7 @@ indie hackers, and creators who ship fast with AI tools but are NOT security exp
 
 Here is the original code snippet ({language}):
 ```
-{code_snippet}
+{sanitize_for_prompt(code_snippet)}
 ```
 
 Here are the raw vulnerabilities found by the static analysis scanner (Semgrep):
@@ -145,7 +166,7 @@ specialized in reviewing code produced by AI coding assistants.
 
 Your mission is to perform a Deep Security Analysis on the following codebase.
 --- REPOSITORY CODE ({language}) ---
-{code_context}
+{sanitize_for_prompt(code_context)}
 --- STATIC SCANNER (SEMGREP) FINDINGS ---
 {json.dumps(findings, indent=2)}
 
@@ -168,9 +189,7 @@ Provide the analysis in plain text. Do not format as JSON.
         )
         deep_analysis = stage1_response.text or "No analysis provided."
         
-        # Add a sleep to prevent hitting the RPM limit on the free tier (15 requests per minute)
-        import time
-        time.sleep(2)
+        # Note: Rate limiting is handled by slowapi at the API level, not by sleep()
         
         # --- STAGE 2: Filter & Format with Gemini Flash ---
         stage2_prompt = f"""
