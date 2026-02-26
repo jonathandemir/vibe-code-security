@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+api/venv/
+api/.venv/
+*.db
+
+# Node
+dashboard/node_modules/
+dashboard/dist/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# npm
+.npm_cache/
+
+# Test artifacts
+api/test_repo_scan.py
+api/test_scanner.py
+
+# Temp
+*.zip

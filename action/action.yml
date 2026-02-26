@@ -1,0 +1,27 @@
+name: 'VibeGuard Security Scan'
+description: 'Automated application security scanning for Vibe-Coders.'
+author: 'VibeGuard'
+branding:
+  icon: 'shield'
+  color: 'purple'
+
+inputs:
+  api_url:
+    description: 'The URL of your VibeGuard API instance'
+    required: false
+    default: 'http://localhost:8000/scan-repo'
+  language:
+    description: 'The primary language of the codebase to scan (e.g., python, javascript, typescript, go)'
+    required: false
+    default: 'javascript'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run VibeGuard Scanner Script
+      run: ${{ github.action_path }}/entrypoint.sh
+      shell: bash
+      env:
+        API_URL: ${{ inputs.api_url }}
+        LANGUAGE: ${{ inputs.language }}
+        GITHUB_TOKEN: ${{ github.token }}
