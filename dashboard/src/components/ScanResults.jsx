@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { AlertTriangle, CheckCircle, AlertOctagon, Info, ChevronDown, ChevronUp, Copy, Check } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { AlertTriangle, CheckCircle, AlertOctagon, Info, ChevronDown, ChevronUp, Copy, Check, ShieldCheck } from 'lucide-react';
 
 const ScanResults = ({ results }) => {
     const { score, summary, issues = [] } = results;
@@ -17,10 +18,25 @@ const ScanResults = ({ results }) => {
         return 'bg-vibe-danger/10 border-vibe-danger/20';
     };
 
+    // Framer Motion animation variants for the header
+    const getHeaderAnimation = (s) => {
+        if (s >= 80) return { scale: [1, 1.02, 1], boxShadow: ["0 0 0px rgba(16,185,129,0)", "0 0 20px rgba(16,185,129,0.2)", "0 0 0px rgba(16,185,129,0)"] };
+        if (s >= 50) return { scale: [1, 1.02, 1], boxShadow: ["0 0 0px rgba(245,158,11,0)", "0 0 20px rgba(245,158,11,0.2)", "0 0 0px rgba(245,158,11,0)"] };
+        // Red Shake for danger
+        return {
+            x: [0, -5, 5, -5, 5, 0],
+            boxShadow: ["0 0 0px rgba(239,68,68,0)", "0 0 30px rgba(239,68,68,0.4)", "0 0 0px rgba(239,68,68,0)"]
+        };
+    };
+
     return (
         <div className="flex flex-col h-full bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl">
-            {/* Header / Score Region */}
-            <div className={`p-6 border-b flex items-center justify-between ${getScoreBg(score)}`}>
+            {/* Header / Score Region - Pulse & Glow */}
+            <motion.div
+                animate={getHeaderAnimation(score)}
+                transition={{ duration: score < 50 ? 0.4 : 2, repeat: score >= 50 ? Infinity : 0, ease: "easeInOut" }}
+                className={`p-6 border-b flex items-center justify-between ${getScoreBg(score)}`}
+            >
                 <div>
                     <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">VibeGuard Score</h2>
                     <div className="flex items-baseline gap-2">
@@ -38,7 +54,7 @@ const ScanResults = ({ results }) => {
                         <AlertOctagon className={`w-12 h-12 ml-auto mb-2 ${getScoreColor(score)}`} />
                     )}
                 </div>
-            </div>
+            </motion.div>
 
             {/* Summary */}
             <div className="p-5 bg-slate-900 border-b border-slate-800">
@@ -47,9 +63,11 @@ const ScanResults = ({ results }) => {
                 </p>
             </div>
 
-            {/* Issues List */}
-            <div className="p-4 flex-1 overflow-y-auto space-y-4">
-                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider pl-1 mb-2">Detected Vulnerabilities ({issues.length})</h3>
+            {/* Issues List - Using min-h to allow expansion */}
+            <div className="p-4 flex-1 overflow-y-auto space-y-4 min-h-[300px]">
+                <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider pl-1 mb-2">
+                    Detected Vulnerabilities ({issues.length >= 8 ? '8+' : issues.length})
+                </h3>
 
                 {issues.length === 0 ? (
                     <div className="p-8 text-center bg-slate-800/50 rounded-lg border border-slate-700/50">
@@ -73,19 +91,19 @@ const IssueCard = ({ issue }) => {
 
     const getSeverityIcon = (sev) => {
         switch (sev?.toUpperCase()) {
-            case 'CRITICAL': return <AlertOctagon className="w-5 h-5 text-vibe-danger" />;
-            case 'HIGH': return <AlertOctagon className="w-5 h-5 text-rose-400" />;
-            case 'MEDIUM': return <AlertTriangle className="w-5 h-5 text-vibe-warning" />;
-            default: return <Info className="w-5 h-5 text-blue-400" />;
+            case 'CRITICAL': return <AlertOctagon className="w-5 h-5 text-red-500" />;
+            case 'HIGH': return <AlertOctagon className="w-5 h-5 text-orange-500" />;
+            case 'MEDIUM': return <AlertTriangle className="w-5 h-5 text-blue-400" />;
+            default: return <Info className="w-5 h-5 text-slate-300" />;
         }
     };
 
     const getSeverityColor = (sev) => {
         switch (sev?.toUpperCase()) {
-            case 'CRITICAL': return 'border-vibe-danger text-vibe-danger bg-vibe-danger/10';
-            case 'HIGH': return 'border-rose-400 text-rose-400 bg-rose-400/10';
-            case 'MEDIUM': return 'border-vibe-warning text-vibe-warning bg-vibe-warning/10';
-            default: return 'border-blue-400 text-blue-400 bg-blue-400/10';
+            case 'CRITICAL': return 'border-red-500/50 text-red-500 bg-red-500/10';
+            case 'HIGH': return 'border-orange-500/50 text-orange-500 bg-orange-500/10';
+            case 'MEDIUM': return 'border-blue-400/50 text-blue-400 bg-blue-400/10';
+            default: return 'border-slate-600 text-slate-300 bg-slate-800'; // Low: White/Gray
         }
     };
 
@@ -100,9 +118,11 @@ const IssueCard = ({ issue }) => {
     return (
         <div className="border border-slate-700 bg-slate-800 rounded-lg overflow-hidden transition-all hover:border-slate-600">
             {/* Collapsed Header */}
-            <button
+            <motion.button
+                whileHover={{ scale: 1.01, backgroundColor: "rgba(30, 41, 59, 1)" }} // bg-slate-800 hover
+                whileTap={{ scale: 0.99 }}
                 onClick={() => setExpanded(!expanded)}
-                className="w-full text-left p-4 flex items-center justify-between hover:bg-slate-750 focus:outline-none"
+                className="w-full text-left p-4 flex items-center justify-between focus:outline-none"
             >
                 <div className="flex items-center gap-3">
                     {getSeverityIcon(issue.severity)}
@@ -113,45 +133,74 @@ const IssueCard = ({ issue }) => {
                         </span>
                     </div>
                 </div>
-                {expanded ? <ChevronUp className="text-slate-500 w-5 h-5" /> : <ChevronDown className="text-slate-500 w-5 h-5" />}
-            </button>
+                <motion.div
+                    animate={{ rotate: expanded ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                >
+                    <ChevronDown className="text-slate-500 w-5 h-5" />
+                </motion.div>
+            </motion.button>
 
-            {/* Expanded Content */}
-            {expanded && (
-                <div className="p-4 pt-0 border-t border-slate-700 bg-slate-800/50">
-                    <div className="mt-4 mb-3">
-                        <p className="text-sm text-slate-300 leading-relaxed shadow-sm">
-                            {issue.description}
-                        </p>
-                    </div>
+            {/* Expanded Content using AnimatePresence */}
+            <AnimatePresence>
+                {expanded && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                    >
+                        <div className="p-4 pt-0 border-t border-slate-700 bg-slate-800/50">
+                            <div className="mt-4 mb-3">
+                                <p className="text-sm text-slate-300 leading-relaxed shadow-sm">
+                                    {issue.description}
+                                </p>
+                            </div>
 
-                    <div className="mt-4 bg-slate-900 rounded-lg border border-slate-700/50 overflow-hidden">
-                        <div className="bg-slate-950 px-4 py-2 flex items-center justify-between border-b border-slate-800">
-                            <span className="text-xs font-semibold text-vibe-success uppercase tracking-wider flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5" /> How to fix</span>
-                        </div>
-                        <div className="p-4">
-                            <p className="text-sm text-slate-400 mb-3">{issue.how_to_fix}</p>
-
-                            {issue.fixed_code_snippet && (
-                                <div className="relative mt-2 group">
-                                    <div className="absolute right-2 top-2 z-10 transition-opacity">
-                                        <button
-                                            onClick={handleCopy}
-                                            className="p-1.5 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded border border-slate-600 shadow-sm"
-                                            title="Copy fix"
-                                        >
-                                            {copied ? <Check className="w-3.5 h-3.5 text-vibe-success" /> : <Copy className="w-3.5 h-3.5" />}
-                                        </button>
-                                    </div>
-                                    <pre className="bg-[#0d1117] p-4 pt-8 rounded-md overflow-x-auto text-sm text-blue-300 border border-slate-800 font-mono">
-                                        <code>{issue.fixed_code_snippet}</code>
-                                    </pre>
+                            <div className="mt-4 bg-slate-900 rounded-lg border border-slate-700/50 overflow-hidden">
+                                <div className="bg-slate-950 px-4 py-2 flex items-center justify-between border-b border-slate-800">
+                                    <span className="text-xs font-semibold text-vibe-success uppercase tracking-wider flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5" /> How to fix</span>
                                 </div>
-                            )}
+                                <div className="p-4">
+                                    <p className="text-sm text-slate-400 mb-3">{issue.how_to_fix}</p>
+
+                                    {issue.fixed_code_snippet && (
+                                        <div className="relative mt-2 group">
+                                            <div className="absolute right-2 top-2 z-10 transition-opacity">
+                                                <motion.button
+                                                    whileHover={{ scale: 1.05 }}
+                                                    whileTap={{ scale: 0.95 }}
+                                                    onClick={handleCopy}
+                                                    className="p-1.5 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded border border-slate-600 shadow-sm"
+                                                    title="Copy fix"
+                                                >
+                                                    {copied ? <Check className="w-3.5 h-3.5 text-vibe-success" /> : <Copy className="w-3.5 h-3.5" />}
+                                                </motion.button>
+                                            </div>
+                                            <pre className="bg-[#0d1117] p-4 pt-8 rounded-md overflow-x-auto overflow-y-auto max-h-[400px] text-sm text-blue-300 border border-slate-800 font-mono">
+                                                <code>
+                                                    {/* Typewriter Effect on the snippet */}
+                                                    {issue.fixed_code_snippet.split('').map((char, index) => (
+                                                        <motion.span
+                                                            key={index}
+                                                            initial={{ opacity: 0 }}
+                                                            animate={{ opacity: 1 }}
+                                                            transition={{ delay: index * 0.005 }} // very fast typing
+                                                        >
+                                                            {char}
+                                                        </motion.span>
+                                                    ))}
+                                                </code>
+                                            </pre>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

@@ -127,7 +127,7 @@ def _validate_zip_safety(zip_ref: zipfile.ZipFile, extract_dir: str):
         # --- Zip Bomb Protection ---
         total_size += info.file_size
         if not info.is_dir():
-            file_count += 1
+            file_count = file_count + 1
 
         if file_count > MAX_ZIP_FILE_COUNT:
             raise HTTPException(
@@ -231,7 +231,7 @@ def get_repo_context(directory: str, max_files: int = 50) -> str:
                     # --- Fix 2: Redact sensitive lines ---
                     content = _redact_sensitive_lines(content)
                     context.append(f"--- {rel_path} ---\n{content}\n")
-                    files_read += 1
+                    files_read = files_read + 1
             except Exception:
                 pass
 
@@ -266,7 +266,10 @@ async def scan_repo(request: Request, file: UploadFile = File(...), language: st
     try:
         # Save uploaded zip file
         with open(zip_path, 'wb') as f:
-            f.write(contents)
+            if isinstance(contents, bytes):
+                f.write(contents)
+            else:
+                f.write(str(contents).encode("utf-8"))
 
         # --- Fix 3: Validate ZIP safety before extracting ---
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:

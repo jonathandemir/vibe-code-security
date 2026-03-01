@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Clock, Trash2, Shield, ShieldAlert, ShieldCheck, FileCode, FolderArchive } from 'lucide-react';
 
 function getScoreColor(score) {
@@ -61,12 +62,14 @@ function ScanHistory({ scans, onSelect, onDelete, activeScanId }) {
             </div>
 
             {scans.map((scan) => (
-                <div
+                <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     key={scan.id}
                     onClick={() => onSelect(scan.id)}
-                    className={`group flex items-center gap-3 p-2.5 rounded-lg cursor-pointer transition-all duration-150 ${activeScanId === scan.id
-                            ? 'bg-vibe-accent/10 border border-vibe-accent/30'
-                            : 'hover:bg-slate-800/60 border border-transparent'
+                    className={`group flex items-center gap-3 p-2.5 rounded-lg cursor-pointer transition-colors duration-150 ${activeScanId === scan.id
+                        ? 'bg-vibe-accent/10 border border-vibe-accent/30'
+                        : 'hover:bg-slate-800/60 border border-transparent'
                         }`}
                 >
                     {/* Score Badge */}
@@ -96,17 +99,19 @@ function ScanHistory({ scans, onSelect, onDelete, activeScanId }) {
                     </div>
 
                     {/* Delete button */}
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                         onClick={(e) => {
                             e.stopPropagation();
                             onDelete(scan.id);
                         }}
-                        className="flex-shrink-0 p-1.5 rounded-md text-slate-600 hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all"
+                        className="flex-shrink-0 p-1.5 rounded-md text-slate-600 hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-colors"
                         title="Delete scan"
                     >
                         <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                </div>
+                    </motion.button>
+                </motion.div>
             ))}
         </div>
     );

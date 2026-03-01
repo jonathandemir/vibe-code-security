@@ -87,6 +87,9 @@ def save_scan(scan_type: str, language: str, result: dict) -> str:
         conn.commit()
         print(f"💾 Scan saved: {scan_id} (Score: {score})")
         return scan_id
+    except Exception as e:
+        print(f"Error saving scan: {e}")
+        return ""
     finally:
         conn.close()
 
@@ -101,6 +104,9 @@ def get_all_scans(limit: int = 20) -> list:
         ).fetchall()
 
         return [dict(row) for row in rows]
+    except Exception as e:
+        print(f"Error getting scans: {e}")
+        return []
     finally:
         conn.close()
 
@@ -126,6 +132,9 @@ def get_scan_by_id(scan_id: str) -> Optional[dict]:
 
         scan["issues"] = [dict(row) for row in issue_rows]
         return scan
+    except Exception as e:
+        print(f"Error getting scan by id: {e}")
+        return None
     finally:
         conn.close()
 
@@ -137,5 +146,8 @@ def delete_scan(scan_id: str) -> bool:
         cursor = conn.execute("DELETE FROM scans WHERE id = ?", (scan_id,))
         conn.commit()
         return cursor.rowcount > 0
+    except Exception as e:
+        print(f"Error deleting scan: {e}")
+        return False
     finally:
         conn.close()

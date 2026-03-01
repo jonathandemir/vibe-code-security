@@ -65,46 +65,61 @@ SUMMARY=$(echo "$RESPONSE" | jq -r '.summary // "No summary provided."')
 echo "🛡️ VibeGuard Security Score: $SCORE / 100"
 echo "📝 Summary: $SUMMARY"
 
-# Create a Markdown summary
-echo "# 🛡️ VibeGuard Repository Scan Results" >> $GITHUB_STEP_SUMMARY
-echo "**Security Score:** $SCORE / 100" >> $GITHUB_STEP_SUMMARY
-echo "**Summary:** $SUMMARY" >> $GITHUB_STEP_SUMMARY
-echo "" >> $GITHUB_STEP_SUMMARY
+# Create a Markdown summary file
+OUTPUT_MD="vibeguard_report.md"
+
+echo "# 🛡️ VibeGuard Security Scan" > $OUTPUT_MD
+echo "**Score:** $SCORE / 100" >> $OUTPUT_MD
+echo "**Summary:** $SUMMARY" >> $OUTPUT_MD
+echo "" >> $OUTPUT_MD
 
 # Parse issues and add to summary
 ISSUES_COUNT=$(echo "$RESPONSE" | jq -e '.issues | length' || echo 0)
 
 if [ "$ISSUES_COUNT" -eq 0 ]; then
-    echo "✅ No vulnerabilities detected!" >> $GITHUB_STEP_SUMMARY
-    exit 0
+    echo "✅ No vulnerabilities detected. Vibe-Check passed!" >> $OUTPUT_MD
+else
+    echo "### ⚠️ Findings" >> $OUTPUT_MD
+    for ((i=0; i<$ISSUES_COUNT; i++)); do
+        TITLE=$(echo "$RESPONSE" | jq -r ".issues[$i].title")
+        SEVERITY=$(echo "$RESPONSE" | jq -r ".issues[$i].severity")
+        FILE=$(echo "$RESPONSE" | jq -r ".issues[$i].file // \"unknown\"")
+        DESC=$(echo "$RESPONSE" | jq -r ".issues[$i].description")
+        HOWTO=$(echo "$RESPONSE" | jq -r ".issues[$i].how_to_fix")
+        FIX=$(echo "$RESPONSE" | jq -r ".issues[$i].fixed_code_snippet")
+        
+        echo "#### $TITLE ($SEVERITY) in \`$FILE\`" >> $OUTPUT_MD
+        echo "$DESC" >> $OUTPUT_MD
+        echo "**Fix Strategy:** $HOWTO" >> $OUTPUT_MD
+        
+        if [ "$FIX" != "null" ] && [ -n "$FIX" ]; then
+            echo "\`\`\`" >> $OUTPUT_MD
+            echo "$FIX" >> $OUTPUT_MD
+            echo "\`\`\`" >> $OUTPUT_MD
+        else
+            echo "*(Automated code fixes are a premium feature or require manual intervention)*" >> $OUTPUT_MD
+        fi
+        echo "---" >> $OUTPUT_MD
+    done
 fi
 
-echo "### ⚠️ Findings" >> $GITHUB_STEP_SUMMARY
+# Write to GitHub Actions Summary UI
+cat $OUTPUT_MD >> $GITHUB_STEP_SUMMARY
 
-for ((i=0; i<$ISSUES_COUNT; i++)); do
-    TITLE=$(echo "$RESPONSE" | jq -r ".issues[$i].title")
-    SEVERITY=$(echo "$RESPONSE" | jq -r ".issues[$i].severity")
-    FILE=$(echo "$RESPONSE" | jq -r ".issues[$i].file // \"unknown\"")
-    DESC=$(echo "$RESPONSE" | jq -r ".issues[$i].description")
-    HOWTO=$(echo "$RESPONSE" | jq -r ".issues[$i].how_to_fix")
-    FIX=$(echo "$RESPONSE" | jq -r ".issues[$i].fixed_code_snippet")
-    
-    echo "#### $TITLE ($SEVERITY) in \`$FILE\`" >> $GITHUB_STEP_SUMMARY
-    echo "$DESC" >> $GITHUB_STEP_SUMMARY
-    echo "**Fix Strategy:** $HOWTO" >> $GITHUB_STEP_SUMMARY
-    
-    if [ "$FIX" != "null" ] && [ -n "$FIX" ]; then
-        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-        echo "$FIX" >> $GITHUB_STEP_SUMMARY
-        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-    else
-        echo "*(Automated code fixes are a premium VibeGuard feature or require manual intervention here)*" >> $GITHUB_STEP_SUMMARY
-    fi
-    echo "---" >> $GITHUB_STEP_SUMMARY
-done
+# Post PR Comment if applicable
+if [ "$GITHUB_EVENT_NAME" == "pull_request" ] && [ -n "$GITHUB_TOKEN" ]; then
+    echo "💬 Posting comment to Pull Request..."
+    export GH_TOKEN="$GITHUB_TOKEN"
+    PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+    gh pr comment "$PR_NUMBER" --body-file "$OUTPUT_MD" || echo "⚠️ Failed to post PR comment. Does the GITHUB_TOKEN have pull-requests: write permission?"
+fi
 
-# Make the action fail if score is below 90
+# Clean up
+rm -f "$OUTPUT_MD"
+
+# Fail the action if the score is below threshold (90)
 if [ "$SCORE" -lt 90 ]; then
-    echo "❌ Security score is below 90. Failing the build."
+    echo "❌ Security score ($SCORE) is below 90. Failing the build pipeline."
     exit 1
 fi
+exit 0
