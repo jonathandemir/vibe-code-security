@@ -30,7 +30,7 @@ export default function Footer() {
                         <h3 className="text-sm font-semibold text-white tracking-wider uppercase">Company</h3>
                         <ul className="mt-4 space-y-2">
                             <li><Link to="/goal" className="text-sm text-neutral-400 hover:text-emerald-400 transition-colors">Our Goal</Link></li>
-                            <li><a href="https://github.com/jonathandemir" target="_blank" rel="noreferrer" className="text-sm text-neutral-400 hover:text-emerald-400 transition-colors">GitHub</a></li>
+                            <li><a href="https://github.com/vibeguard-hq" target="_blank" rel="noreferrer" className="text-sm text-neutral-400 hover:text-emerald-400 transition-colors">GitHub</a></li>
                             <li><a href="#" className="text-sm text-neutral-400 hover:text-emerald-400 transition-colors">Twitter (X)</a></li>
                         </ul>
                     </div>

@@ -5,7 +5,7 @@ import { Check, ChevronDown } from 'lucide-react';
 const QA = [
     { q: "What is the difference between a Core Scan and a Deep Auto-Fix?", a: "A 'Core Scan' is our first line of defense. We use a proprietary, deterministic security heuristic engine to find EVERY potential flaw without missing anything, then use optimized machine learning algorithms to filter out the false-positives. A 'Deep Auto-Fix' uses our most advanced reasoning models to actually write and verify the exact code patch needed to fix the issue." },
     { q: "What is a 'Vibe-Fail'?", a: "A Vibe-Fail is a common security mistake made when rapidly prototyping with AI coding tools. This includes hardcoded secrets, open CORS rules, or missing authentication." },
-    { q: "How does the GitHub Action work?", a: "You drop `uses: jonathandemir/vibe-code-security@main` into your `.github/workflows/` file. It automatically securely analyzes your code context, processes it via our API, and posts plain-English fixes directly to the PR comment." },
+    { q: "How does the GitHub Action work?", a: "You drop `uses: vibeguard-hq/vibe-code-security@main` into your `.github/workflows/` file. It automatically securely analyzes your code context, processes it via our API, and posts plain-English fixes directly to the PR comment." },
     { q: "Do you store my source code?", a: "No. Our backend unpacks your code into an ephemeral, encrypted temporary environment, scans it using our proprietary static analysis and ML pipeline completely in memory, and then immediately destroys the environment." },
     { q: "Can I upgrade or downgrade anytime?", a: "Yes, billing is managed via Stripe. You can cancel, upgrade, or downgrade your plan directly from the dashboard settings at any time." },
 ];

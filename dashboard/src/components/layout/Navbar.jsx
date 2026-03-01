@@ -19,8 +19,8 @@ export default function Navbar() {
         <nav className={`fixed top-0 w-full z-50 transition-all duration-500 flex justify-center py-4 px-4 ${scrolled ? 'mt-0' : 'mt-4'}`}>
             <div
                 className={`flex justify-between items-center w-full max-w-5xl rounded-full px-6 transition-all duration-500 overflow-hidden relative ${scrolled
-                        ? 'h-16 bg-[#0A0A14]/70 backdrop-blur-xl border border-white/10 shadow-2xl'
-                        : 'h-20 bg-transparent border-transparent'
+                    ? 'h-16 bg-[#0A0A14]/70 backdrop-blur-xl border border-white/10 shadow-2xl'
+                    : 'h-20 bg-transparent border-transparent'
                     }`}
             >
                 <Link to="/" className="flex items-center space-x-2 group z-10">
@@ -49,7 +49,7 @@ export default function Navbar() {
                         </Link>
                     )}
                     {isDashboard && (
-                        <a href="https://github.com/jonathandemir/vibe-code-security" target="_blank" rel="noreferrer" className="text-sm font-sans font-medium text-neutral-400 hover:text-[#F0EFF4] transition-colors">
+                        <a href="https://github.com/vibeguard-hq/vibe-code-security" target="_blank" rel="noreferrer" className="text-sm font-sans font-medium text-neutral-400 hover:text-[#F0EFF4] transition-colors">
                             GitHub
                         </a>
                     )}
