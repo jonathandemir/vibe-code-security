@@ -127,7 +127,7 @@ def _validate_zip_safety(zip_ref: zipfile.ZipFile, extract_dir: str):
         # --- Zip Bomb Protection ---
         total_size += info.file_size
         if not info.is_dir():
-            file_count = file_count + 1
+            file_count += 1
 
         if file_count > MAX_ZIP_FILE_COUNT:
             raise HTTPException(
