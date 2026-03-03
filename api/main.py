@@ -181,17 +181,19 @@ def _validate_zip_safety(zip_ref: zipfile.ZipFile, extract_dir: str):
             )
 
 
-class GenerateKeyRequest(BaseModel):
-    clerk_token: str
-
 @app.post("/developer/generate-key")
 @limiter.limit("5/minute")
-async def generate_user_api_key(request: Request, body: GenerateKeyRequest):
+async def generate_user_api_key(request: Request):
     """
-    Accepts a Clerk JWT, validates it, and generates/returns a new long-lived VibeGuard API key.
+    Accepts a Clerk JWT via Authorization header, validates it, and generates/returns a new long-lived VibeGuard API key.
     Stores the user and key in the database.
     """
-    clerk_id = verify_clerk_token(body.clerk_token)
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing Bearer Token")
+        
+    token = auth_header.split(" ")[1]
+    clerk_id = verify_clerk_token(token)
     if not clerk_id:
         raise HTTPException(status_code=401, detail="Invalid Clerk Token")
         
