@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ClerkProvider } from '@clerk/clerk-react'
+import { dark } from '@clerk/themes'
 import './index.css'
 import App from './App.jsx'
 
@@ -17,6 +18,7 @@ const Root = () => {
     <ClerkProvider
       publishableKey={PUBLISHABLE_KEY}
       appearance={{
+        baseTheme: dark,
         variables: {
           colorPrimary: '#7B61FF',
           colorBackground: '#12121E',

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useUser, useAuth } from '@clerk/clerk-react';
-import { Key, Copy, RefreshCw, CheckCircle, Shield, Zap, BarChart3 } from 'lucide-react';
+import { Key, Copy, RefreshCw, CheckCircle, Shield, Zap, BarChart3, Eye, EyeOff } from 'lucide-react';
 
 export default function DeveloperDashboard() {
     const { user } = useUser();
@@ -11,6 +11,7 @@ export default function DeveloperDashboard() {
     const [copied, setCopied] = useState(false);
     const [plan, setPlan] = useState('free');
     const [scanCount, setScanCount] = useState(0);
+    const [showKey, setShowKey] = useState(false);
 
     const API_BASE = import.meta.env.VITE_API_BASE || 'https://vibeguard-api.onrender.com';
 
@@ -97,7 +98,7 @@ export default function DeveloperDashboard() {
                             <BarChart3 className="w-5 h-5 text-emerald-400" />
                             <span className="text-sm text-neutral-400">Scans Used</span>
                         </div>
-                        <p className="text-2xl font-bold">{scanCount} <span className="text-sm text-neutral-500">/ {plan === 'pro' ? '∞' : '50'}</span></p>
+                        <p className="text-2xl font-bold">{scanCount} <span className="text-sm text-neutral-500">/ {plan === 'pro' ? '∞' : '10'}</span></p>
                     </div>
                     <div className="glass-panel p-6 rounded-2xl border border-white/5">
                         <div className="flex items-center space-x-3 mb-2">
@@ -119,8 +120,14 @@ export default function DeveloperDashboard() {
                         <div className="space-y-4">
                             <div className="flex items-center space-x-3">
                                 <code className="flex-1 bg-[#0A0A14] border border-white/10 rounded-xl px-4 py-3 font-mono text-sm text-[#7B61FF] select-all overflow-x-auto">
-                                    {apiKey}
+                                    {showKey ? apiKey : 'vbg_' + '*'.repeat(24)}
                                 </code>
+                                <button
+                                    onClick={() => setShowKey(!showKey)}
+                                    className="p-3 rounded-xl border border-white/10 text-neutral-300 hover:text-[#7B61FF] hover:border-[#7B61FF]/40 hover:bg-[#7B61FF]/10 transition-all"
+                                >
+                                    {showKey ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                </button>
                                 <button
                                     onClick={copyToClipboard}
                                     className="flex items-center space-x-1.5 px-4 py-3 rounded-xl border border-white/10 text-sm text-neutral-300 hover:text-[#F0EFF4] hover:border-[#7B61FF]/40 hover:bg-[#7B61FF]/10 transition-all"
@@ -158,17 +165,38 @@ export default function DeveloperDashboard() {
 
                 {/* Upgrade CTA (only for free users) */}
                 {plan === 'free' && (
-                    <div className="glass-panel p-8 rounded-2xl border border-[#7B61FF]/20 bg-gradient-to-r from-[#7B61FF]/5 to-transparent space-y-4">
-                        <h2 className="text-xl font-bold">Upgrade to Pro</h2>
-                        <p className="text-neutral-400">
-                            Unlimited scans, priority AI analysis, and team collaboration features.
-                        </p>
-                        <button
-                            className="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-[#7B61FF] text-white font-semibold hover:bg-[#6A50E0] hover:shadow-[0_0_30px_rgba(123,97,255,0.5)] transition-all"
-                        >
-                            <Zap className="w-5 h-5" />
-                            <span>Upgrade — $9/mo</span>
-                        </button>
+                    <div className="glass-panel p-8 rounded-2xl border border-[#7B61FF]/20 bg-gradient-to-r from-[#7B61FF]/5 to-transparent space-y-6">
+                        <div>
+                            <h2 className="text-xl font-bold">Upgrade your Workflow</h2>
+                            <p className="text-neutral-400 mt-2">
+                                You are currently on the Free Tier (10 Scans / month, 0 Deep Auto Fixes).
+                                Upgrade to unlock full developer velocity.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <button
+                                className="flex flex-col items-center justify-center p-4 rounded-xl border border-white/10 hover:border-[#7B61FF]/40 hover:bg-[#7B61FF]/5 transition-all text-left"
+                            >
+                                <div className="flex items-center space-x-2 text-[#7B61FF] mb-1">
+                                    <Zap className="w-4 h-4" />
+                                    <span className="font-bold">Micro Tier</span>
+                                </div>
+                                <span className="text-lg font-bold text-white">$7 / mo</span>
+                                <span className="text-xs text-neutral-500 mt-1">100 Scans. Standard Speed.</span>
+                            </button>
+
+                            <button
+                                className="flex flex-col items-center justify-center p-4 rounded-xl border border-[#7B61FF]/40 bg-[#7B61FF]/10 hover:bg-[#7B61FF] hover:shadow-[0_0_30px_rgba(123,97,255,0.3)] transition-all group"
+                            >
+                                <div className="flex items-center space-x-2 text-white mb-1">
+                                    <Shield className="w-4 h-4" />
+                                    <span className="font-bold">Pro Tier</span>
+                                </div>
+                                <span className="text-lg font-bold text-white">$15 / mo</span>
+                                <span className="text-xs text-white/50 mt-1 group-hover:text-white/80 transition-colors">Unlimited Scans. Max API Speed.</span>
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
