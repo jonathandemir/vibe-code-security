@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Shield, ChevronRight } from 'lucide-react';
+import { Shield, ChevronRight, LogIn } from 'lucide-react';
+import { SignInButton, UserButton, useAuth } from '@clerk/clerk-react';
 
 export default function Navbar() {
     const location = useLocation();
     const isDashboard = location.pathname === '/dashboard';
     const [scrolled, setScrolled] = useState(false);
+    const { isSignedIn } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -52,6 +54,32 @@ export default function Navbar() {
                         <a href="https://github.com/vibeguard-hq/vibe-code-security" target="_blank" rel="noreferrer" className="text-sm font-sans font-medium text-neutral-400 hover:text-[#F0EFF4] transition-colors">
                             GitHub
                         </a>
+                    )}
+
+                    {/* Auth: Login / Profile */}
+                    {isSignedIn ? (
+                        <div className="flex items-center space-x-3">
+                            <Link
+                                to="/developer"
+                                className="text-sm font-sans font-medium text-neutral-400 hover:text-[#F0EFF4] transition-colors"
+                            >
+                                Dashboard
+                            </Link>
+                            <UserButton
+                                appearance={{
+                                    elements: {
+                                        avatarBox: 'w-8 h-8 border-2 border-[#7B61FF]/40 hover:border-[#7B61FF] transition-colors',
+                                    },
+                                }}
+                            />
+                        </div>
+                    ) : (
+                        <SignInButton mode="modal">
+                            <button className="flex items-center space-x-1.5 px-4 py-2 rounded-full border border-white/10 text-sm font-sans font-medium text-neutral-300 hover:text-[#F0EFF4] hover:border-[#7B61FF]/40 hover:bg-[#7B61FF]/10 transition-all cursor-pointer">
+                                <LogIn className="w-4 h-4" />
+                                <span>Sign In</span>
+                            </button>
+                        </SignInButton>
                     )}
                 </div>
             </div>

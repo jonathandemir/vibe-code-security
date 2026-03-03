@@ -1,11 +1,14 @@
 // VibeGuard Dashboard v2 — with Scan History
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, ShieldAlert, ShieldCheck, Code2, Loader2, KeyRound, UploadCloud, FolderSync, FileArchive } from 'lucide-react';
+import { Shield, ShieldAlert, ShieldCheck, Code2, Loader2, KeyRound, UploadCloud, FolderSync, FileArchive, Lock } from 'lucide-react';
 import ScanResults from '../components/ScanResults';
 import ScanHistory from '../components/ScanHistory';
+import { useAuth, useClerk } from '@clerk/clerk-react';
 
 function App() {
+  const { isSignedIn } = useAuth();
+  const { openSignUp } = useClerk();
   const [code, setCode] = useState('');
   const [isScanning, setIsScanning] = useState(false);
   const [results, setResults] = useState(null);
@@ -142,6 +145,12 @@ function App() {
   };
 
   const handleScan = async () => {
+    // Auth gate: require sign-up before scanning
+    if (!isSignedIn) {
+      openSignUp();
+      return;
+    }
+
     if (!code.trim() && !pendingUpload) {
       setError("Please paste some code or drop a folder to scan.");
       return;
@@ -337,7 +346,12 @@ function App() {
               disabled={isScanning || isZipping || (!code.trim() && !pendingUpload)}
               className="btn-magnetic mt-4 w-full py-4 px-6 rounded-lg font-sans font-bold text-white bg-gradient-to-r from-[#7B61FF] to-[#4529a6] hover:from-[#654ad6] hover:to-[#7B61FF] transition-all shadow-[0_0_20px_rgba(123,97,255,0.3)] hover:shadow-[0_0_30px_rgba(123,97,255,0.5)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {isZipping ? (
+              {!isSignedIn ? (
+                <>
+                  <Lock className="w-5 h-5" />
+                  Sign Up to Scan
+                </>
+              ) : isZipping ? (
                 <>
                   <FileArchive className="w-5 h-5 animate-pulse" />
                   Zipping Repository...

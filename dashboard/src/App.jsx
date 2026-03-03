@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react';
 
 // Layout & Effects
 import Navbar from './components/layout/Navbar';
@@ -16,6 +17,7 @@ import Product from './pages/Product';
 import Goal from './pages/Goal';
 import Legal from './pages/Legal';
 import DashboardApp from './pages/DashboardApp';
+import DeveloperDashboard from './pages/DeveloperDashboard';
 
 function AnimatedRoutes() {
     const location = useLocation();
@@ -29,6 +31,12 @@ function AnimatedRoutes() {
                 <Route path="/goal" element={<PageWrapper><Goal /></PageWrapper>} />
                 <Route path="/legal" element={<PageWrapper><Legal /></PageWrapper>} />
                 <Route path="/dashboard" element={<PageWrapper><DashboardApp /></PageWrapper>} />
+                <Route path="/developer" element={
+                    <PageWrapper>
+                        <SignedIn><DeveloperDashboard /></SignedIn>
+                        <SignedOut><RedirectToSignIn /></SignedOut>
+                    </PageWrapper>
+                } />
             </Routes>
         </AnimatePresence>
     );

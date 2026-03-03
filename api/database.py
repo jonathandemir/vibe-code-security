@@ -6,6 +6,7 @@ import sqlite3
 import uuid
 import json
 import os
+import secrets
 from datetime import datetime, timezone
 from typing import Optional
 
@@ -25,8 +26,18 @@ def init_db():
     conn = _get_connection()
     try:
         conn.executescript("""
+            CREATE TABLE IF NOT EXISTS users (
+                id              TEXT PRIMARY KEY,
+                clerk_id        TEXT UNIQUE NOT NULL,
+                api_key         TEXT UNIQUE,
+                tier            TEXT DEFAULT 'free',
+                scan_count      INTEGER DEFAULT 0,
+                created_at      TEXT NOT NULL
+            );
+
             CREATE TABLE IF NOT EXISTS scans (
                 id          TEXT PRIMARY KEY,
+                user_id     TEXT REFERENCES users(id) ON DELETE SET NULL,
                 scan_type   TEXT NOT NULL,
                 language    TEXT NOT NULL,
                 score       INTEGER NOT NULL,
@@ -51,7 +62,66 @@ def init_db():
         conn.close()
 
 
-def save_scan(scan_type: str, language: str, result: dict) -> str:
+def get_or_create_user(clerk_id: str) -> dict:
+    """Get an existing user by Clerk ID, or create one if they don't exist."""
+    conn = _get_connection()
+    try:
+        user = conn.execute("SELECT * FROM users WHERE clerk_id = ?", (clerk_id,)).fetchone()
+        if user:
+            return dict(user)
+        
+        # Create new user
+        user_id = str(uuid.uuid4())
+        created_at = datetime.now(timezone.utc).isoformat()
+        conn.execute(
+            "INSERT INTO users (id, clerk_id, created_at) VALUES (?, ?, ?)",
+            (user_id, clerk_id, created_at)
+        )
+        conn.commit()
+        return dict(conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone())
+    finally:
+        conn.close()
+
+
+def generate_api_key(clerk_id: str) -> str:
+    """Generate a new API key for the user, replacing the old one."""
+    new_key = "vbg_" + secrets.token_urlsafe(32)
+    conn = _get_connection()
+    try:
+        # Ensure user exists first
+        get_or_create_user(clerk_id)
+        
+        conn.execute(
+            "UPDATE users SET api_key = ? WHERE clerk_id = ?",
+            (new_key, clerk_id)
+        )
+        conn.commit()
+        return new_key
+    finally:
+        conn.close()
+
+
+def get_user_by_api_key(api_key: str) -> Optional[dict]:
+    """Retrieve a user by their API key for authentication."""
+    conn = _get_connection()
+    try:
+        user = conn.execute("SELECT * FROM users WHERE api_key = ?", (api_key,)).fetchone()
+        return dict(user) if user else None
+    finally:
+        conn.close()
+
+
+def increment_scan_count(user_id: str) -> None:
+    """Increment the total scan count for a user."""
+    conn = _get_connection()
+    try:
+        conn.execute("UPDATE users SET scan_count = scan_count + 1 WHERE id = ?", (user_id,))
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def save_scan(scan_type: str, language: str, result: dict, user_id: Optional[str] = None) -> str:
     """
     Persist a scan result to the database.
     Returns the generated scan_id (UUID).
@@ -65,8 +135,8 @@ def save_scan(scan_type: str, language: str, result: dict) -> str:
     conn = _get_connection()
     try:
         conn.execute(
-            "INSERT INTO scans (id, scan_type, language, score, summary, created_at) VALUES (?, ?, ?, ?, ?, ?)",
-            (scan_id, scan_type, language, score, summary, created_at),
+            "INSERT INTO scans (id, user_id, scan_type, language, score, summary, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (scan_id, user_id, scan_type, language, score, summary, created_at),
         )
 
         for issue in issues:
@@ -94,14 +164,21 @@ def save_scan(scan_type: str, language: str, result: dict) -> str:
         conn.close()
 
 
-def get_all_scans(limit: int = 20) -> list:
-    """Return a list of recent scans (without full issue details)."""
+def get_all_scans(limit: int = 20, user_id: Optional[str] = None) -> list:
+    """Return a list of recent scans, optionally filtered by user_id."""
     conn = _get_connection()
     try:
-        rows = conn.execute(
-            "SELECT id, scan_type, language, score, summary, created_at FROM scans ORDER BY created_at DESC LIMIT ?",
-            (limit,),
-        ).fetchall()
+        if user_id:
+            rows = conn.execute(
+                "SELECT id, scan_type, language, score, summary, created_at FROM scans WHERE user_id = ? ORDER BY created_at DESC LIMIT ?",
+                (user_id, limit),
+            ).fetchall()
+        else:
+            # Fallback for dev/unauthenticated reads (if needed)
+            rows = conn.execute(
+                "SELECT id, scan_type, language, score, summary, created_at FROM scans ORDER BY created_at DESC LIMIT ?",
+                (limit,),
+            ).fetchall()
 
         return [dict(row) for row in rows]
     except Exception as e:

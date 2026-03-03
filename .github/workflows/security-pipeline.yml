@@ -1,18 +1,26 @@
-name: Vibe Code Security Guard (Pro Engine)
+name: VibeGuard Security Scan
 
-on: [push]
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
 
 jobs:
-  semgrep-scan:
-    name: Semgrep Security Analysis
+  scan:
+    name: VibeGuard Agent
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write # Required for the bot to post PR comments
     
     steps:
-      - name: 📥 Code vom Nutzer herunterladen
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: 🚨 Semgrep Polyglot Scan
-        uses: returntocorp/semgrep-action@v1
+      - name: Run VibeGuard Analysis
+        uses: ./action # Uses the local action in this repository
         with:
-          # p/default lädt automatisch hunderte Sicherheitsregeln für Python, JS, TS, Go etc.
-          config: "p/default"
+          api-url: 'https://vibe-code-security-api.onrender.com' # Your live Render backend
+          language: 'python'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

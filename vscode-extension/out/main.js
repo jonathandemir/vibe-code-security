@@ -14725,7 +14725,7 @@ async function scanCurrentFile() {
   if (!code.trim())
     return;
   const config = vscode.workspace.getConfiguration("vibeguard");
-  const apiUrl = config.get("apiUrl", "https://vibe-code-security-api.onrender.com");
+  const apiUrl = "https://vibeguard-api.onrender.com";
   const apiKey = config.get("apiKey", "");
   const language = document2.languageId;
   vscode.window.withProgress({
@@ -14747,9 +14747,9 @@ async function scanCurrentFile() {
       const results = response.data;
       updateDiagnostics(document2, results.issues || []);
       if (results.score === 100) {
-        vscode.window.showInformationMessage("VibeGuard: File is secure! (Score: 100)");
+        vscode.window.showInformationMessage(`VibeGuard (Score 100): ${results.summary}`);
       } else {
-        vscode.window.showWarningMessage(`VibeGuard: Found ${results.issues.length} vulnerabilities (Score: ${results.score})`);
+        vscode.window.showWarningMessage(`VibeGuard (Score: ${results.score}): ${results.summary}`);
       }
     } catch (error) {
       vscode.window.showErrorMessage(`VibeGuard Scan Failed: ${error.message}`);
@@ -14772,9 +14772,13 @@ function updateDiagnostics(document2, issues) {
     if (issue.severity?.toUpperCase() === "CRITICAL" || issue.severity?.toUpperCase() === "HIGH") {
       severity = vscode.DiagnosticSeverity.Error;
     }
-    const diagnostic = new vscode.Diagnostic(range, `VibeGuard: ${issue.description}
+    const diagnosticMessage = `\u{1F6A8} ${issue.title}
 
-How to fix: ${issue.how_to_fix}`, severity);
+${issue.description}
+
+\u{1F4A1} How to fix:
+${issue.how_to_fix}`;
+    const diagnostic = new vscode.Diagnostic(range, diagnosticMessage, severity);
     diagnostic.source = "VibeGuard";
     diagnostic.fixedCode = issue.fixed_code_snippet;
     diagnostics.push(diagnostic);
