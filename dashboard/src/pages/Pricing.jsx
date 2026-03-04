@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '@clerk/clerk-react';
 import { Check, ChevronDown } from 'lucide-react';
 
 const QA = [
@@ -12,6 +13,39 @@ const QA = [
 
 export default function Pricing() {
     const [openFaq, setOpenFaq] = useState(null);
+    const { isSignedIn, getToken } = useAuth();
+    const [loadingTier, setLoadingTier] = useState(null);
+
+    const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000';
+
+    const handleCheckout = async (tier) => {
+        if (!isSignedIn) {
+            alert("Please log in or create an account via the Dashboard before subscribing.");
+            return;
+        }
+        setLoadingTier(tier);
+        try {
+            const token = await getToken();
+            const res = await fetch(`${API_BASE}/developer/create-checkout-session`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ tier })
+            });
+            const data = await res.json();
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                alert("Checkout error: " + (data.detail || "Unknown error"));
+            }
+        } catch (err) {
+            console.error("Failed to begin checkout", err);
+        } finally {
+            setLoadingTier(null);
+        }
+    };
 
     return (
         <div className="w-full min-h-screen py-32 px-4 relative overflow-x-hidden bg-[#0A0A14]">
@@ -51,7 +85,7 @@ export default function Pricing() {
                     </div>
 
                     <ul className="space-y-5 mb-12 flex-grow">
-                        {['10 Core Scans / month', '0 Deep Auto-Fixes', 'Community Discord support', 'Standard Dashboard Access'].map((feature, i) => (
+                        {['10 Core Scans / month', '0 Deep Auto-Fixes', 'Community Discord support', '+ Add-On Credits Available'].map((feature, i) => (
                             <li key={i} className="flex items-start">
                                 <div className="mt-1 flex-shrink-0 w-4 h-4 rounded-full border border-[#7B61FF]/30 flex items-center justify-center bg-[#7B61FF]/10 mr-4">
                                     <Check className="w-2.5 h-2.5 text-[#7B61FF]" />
@@ -79,7 +113,7 @@ export default function Pricing() {
                         <h3 className="text-2xl font-sans font-bold text-[#F0EFF4]">Micro</h3>
                         <p className="text-sm font-sans text-neutral-400 mt-2">The Starbucks coffee for the Solo Dev.</p>
                         <div className="mt-6 flex items-baseline text-[#F0EFF4]">
-                            <span className="text-6xl font-sans font-extrabold tracking-tight">$5</span>
+                            <span className="text-6xl font-sans font-extrabold tracking-tight">$7</span>
                             <span className="ml-1 text-xl font-sans font-medium text-neutral-500">/mo</span>
                         </div>
                     </div>
@@ -96,11 +130,13 @@ export default function Pricing() {
                     </ul>
 
                     <motion.button
+                        onClick={() => handleCheckout('micro')}
+                        disabled={loadingTier === 'micro'}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         className="btn-magnetic w-full py-4 px-4 rounded-full bg-white/10 border border-white/10 text-white font-sans font-semibold shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition-shadow"
                     >
-                        Subscribe to Micro
+                        {loadingTier === 'micro' ? 'Loading...' : 'Subscribe to Micro'}
                     </motion.button>
                 </motion.div>
 
@@ -135,11 +171,13 @@ export default function Pricing() {
                     </ul>
 
                     <motion.button
+                        onClick={() => handleCheckout('pro')}
+                        disabled={loadingTier === 'pro'}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         className="btn-magnetic w-full py-4 px-4 rounded-full bg-[#7B61FF] text-white font-sans font-bold shadow-[0_0_20px_rgba(123,97,255,0.4)] hover:shadow-[0_0_30px_rgba(123,97,255,0.6)] transition-shadow"
                     >
-                        Subscribe to Pro
+                        {loadingTier === 'pro' ? 'Loading...' : 'Subscribe to Pro'}
                     </motion.button>
                 </motion.div>
             </div>
@@ -165,6 +203,15 @@ export default function Pricing() {
                                 or <span className="text-[#F0EFF4] font-medium">100 Core Scans</span>
                             </div>
                         </div>
+                        <motion.button
+                            onClick={() => handleCheckout('credits')}
+                            disabled={loadingTier === 'credits'}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="btn-magnetic w-full py-3 px-4 rounded-xl bg-cyan-400/20 border border-cyan-400/30 text-cyan-50 font-sans font-semibold hover:bg-cyan-400/30 transition-colors"
+                        >
+                            {loadingTier === 'credits' ? 'Loading...' : 'Buy Credits'}
+                        </motion.button>
                     </div>
                 </div>
             </div>

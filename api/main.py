@@ -10,6 +10,7 @@ import shutil
 import re
 import jwt
 import httpx
+import stripe
 
 from slowapi import Limiter
 from slowapi.util import get_remote_address
@@ -21,6 +22,16 @@ import database
 
 # --- Security Config ---
 VIBEGUARD_API_KEY = os.environ.get("VIBEGUARD_API_KEY")
+STRIPE_API_KEY = os.environ.get("STRIPE_API_KEY")
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET")
+
+if STRIPE_API_KEY:
+    stripe.api_key = STRIPE_API_KEY
+
+STRIPE_PRICE_MICRO = "price_1T7CFnCyvWmpoUSLdhoBQYFy"
+STRIPE_PRICE_PRO = "price_1T7CGBCyvWmpoUSLpFQBH4St"
+STRIPE_PRICE_CREDITS = "price_1T7CHRCyvWmpoUSLO98x4jlQ"
+
 MAX_UPLOAD_SIZE_MB = 50
 MAX_UNCOMPRESSED_SIZE_MB = 200
 MAX_ZIP_FILE_COUNT = 500
@@ -201,6 +212,133 @@ async def generate_user_api_key(request: Request):
     return {"api_key": api_key}
 
 
+class CheckoutRequest(BaseModel):
+    tier: str  # "micro", "pro", or "credits"
+
+@app.post("/developer/create-checkout-session")
+async def create_checkout_session(request: Request, body: CheckoutRequest):
+    """
+    Creates a Stripe Checkout Session for upgrading a user's plan.
+    """
+    # Verify auth
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing Bearer Token")
+        
+    token = auth_header.split(" ")[1]
+    clerk_id = verify_clerk_token(token)
+    if not clerk_id:
+        raise HTTPException(status_code=401, detail="Invalid Clerk Token")
+
+    user = database.get_or_create_user(clerk_id)
+    
+    # Map tier to Price ID
+    tier_map = {
+        "micro": STRIPE_PRICE_MICRO,
+        "pro": STRIPE_PRICE_PRO,
+        "credits": STRIPE_PRICE_CREDITS
+    }
+    
+    price_id = tier_map.get(body.tier.lower())
+    if not price_id:
+        raise HTTPException(status_code=400, detail="Invalid tier selected")
+        
+    mode = 'payment' if body.tier.lower() == 'credits' else 'subscription'
+    
+    domain_url = os.environ.get("FRONTEND_URL", "http://localhost:5173") # fallback for local
+    
+    try:
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price': price_id,
+                'quantity': 1,
+            }],
+            mode=mode,
+            client_reference_id=str(user["id"]),
+            success_url=domain_url + '/developer?success=true&session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=domain_url + '/developer?canceled=true',
+        )
+        return {"url": session.url}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/webhook/stripe")
+async def stripe_webhook(request: Request):
+    """
+    Receives events from Stripe when a user pays and updates their plan to 'pro' or 'micro' in the database.
+    """
+    payload = await request.body()
+    sig_header = request.headers.get("stripe-signature")
+    
+    # In local testing without a webhook secret, we process the event normally.
+    # In production, STRIPE_WEBHOOK_SECRET must be set to prevent spoofing.
+    if STRIPE_WEBHOOK_SECRET:
+        try:
+            event = stripe.Webhook.construct_event(
+                payload, sig_header, STRIPE_WEBHOOK_SECRET
+            )
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail="Invalid payload")
+        except stripe.error.SignatureVerificationError as e:
+            raise HTTPException(status_code=400, detail="Invalid signature")
+    else:
+        # Fallback for fast local testing without a secret (NOT secure for production)
+        import json
+        try:
+            event = json.loads(payload)
+        except Exception:
+            raise HTTPException(status_code=400, detail="Invalid payload")
+
+    # Handle the checkout.session.completed event
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        
+        # Fulfill the purchase...
+        user_id = session.get("client_reference_id")
+        customer_id = session.get("customer")
+        subscription_id = session.get("subscription")
+        
+        if user_id:
+            conn = database._get_connection()
+            c = conn.cursor()
+            
+            # Determine which tier the user bought based on amount or logic.
+            # Easiest way is to fetch the line items or session details.
+            # But since it's an MVP, let's just default to 'pro' if amount total is 1500, else 'micro'.
+            # Determine what was bought
+            amount_total = session.get("amount_total", 0)
+            
+            if amount_total == 1000: # Credits Payment ($10)
+                # Increment additional_credits
+                c.execute('''
+                    UPDATE users 
+                    SET additional_credits = additional_credits + 100,
+                        stripe_customer_id = ?
+                    WHERE id = ?
+                ''', (customer_id, user_id))
+            else:
+                # Subscription logic
+                new_tier = "free"
+                if amount_total >= 1500:
+                    new_tier = "pro"
+                elif amount_total >= 700: # micro
+                    new_tier = "micro"
+                    
+                c.execute('''
+                    UPDATE users 
+                    SET tier = ?, stripe_customer_id = ?, stripe_subscription_id = ?
+                    WHERE id = ?
+                ''', (new_tier, customer_id, subscription_id, user_id))
+            
+            conn.commit()
+            conn.close()
+            print(f"Stripe Webhook: Successfully upgraded user {user_id} to {new_tier}.")
+
+    return {"status": "success"}
+
+
 @app.get("/developer/me")
 async def get_developer_profile(request: Request):
     """
@@ -223,7 +361,8 @@ async def get_developer_profile(request: Request):
     return {
         "api_key": user["api_key"],
         "plan": user["tier"],
-        "scan_count": user["scan_count"]
+        "scan_count": user["scan_count"],
+        "credits": user.get("additional_credits", 0)
     }
 
 

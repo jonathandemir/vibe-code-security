@@ -58,7 +58,7 @@ cards_new = """            {/* Pricing Cards */}
                 >
                     <div className="mb-8 border-b border-white/5 pb-8">
                         <h3 className="text-2xl font-sans font-bold text-[#F0EFF4]">Micro</h3>
-                        <p className="text-sm font-sans text-neutral-400 mt-2">The Starbucks coffee for the Indie Hacker.</p>
+                        <p className="text-sm font-sans text-neutral-400 mt-2">The Starbucks coffee for the Solo Dev.</p>
                         <div className="mt-6 flex items-baseline text-[#F0EFF4]">
                             <span className="text-6xl font-sans font-extrabold tracking-tight">$5</span>
                             <span className="ml-1 text-xl font-sans font-medium text-neutral-500">/mo</span>

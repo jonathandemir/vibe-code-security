@@ -11,9 +11,36 @@ export default function DeveloperDashboard() {
     const [copied, setCopied] = useState(false);
     const [plan, setPlan] = useState('free');
     const [scanCount, setScanCount] = useState(0);
+    const [credits, setCredits] = useState(0);
     const [showKey, setShowKey] = useState(false);
+    const [loadingTier, setLoadingTier] = useState(null);
 
-    const API_BASE = import.meta.env.VITE_API_BASE || 'https://vibeguard-api.onrender.com';
+    const API_BASE = import.meta.env.VITE_API_BASE || 'https://vibe-code-security-api.onrender.com';
+
+    const handleCheckout = async (tier) => {
+        setLoadingTier(tier);
+        try {
+            const token = await getToken();
+            const res = await fetch(`${API_BASE}/developer/create-checkout-session`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ tier })
+            });
+            const data = await res.json();
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                alert("Checkout error: " + (data.detail || "Unknown error"));
+            }
+        } catch (err) {
+            console.error("Failed to begin checkout", err);
+        } finally {
+            setLoadingTier(null);
+        }
+    };
 
     // Fetch the user's existing API key on mount
     useEffect(() => {
@@ -28,6 +55,7 @@ export default function DeveloperDashboard() {
                     setApiKey(data.api_key);
                     setPlan(data.plan || 'free');
                     setScanCount(data.scan_count || 0);
+                    setCredits(data.credits || 0);
                 }
             } catch (err) {
                 console.log('No existing key found, user can generate one.');
@@ -176,25 +204,33 @@ export default function DeveloperDashboard() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <button
+                                onClick={() => handleCheckout('micro')}
+                                disabled={loadingTier === 'micro'}
                                 className="flex flex-col items-center justify-center p-4 rounded-xl border border-white/10 hover:border-[#7B61FF]/40 hover:bg-[#7B61FF]/5 transition-all text-left"
                             >
                                 <div className="flex items-center space-x-2 text-[#7B61FF] mb-1">
                                     <Zap className="w-4 h-4" />
                                     <span className="font-bold">Micro Tier</span>
                                 </div>
-                                <span className="text-lg font-bold text-white">$7 / mo</span>
+                                <span className="text-lg font-bold text-white">
+                                    {loadingTier === 'micro' ? 'Loading...' : '$7 / mo'}
+                                </span>
                                 <span className="text-xs text-neutral-500 mt-1">100 Scans. Standard Speed.</span>
                             </button>
 
                             <button
+                                onClick={() => handleCheckout('pro')}
+                                disabled={loadingTier === 'pro'}
                                 className="flex flex-col items-center justify-center p-4 rounded-xl border border-[#7B61FF]/40 bg-[#7B61FF]/10 hover:bg-[#7B61FF] hover:shadow-[0_0_30px_rgba(123,97,255,0.3)] transition-all group"
                             >
                                 <div className="flex items-center space-x-2 text-white mb-1">
                                     <Shield className="w-4 h-4" />
                                     <span className="font-bold">Pro Tier</span>
                                 </div>
-                                <span className="text-lg font-bold text-white">$15 / mo</span>
-                                <span className="text-xs text-white/50 mt-1 group-hover:text-white/80 transition-colors">Unlimited Scans. Max API Speed.</span>
+                                <span className="text-lg font-bold text-white">
+                                    {loadingTier === 'pro' ? 'Loading...' : '$15 / mo'}
+                                </span>
+                                <span className="text-xs text-white/50 mt-1 group-hover:text-white/80 transition-colors">300 Scans. Max API Speed.</span>
                             </button>
                         </div>
                     </div>

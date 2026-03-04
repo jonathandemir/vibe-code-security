@@ -32,6 +32,9 @@ def init_db():
                 api_key         TEXT UNIQUE,
                 tier            TEXT DEFAULT 'free',
                 scan_count      INTEGER DEFAULT 0,
+                additional_credits INTEGER DEFAULT 0,
+                stripe_customer_id TEXT,
+                stripe_subscription_id TEXT,
                 created_at      TEXT NOT NULL
             );
 
