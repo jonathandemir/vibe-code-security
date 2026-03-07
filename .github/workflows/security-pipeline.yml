@@ -18,9 +18,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run VibeGuard Analysis
-        uses: ./action # Uses the local action in this repository
+        uses: ./action  # We point to our local action folder for testing
         with:
-          api-url: 'https://vibe-code-security-api.onrender.com' # Your live Render backend
-          language: 'python'
+          api_url: "https://vibeguard-api.onrender.com/scan-repo"  # Render Production Server
+          language: "javascript"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

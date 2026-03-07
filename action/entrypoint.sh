@@ -59,6 +59,10 @@ if [ "$SKIP_UPLOAD" != "true" ] && [ ! -f "$ZIP_FILE" ]; then
     exit 1
 fi
 
+# Use api_url if provided, fallback to api-url alias, otherwise use default
+API_URL="${INPUT_API_URL:-${API_URL:-https://vibeguard-api.onrender.com/scan-repo}}"
+LANGUAGE="${INPUT_LANGUAGE:-javascript}"
+
 # Ensure API_URL points to /scan-repo if it still points to /scan
 # This is a backward-compatibility fix just in case the user didn't update their action.yml
 if [[ "$API_URL" == *"/scan" ]]; then
