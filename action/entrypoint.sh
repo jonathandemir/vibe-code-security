@@ -9,29 +9,52 @@ echo "🔒 Starting VibeGuard Repository Scan..."
 ZIP_FILE="vibeguard_repo.zip"
 echo "📦 Packaging repository (excluding .git and node_modules)..."
 
-# Zip the current workspace
-# Zip the current workspace, excluding sensitive files and directories
-zip -r "$ZIP_FILE" . \
-    -x "*.git*" \
-    -x "*node_modules*" \
-    -x "*venv*" \
-    -x "*.venv*" \
-    -x "*.env*" \
-    -x "*id_rsa*" \
-    -x "*id_ed25519*" \
-    -x "*.pem" \
-    -x "*.key" \
-    -x "*.p12" \
-    -x "*.pfx" \
-    -x "*credentials*" \
-    -x "*service-account*" \
-    -x "*.npmrc" \
-    -x "*.pypirc" \
-    -x "*.netrc" \
-    -x "*__pycache__*" \
-    > /dev/null
+# We need to extract the files changed in this push/PR
+echo "🔍 Identifying changed files via git diff..."
+git config --global --add safe.directory "$GITHUB_WORKSPACE" || true
 
-if [ ! -f "$ZIP_FILE" ]; then
+CHANGED_FILES=""
+if [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
+    BASE_SHA=$(jq -r .pull_request.base.sha "$GITHUB_EVENT_PATH")
+    CHANGED_FILES=$(git diff --name-only --diff-filter=ACMR "$BASE_SHA" HEAD || true)
+else
+    # Push event
+    BASE_SHA=$(jq -r .before "$GITHUB_EVENT_PATH")
+    if [ "$BASE_SHA" == "0000000000000000000000000000000000000000" ] || [ -z "$BASE_SHA" ]; then
+        # Handle first push to a new branch, fallback to just latest commit
+        CHANGED_FILES=$(git diff --name-only --diff-filter=ACMR HEAD~1 HEAD || true)
+    else
+        CHANGED_FILES=$(git diff --name-only --diff-filter=ACMR "$BASE_SHA" HEAD || true)
+    fi
+fi
+
+if [ -z "$CHANGED_FILES" ]; then
+    echo "⚠️ No supported files changed. Skipping scan or analyzing full repo fallback."
+    # Backwards compatibility: if we can't get diff, zip the whole repo excluding junk
+    zip -r "$ZIP_FILE" . -x "*.git*" -x "*node_modules*" -x "*venv*" -x "*.venv*" > /dev/null
+else
+    echo "📦 Packaging only the modified files for ultra-fast scanning..."
+    # Ensure files still exist before zipping to avoid zip errors
+    FILES_TO_ZIP=""
+    for file in $CHANGED_FILES; do
+        if [ -f "$file" ]; then
+            FILES_TO_ZIP="$FILES_TO_ZIP $file"
+        fi
+    done
+    
+    if [ -z "$FILES_TO_ZIP" ]; then
+        echo "No valid files to zip (possibly only deletions). Exiting with pure 100 score."
+        echo "{\"score\": 100, \"summary\": \"No valid files added or modified.\", \"issues\": []}" > mock_response.json
+        RESPONSE=$(cat mock_response.json)
+        HTTP_STATUS=0
+        # Skip actual upload and skip creating the zip
+        SKIP_UPLOAD=true
+    else
+        zip "$ZIP_FILE" $FILES_TO_ZIP > /dev/null
+    fi
+fi
+
+if [ "$SKIP_UPLOAD" != "true" ] && [ ! -f "$ZIP_FILE" ]; then
     echo "❌ Failed to create repository archive."
     exit 1
 fi

@@ -516,12 +516,32 @@ async def scan_repo(request: Request, file: UploadFile = File(...), language: st
         # 3. Get the repository context (sensitive files are filtered)
         repo_context = get_repo_context(extract_dir)
 
-        # 4. Use 2-Stage LLM to deeply analyze and translate findings
-        translated_report = translate_repo_findings(
-            code_context=repo_context,
-            language=language,
-            findings=findings_summary
-        )
+        # --- SMART TRIAGE ROUTING (Cost Control) ---
+        # If Semgrep finds nothing, check if any sensitive/critical files were modified
+        critical_keywords = ["auth", "middleware", "login", "security", "jwt", "session", "user", "password", "crypto", "token", ".env"]
+        has_critical_files = False
+        for root, _, files in os.walk(extract_dir):
+            for f in files:
+                if any(k in f.lower() for k in critical_keywords):
+                    has_critical_files = True
+                    break
+            if has_critical_files:
+                break
+
+        if not findings_summary and not has_critical_files:
+            print("🚀 Smart Triage: No findings and no critical files. Skipping LLM.")
+            translated_report = {
+                "score": 100,
+                "summary": "Smart Triage: No static vulnerabilities found and no critical logic modified. Code looks secure.",
+                "issues": []
+            }
+        else:
+            # 4. Use 2-Stage LLM to deeply analyze and translate findings
+            translated_report = translate_repo_findings(
+                code_context=repo_context,
+                language=language,
+                findings=findings_summary
+            )
 
         # 5. Save to database
         scan_id = database.save_scan("repo", language, translated_report, user_id=user.get("id"))
