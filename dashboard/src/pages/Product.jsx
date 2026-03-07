@@ -27,10 +27,10 @@ const Product = () => {
     return (
         <div className="min-h-screen bg-[#0A0A14] text-slate-200 selection:bg-[#7B61FF]/30 selection:text-[#F0EFF4] font-sans overflow-hidden">
 
-            {/* Ambient Background Glows */}
-            <div className="fixed top-0 left-0 w-full h-[500px] bg-gradient-to-b from-[#7B61FF]/10 via-transparent to-transparent pointer-events-none" />
-            <div className="fixed top-1/4 right-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />
-            <div className="fixed bottom-0 left-1/4 w-[600px] h-[600px] bg-[#7B61FF]/5 rounded-full blur-[150px] pointer-events-none mix-blend-screen" />
+            {/* Ambient Background Glows (Optimized for Performance) */}
+            <div className="fixed top-0 left-0 w-full h-[500px] bg-gradient-to-b from-[#7B61FF]/10 via-transparent to-transparent pointer-events-none transform-gpu" />
+            <div className="fixed top-1/4 right-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[80px] pointer-events-none transform-gpu" />
+            <div className="fixed bottom-0 left-1/4 w-[600px] h-[600px] bg-[#7B61FF]/5 rounded-full blur-[100px] pointer-events-none transform-gpu" />
 
             {/* Hero Section */}
             <header className="relative pt-32 pb-20 px-6 max-w-7xl mx-auto text-center z-10">
@@ -105,7 +105,7 @@ const Product = () => {
                     </div>
 
                     {/* Visual 1 */}
-                    <div className="glass-panel p-8 rounded-[2rem] border border-[#7B61FF]/20 bg-[#0A0A14]/80 shadow-[0_0_50px_rgba(123,97,255,0.15)] relative group transition-all duration-500 hover:shadow-[0_0_80px_rgba(123,97,255,0.3)] hover:-translate-y-2">
+                    <div className="glass-panel p-8 rounded-[2rem] border border-[#7B61FF]/20 bg-[#0A0A14]/80 shadow-[0_0_50px_rgba(123,97,255,0.15)] relative group transition-all duration-500 hover:shadow-[0_0_80px_rgba(123,97,255,0.3)] hover:-translate-y-2 transform-gpu will-change-transform">
                         <div className="absolute inset-0 bg-gradient-to-br from-[#7B61FF]/10 to-transparent rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                         <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-4 relative z-10">
                             <div className="flex items-center gap-2 text-slate-400 font-mono text-sm">
@@ -138,7 +138,7 @@ const Product = () => {
                 <motion.section variants={itemVariants} className="grid md:grid-cols-2 gap-12 items-center">
 
                     {/* Visual 2 */}
-                    <div className="order-2 md:order-1 glass-panel p-8 rounded-[2rem] border border-emerald-400/20 bg-[#0A0A14]/80 shadow-[0_0_50px_rgba(52,211,153,0.15)] relative group transition-all duration-500 hover:shadow-[0_0_80px_rgba(52,211,153,0.3)] hover:-translate-y-2">
+                    <div className="order-2 md:order-1 glass-panel p-8 rounded-[2rem] border border-emerald-400/20 bg-[#0A0A14]/80 shadow-[0_0_50px_rgba(52,211,153,0.15)] relative group transition-all duration-500 hover:shadow-[0_0_80px_rgba(52,211,153,0.3)] hover:-translate-y-2 transform-gpu will-change-transform">
                         <div className="absolute inset-0 bg-gradient-to-bl from-emerald-400/10 to-transparent rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                         <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-4 relative z-10">
                             <div className="flex items-center gap-2 text-slate-400 font-mono text-sm">
@@ -216,7 +216,7 @@ const Product = () => {
                     </div>
 
                     {/* Visual 3 */}
-                    <div className="glass-panel p-10 h-80 rounded-[2rem] border border-cyan-400/20 bg-[#0A0A14]/80 shadow-[0_0_50px_rgba(34,211,238,0.15)] flex items-center justify-center relative overflow-hidden group transition-all duration-500 hover:shadow-[0_0_80px_rgba(34,211,238,0.3)] hover:-translate-y-2">
+                    <div className="glass-panel p-10 h-80 rounded-[2rem] border border-cyan-400/20 bg-[#0A0A14]/80 shadow-[0_0_50px_rgba(34,211,238,0.15)] flex items-center justify-center relative overflow-hidden group transition-all duration-500 hover:shadow-[0_0_80px_rgba(34,211,238,0.3)] hover:-translate-y-2 transform-gpu will-change-transform">
                         <div className="absolute inset-0 bg-gradient-to-tr from-cyan-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-screen" />
 
                         {/* Abstract Privacy Graphic */}
@@ -240,7 +240,7 @@ const Product = () => {
                 </motion.section>
 
                 {/* Feature 4: Trust Score */}
-                <motion.section variants={itemVariants} className="glass-panel p-12 md:p-20 rounded-[3rem] border border-[#7B61FF]/30 bg-gradient-to-b from-[#18181B]/90 to-[#0A0A14] text-center relative overflow-hidden shadow-[0_0_100px_rgba(123,97,255,0.15)]">
+                <motion.section variants={itemVariants} className="glass-panel p-12 md:p-20 rounded-[3rem] border border-[#7B61FF]/30 bg-gradient-to-b from-[#18181B]/90 to-[#0A0A14] text-center relative overflow-hidden shadow-[0_0_80px_rgba(123,97,255,0.15)] transform-gpu">
                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 pointer-events-none" />
                     <div className="absolute inset-0 bg-gradient-radial from-[#7B61FF]/10 to-transparent pointer-events-none" />
 

@@ -47,18 +47,27 @@ const Goal = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-                    className="text-5xl md:text-7xl font-sans font-extrabold tracking-tight text-[#F0EFF4] pb-2 mb-6"
+                    className="text-5xl md:text-7xl font-sans font-extrabold tracking-tight text-[#F0EFF4] pb-2 mb-4 leading-tight"
                 >
-                    Secure by <span className="text-transparent bg-clip-text bg-gradient-to-br from-orange-400 to-rose-500">Default.</span>
+                    Unleash the Real <span className="text-transparent bg-clip-text bg-gradient-to-br from-orange-400 to-rose-500">Power of AI.</span>
                 </motion.h1>
 
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                    className="text-xl md:text-2xl text-slate-400 max-w-2xl mx-auto leading-relaxed"
+                    className="text-xl text-orange-400 mb-6 font-mono tracking-wide uppercase shadow-orange-500/20"
                 >
-                    We exist because traditional security tools were built for DevOps engineers, not Solo Founders. We are here to change that.
+                    AI for everyone — But for real.
+                </motion.p>
+
+                <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+                    className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto leading-relaxed"
+                >
+                    Generative AI lets anyone build apps. But securing them used to require deep DevOps expertise. Not anymore. We abstract the complexity so you can build without barriers.
                 </motion.p>
             </header>
 
@@ -78,7 +87,7 @@ const Goal = () => {
                                 <div className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl">
                                     <Rocket className="w-6 h-6 text-rose-400" />
                                 </div>
-                                <h2 className="text-3xl font-bold text-[#F0EFF4]">Move Fast, <span className="text-rose-400 text-shadow-sm shadow-rose-500/20">Stay Safe.</span></h2>
+                                <h2 className="text-3xl font-bold text-[#F0EFF4]">Build Without <span className="text-rose-400 text-shadow-sm shadow-rose-500/20">Boundaries.</span></h2>
                             </div>
 
                             <div className="group cursor-pointer">
@@ -89,10 +98,10 @@ const Goal = () => {
                                 <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out">
                                     <div className="overflow-hidden">
                                         <p className="text-lg text-slate-400 leading-relaxed mb-6 pt-4">
-                                            AI generative tools let Solo Developers ship features at blistering speeds. Yet, retrofitting security often brings velocity to a halt.
+                                            You don't need to be a security expert to launch production-grade apps. VibeGuard acts as your invisible security engineer, catching logic flaws and injection attacks in real-time.
                                         </p>
                                         <p className="text-lg text-slate-400 leading-relaxed pb-4">
-                                            Don't choose between speed and safety. VibeGuard operates silently in the background, providing zero-friction protection so you can keep shipping.
+                                            Code with absolute confidence. We handle the heavy lifting of compliance and security so you can focus entirely on building the next big thing.
                                         </p>
                                     </div>
                                 </div>
@@ -118,17 +127,17 @@ const Goal = () => {
                 {/* Section 2: Infrastructure, not Tooling */}
                 <motion.section variants={itemVariants} className="relative">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-5xl font-bold text-[#F0EFF4] mb-6">Infrastructure, <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">not Tooling.</span></h2>
+                        <h2 className="text-3xl md:text-5xl font-bold text-[#F0EFF4] mb-6">Zero-Skill <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Security.</span></h2>
                         <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-                            Security shouldn't be a dashboard you manage. It should be an invisible layer you trust. We're doing for Code Security what <b className="text-slate-200">Stripe</b> did for Payments.
+                            Security shouldn't be a complex dashboard you manage. It should be a silent layer you trust. No configuration, no friction, no deep tech skills required.
                         </p>
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-6 text-center">
                         {[
                             { icon: Database, title: "The Old Way", desc: "Clunky CLI tools, hours of configuration, and noisy CVE dashboards that require a CISO to decipher.", color: "text-slate-500", border: "border-slate-800" },
-                            { icon: ArrowRight, title: "The Transition", desc: "Removing the friction. Moving from proactive hunting to reactive, automated defense.", color: "text-[#7B61FF]", border: "border-transparent" },
-                            { icon: Layers, title: "The VibeGuard Way", desc: "A silent proxy. A GitHub Action. You push code, we fix the vulnerabilities before the merge. No dashboards unless you want them.", color: "text-indigo-400", border: "border-indigo-500/30" }
+                            { icon: ArrowRight, title: "The Transition", desc: "Removing the gatekeeping. Moving from high-barrier hunting to reactive, automated defense.", color: "text-[#7B61FF]", border: "border-transparent" },
+                            { icon: Layers, title: "VibeGuard", desc: "A true plug-and-play extension. You push code, we deploy fixes. Security executed entirely on autopilot.", color: "text-indigo-400", border: "border-indigo-500/30" }
                         ].map((card, i) => (
                             <motion.div
                                 key={i}
@@ -180,7 +189,7 @@ const Goal = () => {
                                 <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
                                     <Zap className="w-6 h-6 text-emerald-400" />
                                 </div>
-                                <h2 className="text-3xl font-bold text-[#F0EFF4]">Sustainable <span className="text-emerald-400 text-shadow-sm shadow-emerald-500/20">AI-Scale.</span></h2>
+                                <h2 className="text-3xl font-bold text-[#F0EFF4]">Weekend Project <span className="text-emerald-400 text-shadow-sm shadow-emerald-500/20">to Production.</span></h2>
                             </div>
 
                             <div className="group cursor-pointer">
@@ -191,10 +200,10 @@ const Goal = () => {
                                 <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out">
                                     <div className="overflow-hidden">
                                         <p className="text-lg text-slate-400 leading-relaxed mb-6 pt-4">
-                                            Our "Tiered Routing" architecture ensures VibeGuard handles massive volume effortlessly.
+                                            The stigma that "AI code is insecure code" dies here. VibeGuard empowers solo creators to deploy enterprise-grade infrastructure without knowing what "XSS" even means.
                                         </p>
                                         <p className="text-lg text-slate-400 leading-relaxed pb-4">
-                                            We load-balance API requests between fast and deep-reasoning models, maximizing power and speed without hitting rate limits or exploding costs.
+                                            Our smart routers balance speed and deep reasoning, ensuring that your app stays permanently protected as it scales to millions of users.
                                         </p>
                                     </div>
                                 </div>
