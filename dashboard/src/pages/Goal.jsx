@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Target, Rocket, Layers, ArrowRight, ShieldCheck, Database, Zap, Plus } from 'lucide-react';
+import { Target, Rocket, Layers, ArrowRight, ShieldCheck, Database, Zap, Plus, FileCode } from 'lucide-react';
 
 const Goal = () => {
     // Scroll setup for the sticky 'Infrastructure' visualization
