@@ -212,6 +212,53 @@ const Goal = () => {
                     </div>
                 </motion.section>
 
+                {/* Section 4: Call to Action (The Final Push) */}
+                <motion.section variants={itemVariants} className="pt-20 pb-10">
+                    <div className="glass-panel p-12 md:p-20 rounded-[3rem] border border-[#7B61FF]/30 bg-gradient-to-b from-[#18181B]/90 to-[#0A0A14] text-center relative overflow-hidden shadow-[0_0_80px_rgba(123,97,255,0.15)] transform-gpu">
+                        {/* Background Effects */}
+                        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 pointer-events-none" />
+                        <div className="absolute inset-0 bg-gradient-radial from-[#7B61FF]/10 to-transparent pointer-events-none" />
+                        <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-[100px] pointer-events-none" />
+                        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#7B61FF]/10 rounded-full blur-[100px] pointer-events-none" />
+
+                        <div className="relative z-10 max-w-3xl mx-auto space-y-8">
+                            <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-[#F0EFF4]">
+                                Ready to build <br className="hidden md:block" />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-[#7B61FF] to-emerald-400">without barriers?</span>
+                            </h2>
+                            <p className="text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto">
+                                Join the next generation of Solo Founders who deploy production-grade AI apps securely, without ever writing a line of security config.
+                            </p>
+
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8">
+                                <motion.a
+                                    href="/dashboard"
+                                    whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(123,97,255,0.4)' }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="px-8 py-4 rounded-full bg-[#7B61FF] text-white font-bold text-lg inline-flex items-center gap-3 transition-colors hover:bg-[#6A50E0]"
+                                >
+                                    <Rocket className="w-5 h-5" />
+                                    <span>Start Building Free</span>
+                                </motion.a>
+                                <motion.a
+                                    href="https://github.com/jonathandemir/vibe-code-security"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="px-8 py-4 rounded-full bg-white/5 border border-white/10 text-slate-300 font-bold text-lg inline-flex items-center gap-3 transition-colors hover:text-white"
+                                >
+                                    <FileCode className="w-5 h-5" />
+                                    <span>View GitHub</span>
+                                </motion.a>
+                            </div>
+                            <p className="text-sm text-slate-500 font-mono mt-6">
+                                Free forever for basic use. Upgrades start at $7/mo.
+                            </p>
+                        </div>
+                    </div>
+                </motion.section>
+
             </motion.main>
         </div>
     );
