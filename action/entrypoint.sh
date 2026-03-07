@@ -61,6 +61,7 @@ fi
 
 # Use api_url if provided, fallback to api-url alias, otherwise use default
 API_URL="${INPUT_API_URL:-${API_URL:-https://vibeguard-api.onrender.com/scan-repo}}"
+API_KEY="${INPUT_API_KEY}"
 LANGUAGE="${INPUT_LANGUAGE:-javascript}"
 
 # Ensure API_URL points to /scan-repo if it still points to /scan
@@ -69,10 +70,19 @@ if [[ "$API_URL" == *"/scan" ]]; then
     API_URL="${API_URL}-repo"
 fi
 
+if [ -z "$API_KEY" ]; then
+    echo "❌ Error: api_key is required. Please provide it in your GitHub Action workflow."
+    exit 1
+fi
+
 echo "📡 Uploading repository to VibeGuard API: $API_URL... (Language: $LANGUAGE)"
 
-# Call the API with multipart/form-data
-RESPONSE=$(curl -s -X POST -F "file=@$ZIP_FILE" -F "language=$LANGUAGE" "$API_URL")
+# Call the API with multipart/form-data and API Key
+RESPONSE=$(curl -s -X POST \
+    -H "X-API-Key: $API_KEY" \
+    -F "file=@$ZIP_FILE" \
+    -F "language=$LANGUAGE" \
+    "$API_URL")
 HTTP_STATUS=$?
 
 if [ $HTTP_STATUS -ne 0 ]; then

@@ -20,6 +20,7 @@ jobs:
       - name: Run VibeGuard Analysis
         uses: ./action  # We point to our local action folder for testing
         with:
+          api_key: "VIBEGUARD_LOCAL_DEV_KEY"  # Required for API authentication
           api_url: "https://vibeguard-api.onrender.com/scan-repo"  # Render Production Server
           language: "javascript"
         env:
