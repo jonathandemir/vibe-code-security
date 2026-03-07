@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useUser, useAuth } from '@clerk/clerk-react';
-import { Key, Copy, RefreshCw, CheckCircle, Shield, Zap, BarChart3, Eye, EyeOff } from 'lucide-react';
-
+import { Key, Copy, RefreshCw, CheckCircle, Shield, Zap, BarChart3, Eye, EyeOff, Github, ExternalLink } from 'lucide-react';
 export default function DeveloperDashboard() {
     const { user } = useUser();
     const { getToken } = useAuth();
@@ -12,10 +11,14 @@ export default function DeveloperDashboard() {
     const [plan, setPlan] = useState('free');
     const [scanCount, setScanCount] = useState(0);
     const [credits, setCredits] = useState(0);
-    const [showKey, setShowKey] = useState(false);
+    const [showKey, setShowKey] = useState(true);
     const [loadingTier, setLoadingTier] = useState(null);
+    const [githubConnected, setGithubConnected] = useState(false);
+    const [installMessage, setInstallMessage] = useState(null);
 
-    const API_BASE = import.meta.env.VITE_API_BASE || 'https://vibe-code-security-api.onrender.com';
+    const API_BASE = import.meta.env.VITE_API_BASE || 'https://vibeguard-api.onrender.com';
+    // Provide a fallback GitHub App Name if not set in environment
+    const GITHUB_APP_NAME = import.meta.env.VITE_GITHUB_APP_NAME || 'vibeguard-security';
 
     const handleCheckout = async (tier) => {
         setLoadingTier(tier);
@@ -56,6 +59,9 @@ export default function DeveloperDashboard() {
                     setPlan(data.plan || 'free');
                     setScanCount(data.scan_count || 0);
                     setCredits(data.credits || 0);
+                    if (data.github_installation_id) {
+                        setGithubConnected(true);
+                    }
                 }
             } catch (err) {
                 console.log('No existing key found, user can generate one.');
@@ -63,6 +69,18 @@ export default function DeveloperDashboard() {
                 setLoading(false);
             }
         }
+        
+        // Handle OAuth Callback messages
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('installation') === 'success') {
+            setInstallMessage({ type: 'success', text: 'GitHub App successfully connected!' });
+            // Remove search params to clean the URL without reloading
+            window.history.replaceState(null, '', window.location.pathname);
+        } else if (urlParams.get('installation') === 'error') {
+            setInstallMessage({ type: 'error', text: 'Failed to connect GitHub App. Please try again.' });
+            window.history.replaceState(null, '', window.location.pathname);
+        }
+
         fetchKey();
     }, [getToken, API_BASE]);
 
@@ -77,9 +95,14 @@ export default function DeveloperDashboard() {
             if (res.ok) {
                 const data = await res.json();
                 setApiKey(data.api_key);
+            } else {
+                const errText = await res.text();
+                console.error('API Key generation failed:', res.status, errText);
+                alert(`Cannot generate key right now. If the backend is waking up, please try again in 30 seconds. (Error ${res.status})`);
             }
         } catch (err) {
-            console.error('Failed to generate key:', err);
+            console.error('Failed to generate key (Connection error):', err);
+            alert("Failed to connect to the backend server. It may be sleeping (Render Free Tier) or offline. Please wait 30-50 seconds and try again.");
         } finally {
             setGenerating(false);
         }
@@ -189,6 +212,49 @@ export default function DeveloperDashboard() {
                             </button>
                         </div>
                     )}
+                </div>
+
+                {/* Zero-Config GitHub Integration */}
+                <div className="glass-panel p-8 rounded-2xl border border-white/5 space-y-6">
+                    <div className="flex items-center space-x-3">
+                        <Github className="w-6 h-6 text-white" />
+                        <h2 className="text-xl font-bold">Zero-Config GitHub Integration</h2>
+                    </div>
+                    
+                    {installMessage && (
+                        <div className={`p-4 rounded-xl border text-sm font-medium ${installMessage.type === 'success' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-red-500/10 border-red-500/20 text-red-400'}`}>
+                            {installMessage.text}
+                        </div>
+                    )}
+
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div className="flex-1 space-y-2">
+                            <h3 className="text-lg font-semibold text-white">Automate Pull Request Security</h3>
+                            <p className="text-neutral-400 text-sm leading-relaxed">
+                                Install the VibeGuard native GitHub App to automatically scan every Pull Request for Vibe-Fails. 
+                                We will post a detailed security review directly into the PR. 
+                                <span className="text-[#7B61FF] font-medium ml-1">No API keys or code changes required.</span>
+                            </p>
+                        </div>
+
+                        <div className="shrink-0">
+                            {githubConnected ? (
+                                <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-semibold shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+                                    <CheckCircle className="w-5 h-5" />
+                                    <span>GitHub Connected</span>
+                                </div>
+                            ) : (
+                                <a
+                                    href={`https://github.com/apps/${GITHUB_APP_NAME}/installations/new?state=${user?.id}`}
+                                    className="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-white text-black font-semibold hover:bg-neutral-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]"
+                                >
+                                    <Github className="w-5 h-5" />
+                                    <span>Install on GitHub</span>
+                                    <ExternalLink className="w-4 h-4 ml-1 opacity-60" />
+                                </a>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 {/* Upgrade CTA (only for free users) */}
