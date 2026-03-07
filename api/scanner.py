@@ -126,3 +126,73 @@ def extract_findings_summary(semgrep_json: dict) -> list:
         })
         
     return summarized_findings
+
+def run_npm_audit(directory_path: str) -> dict:
+    """
+    Runs `npm audit --json` if a package.json is found in the directory.
+    Returns the JSON output of the audit.
+    """
+    if not os.path.exists(os.path.join(directory_path, "package.json")):
+        return {}
+
+    try:
+        # We must run npm install --package-lock-only first if no lockfile exists,
+        # but for speed and safety of random code, npm audit --audit-level=high without install 
+        # works if package-lock.json is present. If not, npm audit might fail or just read package.json.
+        # Actually in modern npm, `npm audit` works best with a lockfile.
+        # But let's try a simple `npm audit --json`. We'll skip `npm i` to avoid executing pre/post install scripts of untrusted code.
+        
+        cmd = ["npm", "audit", "--json", "--audit-level=high"]
+        result = subprocess.run(cmd, cwd=directory_path, capture_output=True, text=True)
+        
+        # npm audit exits with 0 if no vulnerabilities, 
+        # exits with 1 (or other non-zero) if vulnerabilities are found or on error.
+        try:
+            if not result.stdout.strip():
+                return {}
+            output_data = json.loads(result.stdout)
+            return output_data
+        except json.JSONDecodeError as e:
+            print(f"JSON Output Decode Error (npm audit): {e}")
+            return {}
+            
+    except Exception as e:
+        print(f"Failed to run npm audit: {e}")
+        return {}
+
+
+def extract_npm_audit_summary(npm_audit_json: dict) -> list:
+    """
+    Extracts HIGH and CRITICAL severity findings from npm audit.
+    Formats them similarly to Semgrep findings so the LLM can process them uniformly.
+    """
+    if not npm_audit_json or "vulnerabilities" not in npm_audit_json:
+        return []
+        
+    summarized_findings = []
+    vulnerabilities = npm_audit_json.get("vulnerabilities", {})
+    
+    for pkg_name, vuln_details in vulnerabilities.items():
+        severity = vuln_details.get("severity", "").upper()
+            
+        if severity in ["HIGH", "CRITICAL"]:
+            # Attempt to get a readable message from 'via' list
+            via_list = vuln_details.get("via", [])
+            message = f"Vulnerable package '{pkg_name}'."
+            if via_list and isinstance(via_list[0], dict):
+                first_via = via_list[0]
+                title = first_via.get("title", "")
+                url = first_via.get("url", "")
+                message = f"Vulnerable package '{pkg_name}': {title}. Reference: {url}"
+
+            summarized_findings.append({
+                "rule_id": f"npm-audit-{pkg_name}",
+                "file": "package.json",
+                "message": message,
+                "severity": severity,
+                "line": 0, # Not line specific
+                "code snippet": f"\"{pkg_name}\": \"{vuln_details.get('range', 'any')}\""
+            })
+            
+    return summarized_findings
+

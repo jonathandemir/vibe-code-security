@@ -16,7 +16,7 @@ from slowapi import Limiter
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 
-from scanner import run_semgrep, run_semgrep_on_dir, extract_findings_summary
+from scanner import run_semgrep, run_semgrep_on_dir, extract_findings_summary, run_npm_audit, extract_npm_audit_summary
 from ai_translator import translate_findings, translate_repo_findings
 import database
 
@@ -512,6 +512,11 @@ async def scan_repo(request: Request, file: UploadFile = File(...), language: st
 
         # 2. Extract the summary for the LLM
         findings_summary = extract_findings_summary(semgrep_output)
+
+        # 2b. Run Dependency Scanning (SCA) via npm audit
+        npm_audit_output = run_npm_audit(extract_dir)
+        npm_findings = extract_npm_audit_summary(npm_audit_output)
+        findings_summary.extend(npm_findings)
 
         # 3. Get the repository context (sensitive files are filtered)
         repo_context = get_repo_context(extract_dir)
