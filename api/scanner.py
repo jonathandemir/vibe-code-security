@@ -196,3 +196,66 @@ def extract_npm_audit_summary(npm_audit_json: dict) -> list:
             
     return summarized_findings
 
+def run_gitleaks(directory_path: str) -> dict:
+    """
+    Runs `gitleaks detect` on the provided directory to find hardcoded secrets.
+    Returns the JSON output of the scan.
+    """
+    try:
+        # We run gitleaks in 'no-git' mode because the extracted zip is just files, not a git repo
+        cmd = [
+            "gitleaks", 
+            "detect", 
+            "--no-git", 
+            "--source", directory_path,
+            "--report-format", "json",
+            "--report-path", "/dev/stdout",
+            "--exit-code", "0" # Force exit 0 so subprocess doesn't throw if secrets are found
+        ]
+        
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        
+        try:
+            if not result.stdout.strip():
+                return []
+            output_data = json.loads(result.stdout)
+            return output_data
+        except json.JSONDecodeError as e:
+            print(f"JSON Output Decode Error (gitleaks): {e}")
+            return []
+            
+    except Exception as e:
+        print(f"Failed to run gitleaks (is it installed?): {e}")
+        return []
+
+def extract_gitleaks_summary(gitleaks_json: list) -> list:
+    """
+    Extracts findings from gitleaks and formats them for the LLM.
+    """
+    if not gitleaks_json:
+        return []
+        
+    summarized_findings = []
+    
+    for finding in gitleaks_json:
+        # Replace the actual secret with [REDACTED] in the snippet for safety before it goes to Gemini
+        raw_snippet = finding.get("Match", "")
+        secret = finding.get("Secret", "")
+        safe_snippet = raw_snippet.replace(secret, "[REDACTED_SECRET]") if secret in raw_snippet else raw_snippet
+        
+        file_path = finding.get("File", "Unknown")
+        # gitleaks gives absolute paths, let's keep it simple for the LLM
+        if "/" in file_path:
+            file_path = file_path.split("/")[-1]
+
+        summarized_findings.append({
+            "rule_id": f"gitleaks-{finding.get('RuleID', 'secret')}",
+            "file": file_path,
+            "message": f"Hardcoded secret detected: {finding.get('Description', 'Sensitive Key')}",
+            "severity": "CRITICAL",
+            "line": finding.get("StartLine", 0),
+            "code snippet": safe_snippet
+        })
+        
+    return summarized_findings
+
