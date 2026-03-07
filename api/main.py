@@ -1,4 +1,6 @@
-from fastapi import FastAPI, HTTPException, UploadFile, File, Depends, Request
+import hmac
+import hashlib
+from fastapi import FastAPI, HTTPException, UploadFile, File, Depends, Request, BackgroundTasks, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
@@ -19,6 +21,8 @@ from slowapi.errors import RateLimitExceeded
 from scanner import run_semgrep, run_semgrep_on_dir, extract_findings_summary, run_npm_audit, extract_npm_audit_summary, run_gitleaks, extract_gitleaks_summary
 from ai_translator import translate_findings, translate_repo_findings
 import database
+import github_app
+import github_app
 
 # --- Security Config ---
 VIBEGUARD_API_KEY = os.environ.get("VIBEGUARD_API_KEY")
@@ -570,6 +574,124 @@ async def remove_scan(scan_id: str, _auth=Depends(verify_api_key)):
     if not deleted:
         raise HTTPException(status_code=404, detail="Scan not found.")
     return {"status": "deleted", "scan_id": scan_id}
+
+
+# --- GitHub App Webhook Integration ---
+
+async def process_github_webhook(payload: dict, event_name: str):
+    """Background task to handle analyzing the PR and posting the comment."""
+    if event_name != "pull_request" or payload.get("action") not in ["opened", "synchronize"]:
+        return # Currently only handle PRs
+
+    pull_request = payload.get("pull_request")
+    installation = payload.get("installation")
+    repository = payload.get("repository")
+
+    if not pull_request or not installation or not repository:
+        return
+
+    installation_id = installation["id"]
+    owner = repository["owner"]["login"]
+    repo_name = repository["name"]
+    pr_number = pull_request["number"]
+
+    # Generate Installation Token
+    token = await github_app.get_installation_access_token(installation_id)
+    if not token:
+        print("❌ Could not get installation token")
+        return
+
+    # Check database to see if this installation is linked to a VibeGuard User
+    user = database.get_user_by_installation_id(str(installation_id))
+    if not user:
+        print(f"⚠️ Webhook received for unlinked installation {installation_id}. Skipping scan.")
+        return
+
+    # Fetch explicitly changed files (Diff-based fetching)
+    diff_files = await github_app.fetch_pr_diff_files(token, owner, repo_name, pr_number)
+    
+    if not diff_files:
+        return
+
+    # Simulate diff-analysis here by passing the downloaded files to Gemini
+    # with a basic mocked scanner step until building a full VFS logic.
+    context_files = []
+    findings_summary = []
+    
+    for df in diff_files:
+        if df.get("status") in ("removed", "deleted"):
+            continue
+        
+        filename = df.get("filename", "")
+        if _is_sensitive_file(filename):
+            continue
+            
+        content = await github_app.fetch_file_content(token, df.get("raw_url"))
+        if content:
+            content = _redact_sensitive_lines(content)
+            context_files.append(f"--- {filename} ---\n{content}\n")
+
+    if not context_files:
+        return
+
+    code_context = "\n".join(context_files)
+    
+    # Send to AI
+    translated_report = translate_repo_findings(
+        code_context=code_context,
+        language="javascript", # Fallback language, could auto-detect
+        findings=findings_summary # Mocked until local diff VFS is implemented
+    )
+    
+    # Post PR Comment
+    comment_body = f"## 🛡️ VibeGuard Security Analysis\n**Score:** {translated_report.get('score', 0)}/100\n\n**Summary:**\n{translated_report.get('summary', '')}"
+    
+    for issue in translated_report.get('issues', []):
+        comment_body += f"\n\n### ⚠️ {issue.get('title')} ({issue.get('severity')})"
+        comment_body += f"\n{issue.get('description')}"
+        if issue.get('fixed_code_snippet'):
+            comment_body += f"\n\n**Fix Strategy:** {issue.get('how_to_fix')}\n```\n{issue.get('fixed_code_snippet')}\n```"
+
+    await github_app.post_pr_comment(token, owner, repo_name, pr_number, comment_body)
+    
+    # Save to Database using the linked user
+    database.save_scan("github_pr", "javascript", translated_report, user_id=user.get("id"))
+    database.increment_scan_count(user.get("id"))
+
+
+@app.post("/webhook/github")
+async def github_webhook(
+    request: Request,
+    background_tasks: BackgroundTasks,
+    x_github_event: str = Header(None),
+    x_hub_signature_256: str = Header(None)
+):
+    """
+    Receives Webhooks from the VibeGuard GitHub App.
+    Verifies the SHA256 signature and offloads the analysis to a background task.
+    """
+    secret = github_app.GITHUB_WEBHOOK_SECRET
+    if not secret:
+        raise HTTPException(status_code=500, detail="Missing Webhook Secret")
+
+    payload_body = await request.body()
+    
+    # Verify Signature
+    mac = hmac.new(secret.encode("utf-8"), msg=payload_body, digestmod=hashlib.sha256)
+    expected_signature = "sha256=" + mac.hexdigest()
+    
+    if not hmac.compare_digest(expected_signature, x_hub_signature_256):
+        raise HTTPException(status_code=403, detail="Invalid GitHub Signature")
+
+    try:
+        payload = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid JSON")
+
+    # Always return 202 Accepted quickly to GitHub to prevent timeouts (10s max)
+    background_tasks.add_task(process_github_webhook, payload, x_github_event)
+    
+    return {"status": "Accepted"}
 
 
 if __name__ == "__main__":

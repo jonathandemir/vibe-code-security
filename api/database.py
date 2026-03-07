@@ -30,6 +30,7 @@ def init_db():
                 id              TEXT PRIMARY KEY,
                 clerk_id        TEXT UNIQUE NOT NULL,
                 api_key         TEXT UNIQUE,
+                github_installation_id TEXT UNIQUE,
                 tier            TEXT DEFAULT 'free',
                 scan_count      INTEGER DEFAULT 0,
                 additional_credits INTEGER DEFAULT 0,
@@ -109,6 +110,34 @@ def get_user_by_api_key(api_key: str) -> Optional[dict]:
     conn = _get_connection()
     try:
         user = conn.execute("SELECT * FROM users WHERE api_key = ?", (api_key,)).fetchone()
+        return dict(user) if user else None
+    finally:
+        conn.close()
+
+def link_github_installation(clerk_id: str, installation_id: str) -> bool:
+    """Links a GitHub App Installation ID to a VibeGuard User."""
+    conn = _get_connection()
+    try:
+        # Ensure user exists first
+        get_or_create_user(clerk_id)
+        
+        conn.execute(
+            "UPDATE users SET github_installation_id = ? WHERE clerk_id = ?",
+            (installation_id, clerk_id)
+        )
+        conn.commit()
+        return True
+    except sqlite3.Error as e:
+        print(f"Error linking installation: {e}")
+        return False
+    finally:
+        conn.close()
+
+def get_user_by_installation_id(installation_id: str) -> Optional[dict]:
+    """Retrieve a user by their GitHub Installation ID (for Webhooks)."""
+    conn = _get_connection()
+    try:
+        user = conn.execute("SELECT * FROM users WHERE github_installation_id = ?", (str(installation_id),)).fetchone()
         return dict(user) if user else None
     finally:
         conn.close()
