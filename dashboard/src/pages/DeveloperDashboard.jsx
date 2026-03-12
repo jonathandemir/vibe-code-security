@@ -72,18 +72,57 @@ export default function DeveloperDashboard() {
             }
         }
         
+        async function handleMagicFlow(installationId, setupAction) {
+            setInstallMessage({ type: 'info', text: 'Linking your GitHub account...' });
+            try {
+                const token = await getToken();
+                const res = await fetch(`${API_BASE}/developer/link-github`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ installation_id: installationId, setup_action: setupAction })
+                });
+
+                if (res.ok) {
+                    setInstallMessage({ type: 'success', text: 'GitHub App successfully connected and Free Tier activated!' });
+                    setGithubConnected(true);
+                    setInstallationId(installationId);
+                    setPlan('free'); // Update local state
+                } else {
+                    const error = await res.json();
+                    setInstallMessage({ type: 'error', text: `Linking failed: ${error.detail || 'Unknown error'}` });
+                }
+            } catch (err) {
+                console.error("Magic Flow error:", err);
+                setInstallMessage({ type: 'error', text: 'Connection error during GitHub linking.' });
+            } finally {
+                // Remove search params to clean the URL
+                window.history.replaceState(null, '', window.location.pathname);
+                // Refresh user data to be sure
+                fetchKey();
+            }
+        }
+
         // Handle OAuth Callback messages
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('installation') === 'success') {
+        const instId = urlParams.get('installation_id');
+        const setupAct = urlParams.get('setup_action');
+
+        if (instId && setupAct) {
+            handleMagicFlow(instId, setupAct);
+        } else if (urlParams.get('installation') === 'success') {
             setInstallMessage({ type: 'success', text: 'GitHub App successfully connected!' });
-            // Remove search params to clean the URL without reloading
             window.history.replaceState(null, '', window.location.pathname);
+            fetchKey();
         } else if (urlParams.get('installation') === 'error') {
             setInstallMessage({ type: 'error', text: 'Failed to connect GitHub App. Please try again.' });
             window.history.replaceState(null, '', window.location.pathname);
+            fetchKey();
+        } else {
+            fetchKey();
         }
-
-        fetchKey();
     }, [getToken, API_BASE]);
 
     const handleGenerateKey = async () => {

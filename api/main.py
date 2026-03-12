@@ -246,6 +246,37 @@ async def generate_user_api_key(request: Request):
     return {"api_key": api_key}
 
 
+class GithubLinkRequest(BaseModel):
+    installation_id: str
+    setup_action: Optional[str] = None
+
+
+@app.post("/developer/link-github")
+@limiter.limit("5/minute")
+async def link_github_installation(request: Request, req: GithubLinkRequest):
+    """
+    Manually link a GitHub installation to the authenticated user.
+    Used by the frontend 'Magic Flow' after redirect.
+    """
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing Bearer Token")
+        
+    token = auth_header.split(" ")[1]
+    clerk_id = verify_clerk_token(token)
+    if not clerk_id:
+        raise HTTPException(status_code=401, detail="Invalid Clerk Token")
+        
+    success = database.link_github_installation(
+        clerk_id=clerk_id,
+        installation_id=req.installation_id
+    )
+    if not success:
+        raise HTTPException(status_code=500, detail="Failed to link GitHub installation.")
+        
+    return {"status": "success", "installation_id": req.installation_id}
+
+
 class CheckoutRequest(BaseModel):
     tier: str  # "micro", "pro", or "credits"
 

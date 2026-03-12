@@ -138,10 +138,11 @@ def link_github_installation(clerk_id: str, installation_id: str) -> bool:
         
         with conn.cursor() as cur:
             cur.execute(
-                "UPDATE users SET github_installation_id = %s WHERE clerk_id = %s",
+                "UPDATE users SET github_installation_id = %s, tier = 'free', scan_count = 1 WHERE clerk_id = %s",
                 (str(installation_id), clerk_id)
             )
             conn.commit()
+        print(f"✅ Linked GitHub Installation {installation_id} to User {clerk_id} and granted Free Tier.")
         return True
     except Exception as e:
         print(f"Error linking installation: {e}")
