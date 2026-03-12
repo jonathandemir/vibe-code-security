@@ -792,29 +792,27 @@ async def process_github_webhook(payload: dict, event_name: str):
         return
 
     context_files = []
-    # We no longer skip sensitive files in the webhook flow so the AI can scan them.
-    # We also pass the raw content without redaction so the AI can find hardcoded secrets.
     
     for df in diff_files:
         if df.get("status") in ("removed", "deleted"):
             continue
         
         filename = df.get("filename", "")
-        # Log sensitive files but don't skip them
-        if _is_sensitive_file(filename):
-            print(f"⚠️ Vouch: Analyzing sensitive file: {filename}")
+        
+        # RADIKALER FIX: Wir ignorieren den sensitive_file Filter komplett für den Scan!
+        print(f"📄 Vouch: Lade Datei für Scan: {filename}")
             
         content = await github_app.fetch_file_content(token, df.get("raw_url"))
         if content:
-            # content = _redact_sensitive_lines(content) # Disabled: Let the AI find the secrets
+            # Wir schicken den ROHTEXT an die KI, damit sie Fehler findet
             context_files.append(f"--- {filename} ---\n{content}\n")
 
     if not context_files:
-        print("⚠️ Vouch: Keine auswertbaren Text-Dateien im Kontext. Beende Scan.")
+        print("⚠️ Vouch: Kontext ist immer noch leer.")
         await github_app.post_status_check(
             token, owner, repo_name, head_sha,
             state="success",
-            description="Vouch: No scannable text files found."
+            description="Vouch: Wirklich keine Dateien gefunden."
         )
         return
 
