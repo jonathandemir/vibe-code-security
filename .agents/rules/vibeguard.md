@@ -2,10 +2,10 @@
 trigger: always_on
 ---
 
-# 🚀 VibeGuard (Arbeitstitel) – The "Stripe for App-Security"
+# 🚀 Vouch (Arbeitstitel) – The "Stripe for App-Security"
 
 ## 1. Executive Summary & Vision
-**Das Ziel:** VibeGuard wird die unsichtbare, vollautomatische Sicherheitsinfrastruktur für das Indie-Developer-, Solo-Founder- und Creator-Segment. So wie Stripe Payments demokratisiert hat und Supabase Datenbanken vereinfacht, macht VibeGuard App-Security zu einem Plug-and-Play-Erlebnis.
+**Das Ziel:** Vouch wird die unsichtbare, vollautomatische Sicherheitsinfrastruktur für das Indie-Developer-, Solo-Founder- und Creator-Segment. So wie Stripe Payments demokratisiert hat und Supabase Datenbanken vereinfacht, macht Vouch App-Security zu einem Plug-and-Play-Erlebnis.
 
 Wir bauen keine komplexen Dashboards für Enterprise-CISO-Teams. Wir bauen eine Developer Experience (DX), die für "Vibe-Coder" (Entwickler, die massiv auf KI-Codegenerierung setzen) in 5 Minuten integrierbar ist, klare Handlungsanweisungen liefert und die gefährlichsten Fehler ("Vibe-Fails") automatisch abfängt.
 
@@ -16,9 +16,9 @@ Wir bauen keine komplexen Dashboards für Enterprise-CISO-Teams. Wir bauen eine 
 > **Wissenschaftliche Einordnung: Automated Security Governance**
 > Im Kontext der modernen Wirtschaftsinformatik adressiert dieses Produkt die *Information Asymmetry* zwischen schnellen Code-Generatoren (LLMs) und formaler Softwaresicherheit. Es implementiert *Static Application Security Testing (SAST)* nicht als reines Analysewerkzeug, sondern als kuratierte, heuristische Filter-Schicht, die technische Schulden (Technical Debt) im Bereich Security durch automatisierte "Opinionated Defaults" in Echtzeit reduziert.
 
-## 3. Positionierung: VibeGuard vs. Klassische Tools
+## 3. Positionierung: Vouch vs. Klassische Tools
 
-| Metrik | VibeGuard (Unser Produkt) | Klassische Enterprise Tools |
+| Metrik | Vouch (Unser Produkt) | Klassische Enterprise Tools |
 | :--- | :--- | :--- |
 | **Zielgruppe** | Vibe-Coder, Indie Hacker, Solo-Founder | Security-Teams, Enterprise DevOps |
 | **Integration** | 5-Minuten Copy-Paste (API-Key, SDK oder GitHub App) | Komplexe CI/CD Integration, Docker-Setup |
