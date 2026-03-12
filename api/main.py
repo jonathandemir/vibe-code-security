@@ -802,7 +802,13 @@ async def process_github_webhook(payload: dict, event_name: str):
         # RADIKALER FIX: Wir ignorieren den sensitive_file Filter komplett für den Scan!
         print(f"📄 Vouch: Lade Datei für Scan: {filename}")
             
-        content = await github_app.fetch_file_content(token, df.get("raw_url"))
+        # Use contents_url with raw accept header instead of raw_url
+        contents_url = df.get("contents_url")
+        if not contents_url:
+            print(f"⚠️ Vouch: Keine contents_url für {filename} gefunden. Versuche raw_url...")
+            contents_url = df.get("raw_url")
+
+        content = await github_app.fetch_file_content(token, contents_url)
         if content:
             # Wir schicken den ROHTEXT an die KI, damit sie Fehler findet
             context_files.append(f"--- {filename} ---\n{content}\n")

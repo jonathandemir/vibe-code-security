@@ -72,15 +72,19 @@ async def fetch_pr_diff_files(installation_token: str, owner: str, repo: str, pu
         print(f"❌ Failed to fetch PR files: {response.text}")
         return []
 
-async def fetch_file_content(installation_token: str, raw_url: str) -> Optional[str]:
-    """Downloads the raw content of a file using the installation token."""
+async def fetch_file_content(installation_token: str, contents_url: str) -> Optional[str]:
+    """Downloads the raw content of a file using the installation token from the contents API."""
     headers = {
-        "Authorization": f"token {installation_token}"
+        "Authorization": f"token {installation_token}",
+        "Accept": "application/vnd.github.v3.raw"
     }
     async with httpx.AsyncClient() as client:
-        response = await client.get(raw_url, headers=headers)
+        response = await client.get(contents_url, headers=headers)
         if response.status_code == 200:
             return response.text
+        
+        print(f"❌ Vouch: Failed to fetch file content from {contents_url}. Status: {response.status_code}")
+        print(f"Response: {response.text[:200]}...") # Log start of error
         return None
 
 async def post_pr_comment(installation_token: str, owner: str, repo: str, issue_number: int, body: str):
