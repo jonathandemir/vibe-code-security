@@ -17,6 +17,7 @@ import stripe
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
+from typing import Optional
 
 from scanner import run_semgrep, run_semgrep_on_dir, extract_findings_summary, run_npm_audit, extract_npm_audit_summary, run_gitleaks, extract_gitleaks_summary
 from ai_translator import translate_findings, translate_repo_findings
