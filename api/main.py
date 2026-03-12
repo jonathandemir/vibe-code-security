@@ -792,20 +792,21 @@ async def process_github_webhook(payload: dict, event_name: str):
         return
 
     context_files = []
-    # Note: findings_summary is used later for AI report
+    # We no longer skip sensitive files in the webhook flow so the AI can scan them.
+    # We also pass the raw content without redaction so the AI can find hardcoded secrets.
     
     for df in diff_files:
         if df.get("status") in ("removed", "deleted"):
             continue
         
         filename = df.get("filename", "")
+        # Log sensitive files but don't skip them
         if _is_sensitive_file(filename):
-            print(f"🚫 Überspringe Datei laut Filter: {filename}")
-            continue
+            print(f"⚠️ Vouch: Analyzing sensitive file: {filename}")
             
         content = await github_app.fetch_file_content(token, df.get("raw_url"))
         if content:
-            content = _redact_sensitive_lines(content)
+            # content = _redact_sensitive_lines(content) # Disabled: Let the AI find the secrets
             context_files.append(f"--- {filename} ---\n{content}\n")
 
     if not context_files:
@@ -817,6 +818,7 @@ async def process_github_webhook(payload: dict, event_name: str):
         )
         return
 
+    findings_summary = [] # Initialize findings list; AI will also perform direct review of context
     code_context = "\n".join(context_files)
     
     if user and user.get("clerk_id"):
