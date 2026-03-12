@@ -38,7 +38,7 @@ const ScanResults = ({ results }) => {
                 className={`p-6 border-b flex items-center justify-between ${getScoreBg(score)}`}
             >
                 <div>
-                    <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">VibeGuard Score</h2>
+                    <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-1">Vouch Score</h2>
                     <div className="flex items-baseline gap-2">
                         <span className={`text-5xl font-extrabold tracking-tight ${getScoreColor(score)}`}>{score}</span>
                         <span className="text-xl text-slate-500 font-medium">/ 100</span>

@@ -30,7 +30,7 @@ export default function Navbar() {
                         <Shield className="w-5 h-5 text-[#7B61FF]" />
                     </div>
                     <span className="text-lg font-sans font-bold tracking-tight text-[#F0EFF4] group-hover:text-[#7B61FF] transition-colors">
-                        VibeGuard
+                        Vouch
                     </span>
                 </Link>
 
@@ -51,7 +51,7 @@ export default function Navbar() {
                         </Link>
                     )}
                     {isDashboard && (
-                        <a href="https://github.com/vibeguard-hq/vibe-code-security" target="_blank" rel="noreferrer" className="text-sm font-sans font-medium text-neutral-400 hover:text-[#F0EFF4] transition-colors">
+                        <a href="https://github.com/vouch-secure" target="_blank" rel="noreferrer" className="text-sm font-sans font-medium text-neutral-400 hover:text-[#F0EFF4] transition-colors">
                             GitHub
                         </a>
                     )}

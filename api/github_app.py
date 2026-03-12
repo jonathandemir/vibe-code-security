@@ -84,7 +84,7 @@ async def fetch_file_content(installation_token: str, raw_url: str) -> Optional[
         return None
 
 async def post_pr_comment(installation_token: str, owner: str, repo: str, issue_number: int, body: str):
-    """Posts a VibeGuard Security Analysis report as a comment on the Pull Request."""
+    """Posts a Vouch Security Analysis report as a comment on the Pull Request."""
     headers = {
         "Authorization": f"token {installation_token}",
         "Accept": "application/vnd.github.v3+json"
@@ -96,3 +96,26 @@ async def post_pr_comment(installation_token: str, owner: str, repo: str, issue_
         response = await client.post(url, headers=headers, json=payload)
         if response.status_code != 201:
             print(f"❌ Failed to post PR comment: {response.text}")
+
+
+async def post_status_check(installation_token: str, owner: str, repo: str, sha: str, state: str, description: str, target_url: str = "https://vouch-secure.com"):
+    """
+    Posts a commit status check ('pending', 'success', 'failure', 'error').
+    This is used to block PR merges if critical vulnerabilities are found.
+    """
+    headers = {
+        "Authorization": f"token {installation_token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    url = f"https://api.github.com/repos/{owner}/{repo}/statuses/{sha}"
+    payload = {
+        "state": state,
+        "target_url": target_url,
+        "description": description[:140], # Max 140 chars
+        "context": "security/vouch"
+    }
+    
+    async with httpx.AsyncClient() as client:
+        response = await client.post(url, headers=headers, json=payload)
+        if response.status_code != 201:
+            print(f"❌ Failed to post commit status: {response.status_code} - {response.text}")

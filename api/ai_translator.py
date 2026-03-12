@@ -27,7 +27,7 @@ def sanitize_for_prompt(text: str) -> str:
     """Sanitize user-supplied text before embedding in an LLM prompt."""
     # Truncate overly long input
     if len(text) > MAX_INPUT_SIZE:
-        text = text[:MAX_INPUT_SIZE] + "\n[TRUNCATED BY VIBEGUARD]"
+        text = text[:MAX_INPUT_SIZE] + "\n[TRUNCATED BY VOUCH]"
     # Strip known prompt injection patterns
     text = INJECTION_PATTERNS.sub("[BLOCKED]", text)
     return text
@@ -39,7 +39,7 @@ def translate_findings(code_snippet: str, language: str, findings: list) -> dict
     """
     
     prompt = f"""
-You are the VibeGuard DX Engine — the final quality gate before a security 
+You are the Vouch DX Engine — the final quality gate before a security 
 report reaches a developer. Your audience is "Vibe-Coders": solo founders, 
 indie hackers, and creators who ship fast with AI tools but are NOT security experts.
 
@@ -56,7 +56,7 @@ Here are the raw vulnerabilities found by the static analysis scanner (Semgrep):
 === YOUR TASK ===
 
 1. SCORE
-   Assign a VibeGuard Security Score from 0 to 100 using this exact rubric:
+   Assign a Vouch Security Score from 0 to 100 using this exact rubric:
    - 95-100: Excellent (No real vulnerabilities)
    - 80-94: Good (Minor issues, low risk)
    - 60-79: Needs Work (Medium severity issues)
@@ -148,7 +148,7 @@ Return ONLY a JSON object matching this exact structure:
             "issues": []
         }
 
-def translate_repo_findings(code_context: str, language: str, findings: list) -> dict:
+def translate_repo_findings(code_context: str, language: str, findings: list, code_indexer=None) -> dict:
     """
     Two-Stage LLM Pipeline for scanning entire repositories.
     Stage 1: gemini-2.5-pro (Deep Scan)
@@ -159,12 +159,25 @@ def translate_repo_findings(code_context: str, language: str, findings: list) ->
         return translate_findings(code_context, language, findings)
         
     try:
+        # --- STAGE 0: Context Enrichment (Indexing) ---
+        enriched_context = ""
+        if code_indexer:
+            print("🔍 Querying Index for relevant symbol definitions...")
+            # Query the indexer for relevant definitions based on the code_context
+            # We take a sample or the whole context if it's not too large
+            query_results = code_indexer.query_context(code_context, n_results=5)
+            if query_results and query_results['documents']:
+                enriched_context = "\n--- CROSS-FILE SYMBOL DEFINITIONS (INDEX) ---\n"
+                for doc, meta in zip(query_results['documents'][0], query_results['metadatas'][0]):
+                    enriched_context += f"File: {meta['file']}\n```\n{doc}\n```\n"
+
         # --- STAGE 1: Deep Scan with Gemini Pro ---
         stage1_prompt = f"""
-You are VibeGuard Deep Scanner — an elite Application Security Architect 
+You are Vouch Deep Scanner — an elite Application Security Architect 
 specialized in reviewing code produced by AI coding assistants.
 
 Your mission is to perform a Deep Security Analysis on the following codebase.
+{enriched_context}
 --- REPOSITORY CODE ({language}) ---
 {sanitize_for_prompt(code_context)}
 --- STATIC SCANNER (SEMGREP) FINDINGS ---
@@ -178,7 +191,7 @@ Your mission is to perform a Deep Security Analysis on the following codebase.
    - Secrets & Config (Hardcoded keys, CORS '*', Debug mode)
    - Data Protection (Plaintext passwords, PII leaks)
    - Architectural Weaknesses (No rate limiting, DoS vectors)
-3. WRITE YOUR ANALYSIS: For each real vulnerability identify file, severity, and attack scenario. Do NOT suggest fixes yet.
+3. WRITE YOUR ANALYSIS: For each real vulnerability identify file, severity, and attack scenario. Use the index context to verify cross-file calls. Do NOT suggest fixes yet.
 Provide the analysis in plain text. Do not format as JSON.
 """
         
@@ -193,7 +206,7 @@ Provide the analysis in plain text. Do not format as JSON.
         
         # --- STAGE 2: Filter & Format with Gemini Flash ---
         stage2_prompt = f"""
-You are the VibeGuard DX Engine — the final quality gate before a security report reaches a developer.
+You are the Vouch DX Engine — the final quality gate before a security report reaches a developer.
 Here is the Deep Security Analysis from our Architect:
 --- ARCHITECT ANALYSIS ---
 {deep_analysis}

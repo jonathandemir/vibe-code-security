@@ -1,11 +1,11 @@
-# VibeGuard (MVP)
+# Vouch (MVP)
 
-VibeGuard is the unsung hero of the vibe-coding era building the "Stripe for App-Security" – an automated security governance platform explicitly designed for Solo-Founders, Indie Hackers, and AI Code Generation tools.
+[![Vouch Score](https://vouch-api.onrender.com/badge/vouch)](https://vouch-secure.com)
+Vouch for your code. AI-Native Security in 300 seconds. Vouch is the "Stripe for App-Security" for the Vibe-Coding era – an automated security governance platform explicitly designed for Solo-Founders, Indie Hackers, and AI Code Generation tools.
 
 This repository is a monorepo containing the Minimum Viable Product:
 - `api/` - The FastAPI backend wrapper for Semgrep and Google Gemini.
 - `dashboard/` - The Vite + React Web UI to visualize issues.
-- `action/` - The GitHub Action script that integrates VibeGuard directly into your repositories.
 
 ## Quick Start (Dev)
 

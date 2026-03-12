@@ -98,7 +98,7 @@ const Goal = () => {
                                 <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out">
                                     <div className="overflow-hidden">
                                         <p className="text-lg text-slate-400 leading-relaxed mb-6 pt-4">
-                                            You don't need to be a security expert to launch production-grade apps. VibeGuard acts as your invisible security engineer, catching logic flaws and injection attacks in real-time.
+                                            You don't need to be a security expert to launch production-grade apps. Vouch acts as your invisible security engineer, catching logic flaws and injection attacks in real-time.
                                         </p>
                                         <p className="text-lg text-slate-400 leading-relaxed pb-4">
                                             Code with absolute confidence. We handle the heavy lifting of compliance and security so you can focus entirely on building the next big thing.
@@ -137,7 +137,7 @@ const Goal = () => {
                         {[
                             { icon: Database, title: "The Old Way", desc: "Clunky CLI tools, hours of configuration, and noisy CVE dashboards that require a CISO to decipher.", color: "text-slate-500", border: "border-slate-800" },
                             { icon: ArrowRight, title: "The Transition", desc: "Removing the gatekeeping. Moving from high-barrier hunting to reactive, automated defense.", color: "text-[#7B61FF]", border: "border-transparent" },
-                            { icon: Layers, title: "VibeGuard", desc: "A true plug-and-play extension. You push code, we deploy fixes. Security executed entirely on autopilot.", color: "text-indigo-400", border: "border-indigo-500/30" }
+                            { icon: Layers, title: "Vouch", desc: "A true plug-and-play extension. You push code, we deploy fixes. Security executed entirely on autopilot.", color: "text-indigo-400", border: "border-indigo-500/30" }
                         ].map((card, i) => (
                             <motion.div
                                 key={i}
@@ -200,7 +200,7 @@ const Goal = () => {
                                 <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out">
                                     <div className="overflow-hidden">
                                         <p className="text-lg text-slate-400 leading-relaxed mb-6 pt-4">
-                                            The stigma that "AI code is insecure code" dies here. VibeGuard empowers solo creators to deploy enterprise-grade infrastructure without knowing what "XSS" even means.
+                                            The stigma that "AI code is insecure code" dies here. Vouch empowers solo creators to deploy enterprise-grade infrastructure without knowing what "XSS" even means.
                                         </p>
                                         <p className="text-lg text-slate-400 leading-relaxed pb-4">
                                             Our smart routers balance speed and deep reasoning, ensuring that your app stays permanently protected as it scales to millions of users.

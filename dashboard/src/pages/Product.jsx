@@ -1,10 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Shield, Zap, Lock, Activity, Sparkles, Terminal, FileCode, CheckCircle2, Plus } from 'lucide-react';
 
 const Product = () => {
     // 1. Hero Section for the Product
-    // 2. The VibeGuard Scan (SAST targeted at Vibe-Fails)
+    // 2. The Vouch Scan (SAST targeted at Vibe-Fails)
     // 3. Instant Remediation (One-Click Fix)
     // 4. Privacy-First Architecture (Data Minimization)
     // 5. The Trust Score (0-100)
@@ -32,6 +33,17 @@ const Product = () => {
             <div className="fixed top-1/4 right-0 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[80px] pointer-events-none transform-gpu" />
             <div className="fixed bottom-0 left-1/4 w-[600px] h-[600px] bg-[#7B61FF]/5 rounded-full blur-[100px] pointer-events-none transform-gpu" />
 
+            {/* Top Navigation - Simple */}
+            <nav className="fixed top-0 w-full z-50 flex justify-between items-center px-8 py-6 backdrop-blur-md bg-[#0A0A14]/50 border-b border-white/5">
+                <Link to="/" className="flex items-center space-x-2 group">
+                    <Shield className="w-6 h-6 text-[#7B61FF]" />
+                    <span className="text-xl font-sans font-bold text-[#F0EFF4] tracking-tight group-hover:text-[#7B61FF] transition-colors">Vouch</span>
+                </Link>
+                <div className="flex space-x-6">
+                    {/* Add navigation links here if needed */}
+                </div>
+            </nav>
+
             {/* Hero Section */}
             <header className="relative pt-32 pb-20 px-6 max-w-7xl mx-auto text-center z-10">
                 <motion.div
@@ -41,7 +53,7 @@ const Product = () => {
                 >
                     <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8 shadow-[0_0_20px_rgba(123,97,255,0.2)]">
                         <Sparkles className="w-4 h-4 text-[#7B61FF]" />
-                        <span className="text-sm font-medium tracking-wide text-slate-300">The Anatomy of VibeGuard</span>
+                        <span className="text-sm font-medium tracking-wide text-slate-300">The Anatomy of Vouch</span>
                     </div>
                 </motion.div>
 
@@ -73,13 +85,13 @@ const Product = () => {
                 viewport={{ once: true, margin: "-100px" }}
                 className="max-w-7xl mx-auto px-6 py-20 z-10 relative space-y-32"
             >
-                {/* Feature 1: The VibeGuard Scan */}
+                {/* Feature 1: The Vouch Scan */}
                 <motion.section variants={itemVariants} className="grid md:grid-cols-2 gap-12 items-center">
                     <div>
                         <div className="text-xs font-mono text-[#7B61FF] mb-4 uppercase tracking-widest border border-[#7B61FF]/30 inline-flex px-2 py-1 rounded bg-[#7B61FF]/5 items-center gap-2 shadow-[0_0_15px_rgba(123,97,255,0.15)]">
                             <Shield className="w-3.5 h-3.5" /> Core Engine
                         </div>
-                        <h2 className="text-4xl font-bold text-[#F0EFF4] mb-6 tracking-tight">The VibeGuard Scan</h2>
+                        <h2 className="text-4xl font-bold text-[#F0EFF4] mb-6 tracking-tight">The Vouch Scan</h2>
 
                         <div className="group cursor-pointer">
                             <div className="flex items-center gap-2 text-[#7B61FF] mb-2 opacity-80 group-hover:opacity-100 transition-opacity">
@@ -246,7 +258,9 @@ const Product = () => {
 
                     <div className="relative z-10 max-w-3xl mx-auto">
                         <Activity className="w-16 h-16 text-[#7B61FF] mx-auto mb-6 drop-shadow-[0_0_20px_rgba(123,97,255,0.5)]" />
-                        <h2 className="text-4xl md:text-5xl font-bold text-[#F0EFF4] mb-8 tracking-tight">The Trust Score</h2>
+                        <h1 className="text-5xl md:text-7xl font-sans font-bold text-[#F0EFF4] tracking-tight mb-6">
+                            Anatomy of <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7B61FF] to-cyan-400">Vouch.</span>
+                        </h1>
                         <p className="text-xl text-slate-400 leading-relaxed mb-16">
                             Stop guessing if your app is safe to deploy. Get a definitive, real-time security score from 0 to 100 on every commit, backed by an actionable priority list.
                         </p>

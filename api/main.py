@@ -2,7 +2,7 @@ import hmac
 import hashlib
 from fastapi import FastAPI, HTTPException, UploadFile, File, Depends, Request, BackgroundTasks, Header
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel, Field
 import uvicorn
 import zipfile
@@ -22,19 +22,24 @@ from scanner import run_semgrep, run_semgrep_on_dir, extract_findings_summary, r
 from ai_translator import translate_findings, translate_repo_findings
 import database
 import github_app
-import github_app
+from indexer import CodeIndexer
+
+# Initialize CodeIndexer
+code_indexer = CodeIndexer()
 
 # --- Security Config ---
-VIBEGUARD_API_KEY = os.environ.get("VIBEGUARD_API_KEY")
+VOUCH_API_KEY = os.environ.get("VOUCH_API_KEY")
 STRIPE_API_KEY = os.environ.get("STRIPE_API_KEY")
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET")
+# Frontend URL for redirects and CORS (set to your Vercel/production domain in prod)
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:5173")
 
 if STRIPE_API_KEY:
     stripe.api_key = STRIPE_API_KEY
 
-STRIPE_PRICE_MICRO = "price_1T7CFnCyvWmpoUSLdhoBQYFy"
-STRIPE_PRICE_PRO = "price_1T7CGBCyvWmpoUSLpFQBH4St"
-STRIPE_PRICE_CREDITS = "price_1T7CHRCyvWmpoUSLO98x4jlQ"
+STRIPE_PRICE_MICRO = "price_1TA8YQCYfut0t43YfzXQmbrC"
+STRIPE_PRICE_PRO = "price_1TA8YRCYfut0t43YB5M2gsil"
+STRIPE_PRICE_CREDITS = "price_1TA8YQCYfut0t43YDjnAFnu4"
 
 MAX_UPLOAD_SIZE_MB = 50
 MAX_UNCOMPRESSED_SIZE_MB = 200
@@ -61,8 +66,8 @@ SENSITIVE_LINE_PATTERNS = re.compile(
 limiter = Limiter(key_func=get_remote_address)
 
 app = FastAPI(
-    title="VibeGuard API",
-    description="The core engine for the VibeGuard App-Security platform.",
+    title="Vouch API",
+    description="The core engine for the Vouch App-Security platform.",
     version="1.1.0"
 )
 
@@ -76,15 +81,19 @@ async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
         content={"detail": "Rate limit exceeded. Please slow down."}
     )
 
-# Allow CORS for the Vite dashboard MVP
+# Allow CORS for the frontend (localhost for dev, production URL for prod)
+_cors_origins = [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5174",
+]
+if FRONTEND_URL and FRONTEND_URL not in _cors_origins:
+    _cors_origins.append(FRONTEND_URL)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://localhost:5174",
-        "http://127.0.0.1:5173",
-        "http://127.0.0.1:5174",
-    ],
+    allow_origins=_cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -96,13 +105,13 @@ def verify_api_key(request: Request) -> dict:
     """
     Verify API key from X-API-Key header.
     Looks up the user in the SQLite database.
-    If VIBEGUARD_API_KEY is not set (local dev mode testing), authentication is skipped (returns dummy user).
+    If VOUCH_API_KEY is not set (local dev mode testing), authentication is skipped (returns dummy user).
     """
     api_key = request.headers.get("X-API-Key")
-    expected_local_key = os.environ.get("VIBEGUARD_API_KEY")
+    expected_local_key = os.environ.get("VOUCH_API_KEY")
 
     if not expected_local_key:
-        print("⚠️  WARNING: VIBEGUARD_API_KEY not set. API is open (Dev Mode).")
+        print("⚠️  WARNING: VOUCH_API_KEY not set. API is open (Dev Mode).")
         return {"id": None, "plan": "free", "api_key": None}
 
     if not api_key:
@@ -120,30 +129,51 @@ def verify_api_key(request: Request) -> dict:
     return user
 
 # --- JWT Helpers for Clerk ---
-_clerk_jwks = None
+# The Clerk Frontend API URL is derived from the publishable key.
+# In production, set CLERK_FRONTEND_API_URL as an environment variable.
+CLERK_FRONTEND_API_URL = os.environ.get(
+    "CLERK_FRONTEND_API_URL",
+    "https://helped-tomcat-65.clerk.accounts.dev"
+)
+CLERK_JWKS_URL = f"{CLERK_FRONTEND_API_URL}/.well-known/jwks.json"
 
-async def get_clerk_jwks():
-    global _clerk_jwks
-    if not _clerk_jwks:
-        clerk_frontend_api = os.environ.get("CLERK_FRONTEND_API_URL")
-        if not clerk_frontend_api:
-            # We don't have the URL right now, return mocked JWKS empty or handle it downstream
-            return {"keys": []}
-        async with httpx.AsyncClient() as client:
-            resp = await client.get(f"{clerk_frontend_api}/.well-known/jwks.json")
-            if resp.status_code == 200:
-                _clerk_jwks = resp.json()
-    return _clerk_jwks
+# PyJWT's built-in JWKS client handles caching and key rotation automatically.
+_jwks_client = jwt.PyJWKClient(CLERK_JWKS_URL)
 
 def verify_clerk_token(token: str) -> str:
-    """Verifies a Clerk JWT and returns the user ID (sub)."""
-    # For MVP we can decode without strict validation if no URL is set, 
-    # but in a real app we'd validate the signature against the JWKS using PyJWT[crypto]
+    """
+    Verifies a Clerk JWT using RSA256 signature verification against the JWKS endpoint.
+    Returns the user ID (sub claim) on success.
+    Raises HTTPException on failure.
+    """
     try:
-        payload = jwt.decode(token, options={"verify_signature": False})
-        return payload.get("sub")
-    except Exception as e:
+        # 1. Fetch the correct signing key from Clerk's JWKS endpoint
+        signing_key = _jwks_client.get_signing_key_from_jwt(token)
+
+        # 2. Decode AND verify the token signature, expiration, and issuer
+        payload = jwt.decode(
+            token,
+            signing_key.key,
+            algorithms=["RS256"],
+            options={
+                "verify_signature": True,
+                "verify_exp": True,
+                "verify_aud": False,  # Clerk doesn't always set 'aud' for frontend tokens
+            }
+        )
+        
+        user_id = payload.get("sub")
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Token missing 'sub' claim.")
+        
+        return user_id
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Authentication token has expired. Please sign in again.")
+    except jwt.InvalidTokenError as e:
         raise HTTPException(status_code=401, detail=f"Invalid Authentication Token: {e}")
+    except Exception as e:
+        raise HTTPException(status_code=401, detail=f"Authentication failed: {e}")
+
 
 # --- Helpers ---
 
@@ -158,7 +188,7 @@ def _is_sensitive_file(filename: str) -> bool:
 
 def _redact_sensitive_lines(content: str) -> str:
     """Redact lines containing passwords, keys, or secrets."""
-    return SENSITIVE_LINE_PATTERNS.sub("[REDACTED BY VIBEGUARD]", content)
+    return SENSITIVE_LINE_PATTERNS.sub("[REDACTED BY VOUCH]", content)
 
 
 def _validate_zip_safety(zip_ref: zipfile.ZipFile, extract_dir: str):
@@ -200,7 +230,7 @@ def _validate_zip_safety(zip_ref: zipfile.ZipFile, extract_dir: str):
 @limiter.limit("5/minute")
 async def generate_user_api_key(request: Request):
     """
-    Accepts a Clerk JWT via Authorization header, validates it, and generates/returns a new long-lived VibeGuard API key.
+    Accepts a Clerk JWT via Authorization header, validates it, and generates/returns a new long-lived Vouch API key.
     Stores the user and key in the database.
     """
     auth_header = request.headers.get("Authorization")
@@ -305,23 +335,12 @@ async def stripe_webhook(request: Request):
         subscription_id = session.get("subscription")
         
         if user_id:
-            conn = database._get_connection()
-            c = conn.cursor()
-            
-            # Determine which tier the user bought based on amount or logic.
-            # Easiest way is to fetch the line items or session details.
-            # But since it's an MVP, let's just default to 'pro' if amount total is 1500, else 'micro'.
             # Determine what was bought
             amount_total = session.get("amount_total", 0)
             
             if amount_total == 1000: # Credits Payment ($10)
-                # Increment additional_credits
-                c.execute('''
-                    UPDATE users 
-                    SET additional_credits = additional_credits + 100,
-                        stripe_customer_id = ?
-                    WHERE id = ?
-                ''', (customer_id, user_id))
+                database.add_credits(user_id, 100, customer_id)
+                print(f"Stripe Webhook: Added 100 credits to user {user_id}.")
             else:
                 # Subscription logic
                 new_tier = "free"
@@ -329,16 +348,9 @@ async def stripe_webhook(request: Request):
                     new_tier = "pro"
                 elif amount_total >= 700: # micro
                     new_tier = "micro"
-                    
-                c.execute('''
-                    UPDATE users 
-                    SET tier = ?, stripe_customer_id = ?, stripe_subscription_id = ?
-                    WHERE id = ?
-                ''', (new_tier, customer_id, subscription_id, user_id))
-            
-            conn.commit()
-            conn.close()
-            print(f"Stripe Webhook: Successfully upgraded user {user_id} to {new_tier}.")
+                
+                database.update_subscription(user_id, new_tier, customer_id, subscription_id)
+                print(f"Stripe Webhook: Successfully upgraded user {user_id} to {new_tier}.")
 
     return {"status": "success"}
 
@@ -346,7 +358,7 @@ async def stripe_webhook(request: Request):
 @app.get("/developer/me")
 async def get_developer_profile(request: Request):
     """
-    Validates Clerk JWT and returns user's VibeGuard API key & stats.
+    Validates Clerk JWT and returns user's Vouch API key & stats.
     Called by the dashboard on mount.
     """
     auth_header = request.headers.get("Authorization")
@@ -366,7 +378,8 @@ async def get_developer_profile(request: Request):
         "api_key": user["api_key"],
         "plan": user["tier"],
         "scan_count": user["scan_count"],
-        "credits": user.get("additional_credits", 0)
+        "credits": user.get("additional_credits", 0),
+        "github_installation_id": user.get("github_installation_id")
     }
 
 
@@ -375,19 +388,55 @@ class ScanRequest(BaseModel):
     language: str = "python"
 
 
+class IgnoreFindingRequest(BaseModel):
+    repo_name: str
+    file_path: str
+    snippet_hash: str
+
+
+@app.post("/developer/ignore-finding")
+async def ignore_finding_endpoint(req: IgnoreFindingRequest, request: Request):
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing Bearer Token")
+        
+    token = auth_header.split(" ")[1]
+    clerk_id = verify_clerk_token(token)
+    if not clerk_id:
+        raise HTTPException(status_code=401, detail="Invalid Clerk Token")
+        
+    success = database.ignore_finding(clerk_id, req.repo_name, req.file_path, req.snippet_hash)
+    if not success:
+        raise HTTPException(status_code=500, detail="Failed to ignore finding")
+    return {"status": "success", "ignored": True}
+
+
+def filter_ignored_findings(findings: list, clerk_id: str, repo_name: str) -> list:
+    """Removes findings that the user has previously ignored for this repository."""
+    filtered = []
+    for f in findings:
+        h = f.get("snippet_hash")
+        # Optimization: only check DB if hash is present
+        if h and database.is_finding_ignored(clerk_id, repo_name, f.get("file", "unknown_file"), h):
+            print(f"🔇 Muting ignored finding: {f.get('rule_id')} in {f.get('file')}")
+            continue
+        filtered.append(f)
+    return filtered
+
+
 @app.get("/")
 def read_root():
-    return {"status": "VibeGuard Engine Active"}
+    return {"status": "Vouch Engine Active"}
 
 
 @app.on_event("startup")
 def startup_event():
-    """Initialize the SQLite database on server start."""
+    """Initialize the PostgreSQL database on server start."""
     database.init_db()
-    if VIBEGUARD_API_KEY:
+    if VOUCH_API_KEY:
         print("🔑 API Key authentication is ENABLED.")
     else:
-        print("⚠️  API Key authentication is DISABLED (VIBEGUARD_API_KEY not set).")
+        print("⚠️  API Key authentication is DISABLED (VOUCH_API_KEY not set).")
 
 
 @app.post("/scan")
@@ -406,11 +455,15 @@ async def scan_code(scan_req: ScanRequest, request: Request, user: dict = Depend
     # 2. Extract the summary for the LLM
     findings_summary = extract_findings_summary(semgrep_output)
 
+    # Filter out muted findings
+    if user and user.get("clerk_id"):
+        findings_summary = filter_ignored_findings(findings_summary, user["clerk_id"], "unknown_repo")
+
     # 3. Fast-path: no vulnerabilities
     if not findings_summary:
         final_result = {
             "score": 100,
-            "summary": "Secure! No vulnerabilities detected by VibeGuard.",
+            "summary": "Secure! No vulnerabilities detected by Vouch.",
             "issues": []
         }
         # 5. Save scan history metrics & track usage
@@ -527,14 +580,23 @@ async def scan_repo(request: Request, file: UploadFile = File(...), language: st
         gitleaks_findings = extract_gitleaks_summary(gitleaks_output)
         findings_summary.extend(gitleaks_findings)
 
+        # Filter out ignored findings if user is linked
+        if user and user.get("clerk_id"):
+            findings_summary = filter_ignored_findings(findings_summary, user["clerk_id"], "unknown_repo")
+
         # 3. Get the repository context (sensitive files are filtered)
         repo_context = get_repo_context(extract_dir)
+
+        # 3b. Index the repository
+        print(f"📁 Indexing repository in-place: {extract_dir}")
+        code_indexer.index_repository(extract_dir)
 
         # 4. Use 2-Stage LLM to deeply analyze and translate findings
         translated_report = translate_repo_findings(
             code_context=repo_context,
             language=language,
-            findings=findings_summary
+            findings=findings_summary,
+            code_indexer=code_indexer
         )
 
         # 5. Save to database
@@ -548,6 +610,51 @@ async def scan_repo(request: Request, file: UploadFile = File(...), language: st
 
     finally:
         shutil.rmtree(temp_dir, ignore_errors=True)
+
+
+# --- Viral Loop Badges ---
+
+@app.get("/badge/{installation_id}")
+async def get_security_badge(installation_id: str):
+    """
+    Returns a dynamic SVG badge representing the latest security score for this installation.
+    """
+    score = database.get_latest_score_by_installation(installation_id)
+    
+    # Determine color (Tailwind palette)
+    if score >= 90:
+        color = "#4ade80" # Green
+    elif score >= 70:
+        color = "#facc15" # Yellow
+    else:
+        color = "#f87171" # Red
+        
+    svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="130" height="20">
+  <linearGradient id="b" x2="0" y2="100%">
+    <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
+    <stop offset="1" stop-opacity=".1"/>
+  </linearGradient>
+  <mask id="a">
+    <rect width="130" height="20" rx="3" fill="#fff"/>
+  </mask>
+  <g mask="url(#a)">
+    <path fill="#555" d="M0 0h75v20H0z"/>
+    <path fill="{color}" d="M75 0h55v20H75z"/>
+    <path fill="url(#b)" d="M0 0h130v20H0z"/>
+  </g>
+  <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
+    <text x="37.5" y="15" fill="#010101" fill-opacity=".3">Vouch</text>
+    <text x="37.5" y="14">Vouch</text>
+    <text x="101.5" y="15" fill="#010101" fill-opacity=".3">Score {score}</text>
+    <text x="101.5" y="14">Score {score}</text>
+  </g>
+</svg>'''
+    
+    # Cache for 1 hour so GitHub doesn't hammer our API when viewers look at READMEs
+    headers = {
+        "Cache-Control": "public, max-age=3600"
+    }
+    return Response(content=svg, media_type="image/svg+xml", headers=headers)
 
 
 # --- Scan History Endpoints ---
@@ -578,6 +685,31 @@ async def remove_scan(scan_id: str, _auth=Depends(verify_api_key)):
 
 # --- GitHub App Webhook Integration ---
 
+from fastapi.responses import RedirectResponse
+
+@app.get("/github/callback")
+async def github_callback(
+    installation_id: str,
+    setup_action: str = None,
+    state: str = None
+):
+    """
+    Handles the redirect from GitHub after a user installs the Vouch GitHub App.
+    The 'state' parameter should contain the user's Clerk ID, passed securely from the frontend.
+    """
+    if not installation_id or not state:
+        # If we failed to get installation data, redirect back to dashboard with error
+        return RedirectResponse(url=f"{FRONTEND_URL}/developer?installation=error")
+
+    # Link the installation ID to the Vouch User
+    linked = database.link_github_installation(clerk_id=state, installation_id=installation_id)
+    
+    # Redirect back to the developer dashboard
+    if linked:
+        return RedirectResponse(url=f"{FRONTEND_URL}/developer?installation=success&id={installation_id}")
+    else:
+        return RedirectResponse(url=f"{FRONTEND_URL}/developer?installation=error")
+
 async def process_github_webhook(payload: dict, event_name: str):
     """Background task to handle analyzing the PR and posting the comment."""
     if event_name != "pull_request" or payload.get("action") not in ["opened", "synchronize"]:
@@ -594,6 +726,7 @@ async def process_github_webhook(payload: dict, event_name: str):
     owner = repository["owner"]["login"]
     repo_name = repository["name"]
     pr_number = pull_request["number"]
+    head_sha = pull_request["head"]["sha"]
 
     # Generate Installation Token
     token = await github_app.get_installation_access_token(installation_id)
@@ -601,7 +734,14 @@ async def process_github_webhook(payload: dict, event_name: str):
         print("❌ Could not get installation token")
         return
 
-    # Check database to see if this installation is linked to a VibeGuard User
+    # Post initial 'pending' status
+    await github_app.post_status_check(
+        token, owner, repo_name, head_sha,
+        state="pending",
+        description="Vouch scanning PR for security issues..."
+    )
+
+    # Check database to see if this installation is linked to a Vouch User
     user = database.get_user_by_installation_id(str(installation_id))
     if not user:
         print(f"⚠️ Webhook received for unlinked installation {installation_id}. Skipping scan.")
@@ -636,15 +776,41 @@ async def process_github_webhook(payload: dict, event_name: str):
 
     code_context = "\n".join(context_files)
     
+    if user and user.get("clerk_id"):
+        findings_summary = filter_ignored_findings(findings_summary, user["clerk_id"], repo_name)
+    
+    # --- Indexing Step ---
+    # We index the repository asynchronously to keep the PR feedback fast.
+    # For now, we simulate a local repo path for the indexer.
+    # In a real environment, this would be a persistent volume attached to the installation.
+    with tempfile.TemporaryDirectory() as repo_dir:
+        # Download all files in the repo for indexing (or just the diff)
+        # For the MVP indexer, we need a directory structure.
+        # This is a placeholder for a more advanced VFS or shared persistent disk.
+        print(f"📁 Indexing repository: {repo_name}")
+        for df in diff_files:
+            if df.get("status") not in ("removed", "deleted"):
+                filename = df.get("filename", "")
+                content = await github_app.fetch_file_content(token, df.get("raw_url"))
+                if content:
+                    file_path = os.path.join(repo_dir, filename)
+                    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+                    with open(file_path, "w") as f:
+                        f.write(content)
+        
+        # Incremental Indexing
+        code_indexer.index_repository(repo_dir)
+
     # Send to AI
     translated_report = translate_repo_findings(
         code_context=code_context,
         language="javascript", # Fallback language, could auto-detect
-        findings=findings_summary # Mocked until local diff VFS is implemented
+        findings=findings_summary, # Mocked until local diff VFS is implemented
+        code_indexer=code_indexer
     )
     
     # Post PR Comment
-    comment_body = f"## 🛡️ VibeGuard Security Analysis\n**Score:** {translated_report.get('score', 0)}/100\n\n**Summary:**\n{translated_report.get('summary', '')}"
+    comment_body = f"## 🛡️ Vouch Security Analysis\n**Score:** {translated_report.get('score', 0)}/100\n\n**Summary:**\n{translated_report.get('summary', '')}"
     
     for issue in translated_report.get('issues', []):
         comment_body += f"\n\n### ⚠️ {issue.get('title')} ({issue.get('severity')})"
@@ -653,6 +819,20 @@ async def process_github_webhook(payload: dict, event_name: str):
             comment_body += f"\n\n**Fix Strategy:** {issue.get('how_to_fix')}\n```\n{issue.get('fixed_code_snippet')}\n```"
 
     await github_app.post_pr_comment(token, owner, repo_name, pr_number, comment_body)
+    
+    # Post Final Status Check to block merges if score is low
+    final_score = translated_report.get('score', 0)
+    final_state = "success" if final_score >= 90 else "failure"
+    status_desc = f"Vouch Security Score: {final_score}/100"
+    if final_score < 90:
+        status_desc += " (Issues Found)"
+        
+    await github_app.post_status_check(
+        token, owner, repo_name, head_sha,
+        state=final_state,
+        description=status_desc
+    )
+    
     
     # Save to Database using the linked user
     database.save_scan("github_pr", "javascript", translated_report, user_id=user.get("id"))
@@ -667,7 +847,7 @@ async def github_webhook(
     x_hub_signature_256: str = Header(None)
 ):
     """
-    Receives Webhooks from the VibeGuard GitHub App.
+    Receives Webhooks from the Vouch GitHub App.
     Verifies the SHA256 signature and offloads the analysis to a background task.
     """
     secret = github_app.GITHUB_WEBHOOK_SECRET

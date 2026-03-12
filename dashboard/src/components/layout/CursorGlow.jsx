@@ -14,7 +14,7 @@ export default function CursorGlow() {
         const config = {
             thickness: 3,             // Base width of the laser core
             glowSize: 15,             // The neon bloom size
-            glowColor: '#9370FF',     // VibeGuard Purple Neon
+            glowColor: '#9370FF',     // Vouch Purple Neon
             fadeSpeed: 0.05           // How fast the trail vanishes (higher = faster)
         };
 

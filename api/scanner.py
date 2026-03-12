@@ -109,20 +109,30 @@ def run_semgrep_on_dir(directory_path: str) -> dict:
 def extract_findings_summary(semgrep_json: dict) -> list:
     """
     Extracts the most relevant parts of the semgrep output for AI processing.
+    Computes a snippet_hash for False Positive muting.
     """
+    import hashlib
     results = semgrep_json.get("results", [])
     summarized_findings = []
     
     for r in results:
         # Include file path for repo scans
         file_path = r.get("path", "unknown_file")
+        rule_id = r.get("check_id", "")
+        code_snippet = r.get("extra", {}).get("lines", "").strip()
+        
+        # Create a stable hash to identify this exact finding
+        hash_input = f"{rule_id}:{code_snippet}".encode("utf-8")
+        snippet_hash = hashlib.md5(hash_input).hexdigest()
+        
         summarized_findings.append({
-            "rule_id": r.get("check_id"),
+            "rule_id": rule_id,
             "file": file_path,
             "message": r.get("extra", {}).get("message", ""),
             "severity": r.get("extra", {}).get("severity", "WARNING"),
             "line": r.get("start", {}).get("line"),
-            "code snippet": r.get("extra", {}).get("lines", "").strip()
+            "code snippet": code_snippet,
+            "snippet_hash": snippet_hash
         })
         
     return summarized_findings
@@ -166,6 +176,7 @@ def extract_npm_audit_summary(npm_audit_json: dict) -> list:
     Extracts HIGH and CRITICAL severity findings from npm audit.
     Formats them similarly to Semgrep findings so the LLM can process them uniformly.
     """
+    import hashlib
     if not npm_audit_json or "vulnerabilities" not in npm_audit_json:
         return []
         
@@ -185,13 +196,20 @@ def extract_npm_audit_summary(npm_audit_json: dict) -> list:
                 url = first_via.get("url", "")
                 message = f"Vulnerable package '{pkg_name}': {title}. Reference: {url}"
 
+            rule_id = f"npm-audit-{pkg_name}"
+            code_snippet = f"\"{pkg_name}\": \"{vuln_details.get('range', 'any')}\""
+            
+            hash_input = f"{rule_id}:{code_snippet}".encode("utf-8")
+            snippet_hash = hashlib.md5(hash_input).hexdigest()
+
             summarized_findings.append({
-                "rule_id": f"npm-audit-{pkg_name}",
+                "rule_id": rule_id,
                 "file": "package.json",
                 "message": message,
                 "severity": severity,
                 "line": 0, # Not line specific
-                "code snippet": f"\"{pkg_name}\": \"{vuln_details.get('range', 'any')}\""
+                "code snippet": code_snippet,
+                "snippet_hash": snippet_hash
             })
             
     return summarized_findings
@@ -232,6 +250,7 @@ def extract_gitleaks_summary(gitleaks_json: list) -> list:
     """
     Extracts findings from gitleaks and formats them for the LLM.
     """
+    import hashlib
     if not gitleaks_json:
         return []
         
@@ -248,14 +267,18 @@ def extract_gitleaks_summary(gitleaks_json: list) -> list:
         if "/" in file_path:
             file_path = file_path.split("/")[-1]
 
+        rule_id = f"gitleaks-{finding.get('RuleID', 'secret')}"
+        hash_input = f"{rule_id}:{safe_snippet}".encode("utf-8")
+        snippet_hash = hashlib.md5(hash_input).hexdigest()
+
         summarized_findings.append({
-            "rule_id": f"gitleaks-{finding.get('RuleID', 'secret')}",
+            "rule_id": rule_id,
             "file": file_path,
             "message": f"Hardcoded secret detected: {finding.get('Description', 'Sensitive Key')}",
             "severity": "CRITICAL",
             "line": finding.get("StartLine", 0),
-            "code snippet": safe_snippet
+            "code snippet": safe_snippet,
+            "snippet_hash": snippet_hash
         })
         
     return summarized_findings
-

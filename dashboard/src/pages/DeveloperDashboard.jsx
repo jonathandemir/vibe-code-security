@@ -15,10 +15,11 @@ export default function DeveloperDashboard() {
     const [loadingTier, setLoadingTier] = useState(null);
     const [githubConnected, setGithubConnected] = useState(false);
     const [installMessage, setInstallMessage] = useState(null);
+    const [installationId, setInstallationId] = useState(null);
 
-    const API_BASE = import.meta.env.VITE_API_BASE || 'https://vibeguard-api.onrender.com';
+    const API_BASE = import.meta.env.VITE_API_BASE || 'https://vouch-api.onrender.com';
     // Provide a fallback GitHub App Name if not set in environment
-    const GITHUB_APP_NAME = import.meta.env.VITE_GITHUB_APP_NAME || 'vibeguard-security';
+    const GITHUB_APP_NAME = import.meta.env.VITE_GITHUB_APP_NAME || 'vouch-security';
 
     const handleCheckout = async (tier) => {
         setLoadingTier(tier);
@@ -61,6 +62,7 @@ export default function DeveloperDashboard() {
                     setCredits(data.credits || 0);
                     if (data.github_installation_id) {
                         setGithubConnected(true);
+                        setInstallationId(data.github_installation_id);
                     }
                 }
             } catch (err) {
@@ -231,7 +233,7 @@ export default function DeveloperDashboard() {
                         <div className="flex-1 space-y-2">
                             <h3 className="text-lg font-semibold text-white">Automate Pull Request Security</h3>
                             <p className="text-neutral-400 text-sm leading-relaxed">
-                                Install the VibeGuard native GitHub App to automatically scan every Pull Request for Vibe-Fails. 
+                                Install the Vouch native GitHub App to automatically scan every Pull Request for Vibe-Fails. 
                                 We will post a detailed security review directly into the PR. 
                                 <span className="text-[#7B61FF] font-medium ml-1">No API keys or code changes required.</span>
                             </p>
@@ -256,6 +258,40 @@ export default function DeveloperDashboard() {
                         </div>
                     </div>
                 </div>
+
+                {/* Viral Loop Badge (Only shown if connected) */}
+                {githubConnected && installationId && (
+                    <div className="glass-panel p-8 rounded-2xl border border-white/5 space-y-6">
+                        <div className="flex items-center space-x-3">
+                            <Shield className="w-6 h-6 text-[#7B61FF]" />
+                            <h2 className="text-xl font-bold">Vouch Security Badge</h2>
+                        </div>
+                        <p className="text-neutral-400 text-sm">
+                            Show off your repository's automated security posture in your <code>README.md</code>. We dynamically generate this SVG based on your latest PR scans.
+                        </p>
+                        
+                        <div className="flex flex-col space-y-4">
+                            <div className="p-4 bg-[#0A0A14] border border-white/5 rounded-xl flex items-center justify-center">
+                                <img src={`${API_BASE}/badge/${installationId}`} alt="Vouch Security Badge" className="h-5" />
+                            </div>
+                            
+                            <div className="flex items-center space-x-3 w-full">
+                                <code className="flex-1 bg-[#0A0A14] border border-white/10 rounded-xl px-4 py-3 font-mono text-xs text-[#7B61FF] overflow-x-auto whitespace-nowrap">
+                                    {`[![Vouch Score](${API_BASE}/badge/${installationId})](https://vouch-secure.com)`}
+                                </code>
+                                <button
+                                    onClick={() => {
+                                        navigator.clipboard.writeText(`[![Vouch Score](${API_BASE}/badge/${installationId})](https://vouch-secure.com)`);
+                                    }}
+                                    className="shrink-0 flex items-center space-x-1.5 px-4 py-3 rounded-xl border border-white/10 text-sm text-neutral-300 hover:text-[#F0EFF4] hover:border-[#7B61FF]/40 hover:bg-[#7B61FF]/10 transition-all"
+                                >
+                                    <Copy className="w-4 h-4" />
+                                    <span>Copy Markdown</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Upgrade CTA (only for free users) */}
                 {plan === 'free' && (

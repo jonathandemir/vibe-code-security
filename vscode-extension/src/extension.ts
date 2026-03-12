@@ -4,10 +4,10 @@ import axios from 'axios';
 let diagnosticCollection: vscode.DiagnosticCollection;
 
 export function activate(context: vscode.ExtensionContext) {
-    diagnosticCollection = vscode.languages.createDiagnosticCollection('vibeguard');
+    diagnosticCollection = vscode.languages.createDiagnosticCollection('vouch');
     context.subscriptions.push(diagnosticCollection);
 
-    const scanCommand = vscode.commands.registerCommand('vibeguard.scanFile', async () => {
+    const scanCommand = vscode.commands.registerCommand('vouch.scanFile', async () => {
         await scanCurrentFile();
     });
 
@@ -15,8 +15,8 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Code Action Provider for Quick Fixes (The lightbulb)
     context.subscriptions.push(
-        vscode.languages.registerCodeActionsProvider('*', new VibeGuardFixProvider(), {
-            providedCodeActionKinds: VibeGuardFixProvider.providedCodeActionKinds
+        vscode.languages.registerCodeActionsProvider('*', new VouchFixProvider(), {
+            providedCodeActionKinds: VouchFixProvider.providedCodeActionKinds
         })
     );
 }
@@ -24,7 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
 async function scanCurrentFile() {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
-        vscode.window.showInformationMessage('VibeGuard: No active editor found.');
+        vscode.window.showInformationMessage('Vouch: No active editor found.');
         return;
     }
 
@@ -33,15 +33,15 @@ async function scanCurrentFile() {
     if (!code.trim()) return;
 
     // Retrieve settings
-    const config = vscode.workspace.getConfiguration('vibeguard');
+    const config = vscode.workspace.getConfiguration('vouch');
     // Hardcoding to prevent cached VS Code settings from pointing to the wrong URL
-    const apiUrl = 'https://vibeguard-api.onrender.com';
+    const apiUrl = 'https://vouch-api.onrender.com';
     const apiKey = config.get<string>('apiKey', '');
     const language = document.languageId;
 
     vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
-        title: "VibeGuard",
+        title: "Vouch",
         cancellable: false
     }, async (progress) => {
         progress.report({ message: "Analyzing code for vulnerabilities..." });
@@ -61,13 +61,13 @@ async function scanCurrentFile() {
             updateDiagnostics(document, results.issues || []);
 
             if (results.score === 100) {
-                vscode.window.showInformationMessage(`VibeGuard (Score 100): ${results.summary}`);
+                vscode.window.showInformationMessage(`Vouch (Score 100): ${results.summary}`);
             } else {
-                vscode.window.showWarningMessage(`VibeGuard (Score: ${results.score}): ${results.summary}`);
+                vscode.window.showWarningMessage(`Vouch (Score: ${results.score}): ${results.summary}`);
             }
 
         } catch (error: any) {
-            vscode.window.showErrorMessage(`VibeGuard Scan Failed: ${error.message}`);
+            vscode.window.showErrorMessage(`Vouch Scan Failed: ${error.message}`);
         }
     });
 }
@@ -95,10 +95,10 @@ function updateDiagnostics(document: vscode.TextDocument, issues: any[]) {
 
         const diagnosticMessage = `🚨 ${issue.title}\n\n${issue.description}\n\n💡 How to fix:\n${issue.how_to_fix}`;
         const diagnostic = new vscode.Diagnostic(range, diagnosticMessage, severity);
-        diagnostic.source = 'VibeGuard';
+        diagnostic.source = 'Vouch';
 
         // Attach the fixed snippet to the diagnostic for the Quick Fix provider
-        (diagnostic as any).fixedCode = issue.fixed_code_snippet;
+        (diagnostic as any).fix = issue.fixed_code_snippet;
 
         diagnostics.push(diagnostic);
     });
@@ -106,28 +106,24 @@ function updateDiagnostics(document: vscode.TextDocument, issues: any[]) {
     diagnosticCollection.set(document.uri, diagnostics);
 }
 
-class VibeGuardFixProvider implements vscode.CodeActionProvider {
+class VouchFixProvider implements vscode.CodeActionProvider {
     public static readonly providedCodeActionKinds = [
         vscode.CodeActionKind.QuickFix
     ];
 
     public provideCodeActions(document: vscode.TextDocument, range: vscode.Range, context: vscode.CodeActionContext): vscode.CodeAction[] {
         const actions: vscode.CodeAction[] = [];
-
-        context.diagnostics.filter(diagnostic => diagnostic.source === 'VibeGuard').forEach(diagnostic => {
-            const fixedCode = (diagnostic as any).fixedCode;
-            if (fixedCode) {
-                const action = new vscode.CodeAction('🛡️ VibeGuard: Apply Recommended Fix', vscode.CodeActionKind.QuickFix);
+        context.diagnostics.filter(diagnostic => diagnostic.source === 'Vouch').forEach(diagnostic => {
+            const fix = (diagnostic as any).fix;
+            if (fix) {
+                const action = new vscode.CodeAction('🛡️ Vouch: Apply Recommended Fix', vscode.CodeActionKind.QuickFix);
                 action.edit = new vscode.WorkspaceEdit();
-
-                // Replace the vulnerable range with the LLM's fixed code
-                action.edit.replace(document.uri, diagnostic.range, fixedCode);
+                action.edit.replace(document.uri, diagnostic.range, fix);
                 action.diagnostics = [diagnostic];
                 action.isPreferred = true;
                 actions.push(action);
             }
         });
-
         return actions;
     }
 }

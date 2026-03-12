@@ -1,12 +1,12 @@
 {
-    "name": "vibeguard",
-    "displayName": "VibeGuard Security Scanner",
-    "description": "The Stripe of App-Security: AI-powered automated vulnerability fixes for Vibe-Coders.",
+    "name": "vouch",
+    "displayName": "Vouch Security Scanner",
+    "description": "Vouch for your code. AI-native security in 300 seconds: AI-powered automated vulnerability fixes for Vibe-Coders.",
     "version": "0.1.0",
-    "publisher": "vibeguard-hq",
+    "publisher": "vouch-secure",
     "repository": {
         "type": "git",
-        "url": "https://github.com/vibeguard-hq/vibe-code-security.git"
+        "url": "https://github.com/vouch-secure/vouch-secure.git"
     },
     "engines": {
         "vscode": "^1.80.0"
@@ -19,29 +19,29 @@
     "contributes": {
         "commands": [
             {
-                "command": "vibeguard.scanFile",
-                "title": "VibeGuard: Scan Current File"
+                "command": "vouch.scanFile",
+                "title": "Vouch: Scan Current File"
             }
         ],
         "configuration": {
-            "title": "VibeGuard API Configuration",
+            "title": "Vouch API Configuration",
             "properties": {
-                "vibeguard.apiKey": {
+                "vouch.apiKey": {
                     "type": "string",
                     "default": "",
-                    "description": "Your VibeGuard API Key (found in Dashboard)"
+                    "description": "Your Vouch API Key (found in Dashboard)"
                 },
-                "vibeguard.apiUrl": {
+                "vouch.apiUrl": {
                     "type": "string",
-                    "default": "https://vibe-code-security-api.onrender.com",
-                    "description": "VibeGuard Base API URL"
+                    "default": "https://vouch-api.onrender.com",
+                    "description": "Vouch Base API URL"
                 }
             }
         },
         "menus": {
             "editor/context": [
                 {
-                    "command": "vibeguard.scanFile",
+                    "command": "vouch.scanFile",
                     "group": "security@1"
                 }
             ]

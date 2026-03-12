@@ -10,7 +10,7 @@ export default function Footer() {
                     <div className="col-span-1 md:col-span-1">
                         <Link to="/" className="flex items-center space-x-2">
                             <Shield className="w-5 h-5 text-emerald-400" />
-                            <span className="text-lg font-bold tracking-tight text-white">VibeGuard</span>
+                            <span className="text-lg font-bold tracking-tight text-white">Vouch</span>
                         </Link>
                         <p className="mt-4 text-sm text-neutral-500">
                             The invisible security engine for Vibe-Coders and Solo Devs. Ship fast, stay secure.
@@ -30,7 +30,7 @@ export default function Footer() {
                         <h3 className="text-sm font-semibold text-white tracking-wider uppercase">Company</h3>
                         <ul className="mt-4 space-y-2">
                             <li><Link to="/goal" className="text-sm text-neutral-400 hover:text-emerald-400 transition-colors">Our Goal</Link></li>
-                            <li><a href="https://github.com/vibeguard-hq" target="_blank" rel="noreferrer" className="text-sm text-neutral-400 hover:text-emerald-400 transition-colors">GitHub</a></li>
+                            <li><a href="https://github.com/vouch-secure" target="_blank" rel="noreferrer" className="text-sm text-neutral-400 hover:text-emerald-400 transition-colors">GitHub</a></li>
                             <li><a href="#" className="text-sm text-neutral-400 hover:text-emerald-400 transition-colors">Twitter (X)</a></li>
                         </ul>
                     </div>
@@ -46,7 +46,7 @@ export default function Footer() {
                 </div>
                 <div className="mt-12 border-t border-white/5 pt-8 flex items-center justify-between">
                     <p className="text-sm text-neutral-500">
-                        &copy; {new Date().getFullYear()} VibeGuard. All rights reserved.
+                        &copy; {new Date().getFullYear()} Vouch. All rights reserved.
                     </p>
                 </div>
             </div>

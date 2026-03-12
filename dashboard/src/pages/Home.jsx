@@ -62,7 +62,7 @@ export default function Home() {
                             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                             className="text-lg md:text-xl text-neutral-400 font-sans max-w-xl mb-12"
                         >
-                            The invisible security engine for Vibe-Coders. Ship AI-generated code 10x faster without the critical vulnerabilities.
+                            Vouch for your code. AI-Native Security in 300 seconds. Ship AI-generated code 10x faster without the critical vulnerabilities.
                         </motion.p>
                     </div>
 
@@ -159,7 +159,7 @@ export default function Home() {
                                 <div className="text-cyan-400 font-mono text-sm mb-4 relative z-10">02 // The Execution</div>
                                 <h3 className="text-3xl font-sans font-semibold text-[#F0EFF4] mb-4 relative z-10">Set it & <span className="text-neutral-500">Forget it.</span></h3>
                                 <p className="text-neutral-400 font-sans relative z-10">
-                                    Zero-configuration multi-layer systems. We provide clear, human-readable answers and exact code fixes. <strong>No CISO degree required.</strong> Drop in the proxy, hook up the GitHub Action, and VibeGuard handles the rest on autopilot.
+                                    Zero-configuration multi-layer systems. We provide clear, human-readable answers and exact code fixes. <strong>No CISO degree required.</strong> Drop in the proxy, hook up the GitHub App, and Vouch handles the rest on autopilot.
                                 </p>
                             </div>
                         </motion.div>
@@ -199,7 +199,7 @@ export default function Home() {
                             See It In Action
                         </div>
                         <h2 className="text-3xl md:text-5xl font-sans font-semibold text-[#F0EFF4] tracking-tight">
-                            Watch VibeGuard <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Secure Code</span>
+                            Watch Vouch <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Secure Code</span>
                         </h2>
                     </div>
 
@@ -229,12 +229,12 @@ export default function Home() {
                             <p className="mb-6 text-[#7B61FF]/60">Total 3 (delta 1), reused 0 (delta 0)</p>
 
                             <motion.div animate={{ opacity: [0.5, 1, 0.5] }} transition={{ repeat: Infinity, duration: 2 }}>
-                                <p className="mb-2 text-rose-400/80">{"[VibeGuard]"} Intercepting push event...</p>
+                                <p className="mb-2 text-rose-400/80">{"[Vouch]"} Intercepting push event...</p>
                             </motion.div>
 
-                            <p className="mb-2">{"[VibeGuard]"} Scanning for logic flaws & AI-hallucinated secrets...</p>
-                            <p className="mb-2">{"[VibeGuard]"} Analyzing diff...</p>
-                            <p className="mt-4 text-emerald-400/80">{"[VibeGuard]"} 1 Issue found. Auto-generating secure patch via Gemini Pro...</p>
+                            <p className="mb-2">{"[Vouch]"} Scanning for logic flaws & AI-hallucinated secrets...</p>
+                            <p className="mb-2">{"[Vouch]"} Analyzing diff...</p>
+                            <p className="mt-4 text-emerald-400/80">{"[Vouch]"} 1 Issue found. Auto-generating secure patch via Gemini Pro...</p>
                         </div>
                     </motion.div>
                 </div>
@@ -399,7 +399,7 @@ export default function Home() {
                                 <div className="text-emerald-400 font-mono text-sm mb-2">Step 03</div>
                                 <h3 className="text-2xl font-sans font-semibold text-[#F0EFF4] mb-3">Auto-Fix PR</h3>
                                 <p className="text-neutral-400 font-sans leading-relaxed">
-                                    Instead of a vague report, VibeGuard comments directly on your Pull Request containing the exact, copy-pasteable code required to fix the vulnerability.
+                                    Instead of a vague report, Vouch comments directly on your Pull Request containing the exact, copy-pasteable code required to fix the vulnerability.
                                 </p>
                             </div>
                         </motion.div>
@@ -437,7 +437,7 @@ export default function Home() {
 
                         <p className="text-xl md:text-2xl text-slate-300 font-sans leading-relaxed max-w-3xl mx-auto mb-12">
                             Generative AI makes it incredibly fun to build projects in hours. But the fear of getting hacked keeps them hidden.
-                            <strong> VibeGuard gives you the absolute confidence to actually publish.</strong> Turn your weekend side-projects into production-ready apps without the anxiety.
+                            <strong> Vouch gives you the absolute confidence to actually publish.</strong> Turn your weekend side-projects into production-ready apps without the anxiety.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-6">

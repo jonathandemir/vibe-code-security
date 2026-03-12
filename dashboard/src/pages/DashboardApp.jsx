@@ -1,4 +1,4 @@
-// VibeGuard Dashboard v2 — with Scan History
+// Vouch Dashboard v2 — with Scan History
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, ShieldAlert, ShieldCheck, Code2, Loader2, KeyRound, UploadCloud, FolderSync, FileArchive, Lock } from 'lucide-react';
@@ -380,7 +380,7 @@ function App() {
                   <Shield className="w-16 h-16 text-neutral-800 mb-4" />
                   <h3 className="text-lg font-sans font-medium text-neutral-400">System Ready</h3>
                   <p className="text-sm font-sans mt-2 max-w-sm text-center">
-                    Paste your code and initialize scan to see your VibeGuard Security Score.
+                    Paste your code and initialize scan to see your Vouch Security Score.
                   </p>
                   <div className="mt-8 flex gap-4 text-xs font-mono">
                     <span className="flex items-center gap-1.5 bg-[#0A0A14] px-3 py-1.5 rounded-full text-neutral-400 border border-white/5">
