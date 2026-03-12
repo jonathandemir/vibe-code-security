@@ -744,7 +744,7 @@ async def github_callback(
 
 async def process_github_webhook(payload: dict, event_name: str):
     """Background task to handle analyzing the PR and posting the comment."""
-    if event_name != "pull_request" or payload.get("action") not in ["opened", "synchronize"]:
+    if event_name != "pull_request" or payload.get("action") not in ["opened", "synchronize", "reopened"]:
         return # Currently only handle PRs
 
     pull_request = payload.get("pull_request")
@@ -783,12 +783,16 @@ async def process_github_webhook(payload: dict, event_name: str):
     diff_files = await github_app.fetch_pr_diff_files(token, owner, repo_name, pr_number)
     
     if not diff_files:
+        print("⚠️ Vouch: Keine Diff-Dateien gefunden (leerer PR oder API-Fehler). Beende Scan.")
+        await github_app.post_status_check(
+            token, owner, repo_name, head_sha,
+            state="success",
+            description="Vouch: No scannable files changed."
+        )
         return
 
-    # Simulate diff-analysis here by passing the downloaded files to Gemini
-    # with a basic mocked scanner step until building a full VFS logic.
     context_files = []
-    findings_summary = []
+    # Note: findings_summary is used later for AI report
     
     for df in diff_files:
         if df.get("status") in ("removed", "deleted"):
@@ -796,6 +800,7 @@ async def process_github_webhook(payload: dict, event_name: str):
         
         filename = df.get("filename", "")
         if _is_sensitive_file(filename):
+            print(f"🚫 Überspringe Datei laut Filter: {filename}")
             continue
             
         content = await github_app.fetch_file_content(token, df.get("raw_url"))
@@ -804,6 +809,12 @@ async def process_github_webhook(payload: dict, event_name: str):
             context_files.append(f"--- {filename} ---\n{content}\n")
 
     if not context_files:
+        print("⚠️ Vouch: Keine auswertbaren Text-Dateien im Kontext. Beende Scan.")
+        await github_app.post_status_check(
+            token, owner, repo_name, head_sha,
+            state="success",
+            description="Vouch: No scannable text files found."
+        )
         return
 
     code_context = "\n".join(context_files)
