@@ -799,26 +799,26 @@ async def process_github_webhook(payload: dict, event_name: str):
         
         filename = df.get("filename", "")
         
-        # RADIKALER FIX: Wir ignorieren den sensitive_file Filter komplett für den Scan!
-        print(f"📄 Vouch: Lade Datei für Scan: {filename}")
+        # We process all files including sensitive ones (like .env) to allow AI secret detection.
+        # This is the intended behavior for Vouch PR analysis.
+        print(f"📦 Vouch: Fetching file for analysis: {filename}")
             
-        # Use contents_url with raw accept header instead of raw_url
+        # Use contents_url with raw accept header for reliable fetching
         contents_url = df.get("contents_url")
         if not contents_url:
-            print(f"⚠️ Vouch: Keine contents_url für {filename} gefunden. Versuche raw_url...")
             contents_url = df.get("raw_url")
 
         content = await github_app.fetch_file_content(token, contents_url)
         if content:
-            # Wir schicken den ROHTEXT an die KI, damit sie Fehler findet
+            # We skip content redaction for PR scans to allow the AI to detect hardcoded secrets.
             context_files.append(f"--- {filename} ---\n{content}\n")
 
     if not context_files:
-        print("⚠️ Vouch: Kontext ist immer noch leer.")
+        print("ℹ️ Vouch: No processable files found in PR context.")
         await github_app.post_status_check(
             token, owner, repo_name, head_sha,
             state="success",
-            description="Vouch: Wirklich keine Dateien gefunden."
+            description="Vouch: No scannable code changes found in this PR."
         )
         return
 
