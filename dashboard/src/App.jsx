@@ -1,7 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react';
 
 // Layout & Effects
 import Navbar from './components/layout/Navbar';
@@ -19,8 +18,12 @@ import Legal from './pages/Legal';
 import DashboardApp from './pages/DashboardApp';
 import DeveloperDashboard from './pages/DeveloperDashboard';
 
+// Auth
+import { useSession } from './hooks/useSession';
+
 function AnimatedRoutes() {
     const location = useLocation();
+    const { session } = useSession();
 
     return (
         <AnimatePresence mode="wait">
@@ -33,8 +36,7 @@ function AnimatedRoutes() {
                 <Route path="/dashboard" element={<PageWrapper><DashboardApp /></PageWrapper>} />
                 <Route path="/developer" element={
                     <PageWrapper>
-                        <SignedIn><DeveloperDashboard /></SignedIn>
-                        <SignedOut><RedirectToSignIn /></SignedOut>
+                        {session ? <DeveloperDashboard /> : <Navigate to="/dashboard" replace />}
                     </PageWrapper>
                 } />
             </Routes>

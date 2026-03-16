@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '@clerk/clerk-react';
 import { Check, ChevronDown } from 'lucide-react';
+import { useSession } from '../hooks/useSession';
+import { supabase } from '../lib/supabase';
 
 const QA = [
     { q: "What is the difference between a Core Scan and a Deep Auto-Fix?", a: "A 'Core Scan' is our first line of defense. We use a proprietary, deterministic security heuristic engine to find EVERY potential flaw without missing anything, then use optimized machine learning algorithms to filter out the false-positives. A 'Deep Auto-Fix' uses our most advanced reasoning models to actually write and verify the exact code patch needed to fix the issue." },
@@ -13,19 +14,20 @@ const QA = [
 
 export default function Pricing() {
     const [openFaq, setOpenFaq] = useState(null);
-    const { isSignedIn, getToken } = useAuth();
+    const { session } = useSession();
     const [loadingTier, setLoadingTier] = useState(null);
 
     const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000';
 
     const handleCheckout = async (tier) => {
-        if (!isSignedIn) {
+        if (!session) {
             alert("Please log in or create an account via the Dashboard before subscribing.");
             return;
         }
         setLoadingTier(tier);
         try {
-            const token = await getToken();
+            const { data: authData } = await supabase.auth.getSession();
+            const token = authData?.session?.access_token;
             const res = await fetch(`${API_BASE}/developer/create-checkout-session`, {
                 method: 'POST',
                 headers: {
@@ -34,11 +36,11 @@ export default function Pricing() {
                 },
                 body: JSON.stringify({ tier })
             });
-            const data = await res.json();
-            if (data.url) {
-                window.location.href = data.url;
+            const responseData = await res.json();
+            if (responseData.url) {
+                window.location.href = responseData.url;
             } else {
-                alert("Checkout error: " + (data.detail || "Unknown error"));
+                alert("Checkout error: " + (responseData.detail || "Unknown error"));
             }
         } catch (err) {
             console.error("Failed to begin checkout", err);

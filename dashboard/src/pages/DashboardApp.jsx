@@ -1,14 +1,29 @@
 // Vouch Dashboard v2 — with Scan History
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Shield, ShieldAlert, ShieldCheck, Code2, Loader2, KeyRound, UploadCloud, FolderSync, FileArchive, Lock } from 'lucide-react';
 import ScanResults from '../components/ScanResults';
 import ScanHistory from '../components/ScanHistory';
-import { useAuth, useClerk } from '@clerk/clerk-react';
+import { useSession } from '../hooks/useSession';
+import VouchAuthView from '../components/VouchAuthView';
 
 function App() {
-  const { isSignedIn } = useAuth();
-  const { openSignUp } = useClerk();
+  const { session, loading } = useSession();
+  const navigate = useNavigate();
+
+  // Auth gate: show the auth screen if not logged in
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse text-neutral-400">Loading...</div>
+      </div>
+    );
+  }
+  if (!session) {
+    return <VouchAuthView />;
+  }
+
   const [code, setCode] = useState('');
   const [isScanning, setIsScanning] = useState(false);
   const [results, setResults] = useState(null);
@@ -146,8 +161,8 @@ function App() {
 
   const handleScan = async () => {
     // Auth gate: require sign-up before scanning
-    if (!isSignedIn) {
-      openSignUp();
+    if (!session) {
+      navigate('/dashboard');
       return;
     }
 
@@ -346,7 +361,7 @@ function App() {
               disabled={isScanning || isZipping || (!code.trim() && !pendingUpload)}
               className="btn-magnetic mt-4 w-full py-4 px-6 rounded-lg font-sans font-bold text-white bg-gradient-to-r from-[#7B61FF] to-[#4529a6] hover:from-[#654ad6] hover:to-[#7B61FF] transition-all shadow-[0_0_20px_rgba(123,97,255,0.3)] hover:shadow-[0_0_30px_rgba(123,97,255,0.5)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {!isSignedIn ? (
+              {!session ? (
                 <>
                   <Lock className="w-5 h-5" />
                   Sign Up to Scan

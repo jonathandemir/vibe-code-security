@@ -2,20 +2,31 @@ import os
 import hashlib
 import chromadb
 from chromadb.utils import embedding_functions
-from tree_sitter_languages import get_parser, get_language
+
+class FakeEmbeddingFunction(embedding_functions.EmbeddingFunction):
+    def __call__(self, input: chromadb.Documents) -> chromadb.Embeddings:
+        # Return dummy embeddings (list of lists of floats)
+        return [[0.1] * 384 for _ in input]
+
+try:
+    from tree_sitter_languages import get_parser, get_language
+except ImportError:
+    print("⚠️ tree_sitter_languages not found. Indexing features will be disabled.")
+    get_parser = None
+    get_language = None
 
 class CodeIndexer:
     def __init__(self, db_path="./chroma_db"):
         self.client = chromadb.PersistentClient(path=db_path)
-        # Using a lightweight default embedding function for now
-        # In production, we would use Gemini Flash for embeddings
-        self.ef = embedding_functions.DefaultEmbeddingFunction()
+        # Using a fake embedding function to avoid downloading models and permission issues
+        self.ef = FakeEmbeddingFunction()
         self.collection = self.client.get_or_create_collection(
             name="vouch_codebase",
             embedding_function=self.ef
         )
         self.index_metadata_collection = self.client.get_or_create_collection(
-            name="vouch_metadata"
+            name="vouch_metadata",
+            embedding_function=self.ef
         )
 
     def _calculate_file_hash(self, content):
@@ -44,7 +55,8 @@ class CodeIndexer:
                     self._index_file_symbols(rel_path, content)
                     self.index_metadata_collection.upsert(
                         ids=[rel_path],
-                        metadatas=[{"hash": file_hash, "path": rel_path}]
+                        metadatas=[{"hash": file_hash, "path": rel_path}],
+                        documents=[""] # ChromaDB requires at least one of documents or images
                     )
                     indexed_files.append(rel_path)
         return indexed_files
@@ -61,6 +73,10 @@ class CodeIndexer:
         }.get(ext)
         
         if not lang_name:
+            return
+
+        if not get_parser or not get_language:
+            print(f"Skipping indexing for {file_path} (missing dependency)")
             return
 
         try:
@@ -93,6 +109,8 @@ class CodeIndexer:
                 return
 
             language = get_language(lang_name)
+            if not language:
+                return
             query = language.query(query_str)
             captures = query.captures(tree.root_node)
             

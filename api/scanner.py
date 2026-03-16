@@ -2,6 +2,18 @@ import subprocess
 import json
 import os
 import tempfile
+import shutil
+
+# --- Binary Discovery ---
+# We try to find semgrep in the PATH, or fallback to the local venv bin
+SEMGREP_BIN = shutil.which("semgrep")
+if not SEMGREP_BIN:
+    # Check common local venv paths
+    _venv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "venv_fresh", "bin", "semgrep")
+    if os.path.exists(_venv_path):
+        SEMGREP_BIN = _venv_path
+    else:
+        SEMGREP_BIN = "semgrep" # Fallback to default
 
 def run_semgrep(code_content: str, language: str = "python") -> dict:
     """
@@ -27,7 +39,7 @@ def run_semgrep(code_content: str, language: str = "python") -> dict:
         # We use --json to get structured output
         # p/default covers standard security rules for JS, Python, Go, etc.
         cmd = [
-            "semgrep", 
+            SEMGREP_BIN, 
             "scan", 
             "--config", "p/default",
             "--json",
@@ -74,7 +86,7 @@ def run_semgrep_on_dir(directory_path: str) -> dict:
     """
     try:
         cmd = [
-            "semgrep", 
+            SEMGREP_BIN, 
             "scan", 
             "--config", "p/default",
             "--json",

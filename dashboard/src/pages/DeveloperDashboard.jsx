@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useUser, useAuth } from '@clerk/clerk-react';
 import { Key, Copy, RefreshCw, CheckCircle, Shield, Zap, BarChart3, Eye, EyeOff, Github, ExternalLink } from 'lucide-react';
+import { useSession } from '../hooks/useSession';
+import { supabase } from '../lib/supabase';
 export default function DeveloperDashboard() {
-    const { user } = useUser();
-    const { getToken } = useAuth();
+    const { session } = useSession();
+    const user = session?.user;
+
+    const getSupabaseToken = async () => {
+        const { data } = await supabase.auth.getSession();
+        return data?.session?.access_token;
+    };
     const [apiKey, setApiKey] = useState(null);
     const [loading, setLoading] = useState(true);
     const [generating, setGenerating] = useState(false);
@@ -24,7 +30,7 @@ export default function DeveloperDashboard() {
     const handleCheckout = async (tier) => {
         setLoadingTier(tier);
         try {
-            const token = await getToken();
+            const token = await getSupabaseToken();
             const res = await fetch(`${API_BASE}/developer/create-checkout-session`, {
                 method: 'POST',
                 headers: {
@@ -50,7 +56,7 @@ export default function DeveloperDashboard() {
     useEffect(() => {
         async function fetchKey() {
             try {
-                const token = await getToken();
+                const token = await getSupabaseToken();
                 const res = await fetch(`${API_BASE}/developer/me`, {
                     headers: { 'Authorization': `Bearer ${token}` },
                 });
@@ -75,7 +81,7 @@ export default function DeveloperDashboard() {
         async function handleMagicFlow(installationId, setupAction) {
             setInstallMessage({ type: 'info', text: 'Linking your GitHub account...' });
             try {
-                const token = await getToken();
+                const token = await getSupabaseToken();
                 const res = await fetch(`${API_BASE}/developer/link-github`, {
                     method: 'POST',
                     headers: {
@@ -123,12 +129,12 @@ export default function DeveloperDashboard() {
         } else {
             fetchKey();
         }
-    }, [getToken, API_BASE]);
+    }, [API_BASE]);
 
     const handleGenerateKey = async () => {
         setGenerating(true);
         try {
-            const token = await getToken();
+            const token = await getSupabaseToken();
             const res = await fetch(`${API_BASE}/developer/generate-key`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
@@ -169,7 +175,7 @@ export default function DeveloperDashboard() {
                 {/* Header */}
                 <div className="space-y-2">
                     <h1 className="text-3xl font-bold tracking-tight">
-                        Welcome, <span className="text-[#7B61FF]">{user?.firstName || 'Developer'}</span>
+                        Welcome, <span className="text-[#7B61FF]">{user?.user_metadata?.name || user?.email?.split('@')[0] || 'Developer'}</span>
                     </h1>
                     <p className="text-neutral-400">
                         Manage your API key, monitor usage, and upgrade your plan.

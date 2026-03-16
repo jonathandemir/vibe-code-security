@@ -51,7 +51,9 @@ async def get_installation_access_token(installation_id: int) -> Optional[str]:
             data = response.json()
             return data.get("token")
         else:
-            print(f"❌ Failed to get GitHub Installation Token: {response.status_code} - {response.text}")
+            # Redact the URL if it contains the installation ID just in case, 
+            # and avoid printing the full response if it might contain tokens.
+            print(f"❌ Failed to get GitHub Installation Token: {response.status_code}")
             return None
 
 async def fetch_pr_diff_files(installation_token: str, owner: str, repo: str, pull_number: int) -> list[dict]:
@@ -69,7 +71,7 @@ async def fetch_pr_diff_files(installation_token: str, owner: str, repo: str, pu
         response = await client.get(url, headers=headers)
         if response.status_code == 200:
             return response.json()
-        print(f"❌ Failed to fetch PR files: {response.text}")
+        print(f"❌ Failed to fetch PR files: {response.status_code}")
         return []
 
 async def fetch_file_content(installation_token: str, contents_url: str) -> Optional[str]:
@@ -83,8 +85,7 @@ async def fetch_file_content(installation_token: str, contents_url: str) -> Opti
         if response.status_code == 200:
             return response.text
         
-        print(f"❌ Vouch: Failed to fetch file content from {contents_url}. Status: {response.status_code}")
-        print(f"Response: {response.text[:200]}...") # Log start of error
+        print(f"❌ Vouch: Failed to fetch file content. Status: {response.status_code}")
         return None
 
 async def post_pr_comment(installation_token: str, owner: str, repo: str, issue_number: int, body: str):

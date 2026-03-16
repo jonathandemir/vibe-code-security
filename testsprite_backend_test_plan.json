@@ -1,0 +1,67 @@
+[
+  {
+    "type": "api_call",
+    "description": "Health Check: Verify API is up and running",
+    "details": {
+      "endpoint": "/api/v1/health",
+      "method": "GET",
+      "expected_status": 200
+    }
+  },
+  {
+    "type": "security",
+    "description": "Secret Detection: Scan PR containing hardcoded API key in .env",
+    "details": {
+      "scenario": "Webhook PR containing a .env file with 'STRIPE_SECRET=sk_test_12345'",
+      "endpoint": "/github/webhook",
+      "method": "POST",
+      "payload_template": {
+        "action": "opened",
+        "pull_request": {
+          "number": 1,
+          "head": { "sha": "test_sha" },
+          "base": { "repo": { "owner": { "login": "test_owner" }, "name": "test_repo" } }
+        }
+      },
+      "validation_rules": [
+        "Expect status check 'failure' posted to GitHub",
+        "Expect PR comment highlighting the hardcoded secret"
+      ]
+    }
+  },
+  {
+    "type": "functional",
+    "description": "Onboarding: Link GitHub installation to user",
+    "details": {
+      "endpoint": "/developer/link-github",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer {{USER_CLERK_TOKEN}}"
+      },
+      "body": {
+        "installation_id": 123456,
+        "setup_action": "install"
+      },
+      "expected_status": 200
+    }
+  },
+  {
+    "type": "functional",
+    "description": "Empty PR: Handle non-code changes gracefully",
+    "details": {
+      "scenario": "PR with only README.md change",
+      "endpoint": "/github/webhook",
+      "method": "POST",
+      "payload_template": {
+        "action": "synchronize",
+        "pull_request": {
+          "number": 2,
+          "head": { "sha": "test_sha_2" }
+        }
+      },
+      "validation_rules": [
+        "Expect status check 'success' with message 'No scannable code changes found'"
+      ]
+    }
+  }
+]

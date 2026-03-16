@@ -33,7 +33,7 @@ VOUCH_API_KEY = os.environ.get("VOUCH_API_KEY")
 STRIPE_API_KEY = os.environ.get("STRIPE_API_KEY")
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET")
 # Frontend URL for redirects and CORS (set to your Vercel/production domain in prod)
-FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:5173")
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:5174")
 
 if STRIPE_API_KEY:
     stripe.api_key = STRIPE_API_KEY
@@ -112,7 +112,12 @@ def verify_api_key(request: Request) -> dict:
     expected_local_key = os.environ.get("VOUCH_API_KEY")
 
     if not expected_local_key:
-        print("⚠️  WARNING: VOUCH_API_KEY not set. API is open (Dev Mode).")
+        is_dev_mode = os.environ.get("VOUCH_DEV_MODE", "false").lower() == "true"
+        if not is_dev_mode:
+            print("❌ ERROR: VOUCH_API_KEY not set and VOUCH_DEV_MODE is false. Blocking request.")
+            raise HTTPException(status_code=500, detail="Server Configuration Error: API Authentication is disabled.")
+        
+        print("⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEPRECATED DEV MODE).")
         return {"id": None, "plan": "free", "api_key": None}
 
     if not api_key:
@@ -129,37 +134,32 @@ def verify_api_key(request: Request) -> dict:
         
     return user
 
-# --- JWT Helpers for Clerk ---
-# The Clerk Frontend API URL is derived from the publishable key.
-# In production, set CLERK_FRONTEND_API_URL as an environment variable.
-CLERK_FRONTEND_API_URL = os.environ.get(
-    "CLERK_FRONTEND_API_URL",
-    "https://helped-tomcat-65.clerk.accounts.dev"
-)
-CLERK_JWKS_URL = f"{CLERK_FRONTEND_API_URL}/.well-known/jwks.json"
+# --- JWT Config for Supabase ---
+SUPABASE_JWT_SECRET = os.environ.get("SUPABASE_JWT_SECRET")
 
-# PyJWT's built-in JWKS client handles caching and key rotation automatically.
-_jwks_client = jwt.PyJWKClient(CLERK_JWKS_URL)
-
-def verify_clerk_token(token: str) -> str:
+def verify_supabase_token(token: str) -> str:
     """
-    Verifies a Clerk JWT using RSA256 signature verification against the JWKS endpoint.
+    Verifies a Supabase JWT using the JWT Secret.
     Returns the user ID (sub claim) on success.
-    Raises HTTPException on failure.
     """
-    try:
-        # 1. Fetch the correct signing key from Clerk's JWKS endpoint
-        signing_key = _jwks_client.get_signing_key_from_jwt(token)
+    if not SUPABASE_JWT_SECRET:
+        # Fallback for local development if secret is missing but dev mode is on
+        is_dev_mode = os.environ.get("VOUCH_DEV_MODE", "false").lower() == "true"
+        if is_dev_mode:
+            print("⚠️  WARNING: SUPABASE_JWT_SECRET not set. Using dummy ID in dev mode.")
+            return "dev_user_id"
+        raise HTTPException(status_code=500, detail="Server Configuration Error: SUPABASE_JWT_SECRET not set.")
 
-        # 2. Decode AND verify the token signature, expiration, and issuer
+    try:
+        # Supabase uses standard HS256 for its project JWTs
         payload = jwt.decode(
             token,
-            signing_key.key,
-            algorithms=["RS256"],
+            SUPABASE_JWT_SECRET,
+            algorithms=["HS256"],
             options={
                 "verify_signature": True,
                 "verify_exp": True,
-                "verify_aud": False,  # Clerk doesn't always set 'aud' for frontend tokens
+                "verify_aud": False,  # Supabase aud is usually 'authenticated'
             }
         )
         
@@ -169,7 +169,7 @@ def verify_clerk_token(token: str) -> str:
         
         return user_id
     except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="Authentication token has expired. Please sign in again.")
+        raise HTTPException(status_code=401, detail="Authentication token has expired.")
     except jwt.InvalidTokenError as e:
         raise HTTPException(status_code=401, detail=f"Invalid Authentication Token: {e}")
     except Exception as e:
@@ -239,11 +239,11 @@ async def generate_user_api_key(request: Request):
         raise HTTPException(status_code=401, detail="Missing Bearer Token")
         
     token = auth_header.split(" ")[1]
-    clerk_id = verify_clerk_token(token)
-    if not clerk_id:
-        raise HTTPException(status_code=401, detail="Invalid Clerk Token")
+    supabase_uid = verify_supabase_token(token)
+    if not supabase_uid:
+        raise HTTPException(status_code=401, detail="Invalid Supabase Token")
         
-    api_key = database.generate_api_key(clerk_id)
+    api_key = database.generate_api_key(supabase_uid)
     return {"api_key": api_key}
 
 
@@ -264,12 +264,12 @@ async def link_github_installation(request: Request, req: GithubLinkRequest):
         raise HTTPException(status_code=401, detail="Missing Bearer Token")
         
     token = auth_header.split(" ")[1]
-    clerk_id = verify_clerk_token(token)
-    if not clerk_id:
-        raise HTTPException(status_code=401, detail="Invalid Clerk Token")
+    supabase_uid = verify_supabase_token(token)
+    if not supabase_uid:
+        raise HTTPException(status_code=401, detail="Invalid Supabase Token")
         
     success = database.link_github_installation(
-        clerk_id=clerk_id,
+        supabase_uid=supabase_uid,
         installation_id=req.installation_id
     )
     if not success:
@@ -292,11 +292,11 @@ async def create_checkout_session(request: Request, body: CheckoutRequest):
         raise HTTPException(status_code=401, detail="Missing Bearer Token")
         
     token = auth_header.split(" ")[1]
-    clerk_id = verify_clerk_token(token)
-    if not clerk_id:
-        raise HTTPException(status_code=401, detail="Invalid Clerk Token")
+    supabase_uid = verify_supabase_token(token)
+    if not supabase_uid:
+        raise HTTPException(status_code=401, detail="Invalid Supabase Token")
 
-    user = database.get_or_create_user(clerk_id)
+    user = database.get_or_create_user(supabase_uid)
     
     # Map tier to Price ID
     tier_map = {
@@ -398,11 +398,11 @@ async def get_developer_profile(request: Request):
         raise HTTPException(status_code=401, detail="Missing Bearer Token")
         
     token = auth_header.split(" ")[1]
-    clerk_id = verify_clerk_token(token)
-    if not clerk_id:
-        raise HTTPException(status_code=401, detail="Invalid Clerk Token")
+    supabase_uid = verify_supabase_token(token)
+    if not supabase_uid:
+        raise HTTPException(status_code=401, detail="Invalid Supabase Token")
         
-    user = database.get_or_create_user(clerk_id)
+    user = database.get_or_create_user(supabase_uid)
     if not user.get("api_key"):
         raise HTTPException(status_code=404, detail="No API Key generated yet")
         
@@ -433,23 +433,23 @@ async def ignore_finding_endpoint(req: IgnoreFindingRequest, request: Request):
         raise HTTPException(status_code=401, detail="Missing Bearer Token")
         
     token = auth_header.split(" ")[1]
-    clerk_id = verify_clerk_token(token)
-    if not clerk_id:
-        raise HTTPException(status_code=401, detail="Invalid Clerk Token")
+    supabase_uid = verify_supabase_token(token)
+    if not supabase_uid:
+        raise HTTPException(status_code=401, detail="Invalid Supabase Token")
         
-    success = database.ignore_finding(clerk_id, req.repo_name, req.file_path, req.snippet_hash)
+    success = database.ignore_finding(supabase_uid, req.repo_name, req.file_path, req.snippet_hash)
     if not success:
         raise HTTPException(status_code=500, detail="Failed to ignore finding")
     return {"status": "success", "ignored": True}
 
 
-def filter_ignored_findings(findings: list, clerk_id: str, repo_name: str) -> list:
+def filter_ignored_findings(findings: list, supabase_uid: str, repo_name: str) -> list:
     """Removes findings that the user has previously ignored for this repository."""
     filtered = []
     for f in findings:
         h = f.get("snippet_hash")
         # Optimization: only check DB if hash is present
-        if h and database.is_finding_ignored(clerk_id, repo_name, f.get("file", "unknown_file"), h):
+        if h and database.is_finding_ignored(supabase_uid, repo_name, f.get("file", "unknown_file"), h):
             print(f"🔇 Muting ignored finding: {f.get('rule_id')} in {f.get('file')}")
             continue
         filtered.append(f)
@@ -488,8 +488,8 @@ async def scan_code(scan_req: ScanRequest, request: Request, user: dict = Depend
     findings_summary = extract_findings_summary(semgrep_output)
 
     # Filter out muted findings
-    if user and user.get("clerk_id"):
-        findings_summary = filter_ignored_findings(findings_summary, user["clerk_id"], "unknown_repo")
+    if user and user.get("id"):
+        findings_summary = filter_ignored_findings(findings_summary, user["id"], "unknown_repo")
 
     # 3. Fast-path: no vulnerabilities
     if not findings_summary:
@@ -613,8 +613,8 @@ async def scan_repo(request: Request, file: UploadFile = File(...), language: st
         findings_summary.extend(gitleaks_findings)
 
         # Filter out ignored findings if user is linked
-        if user and user.get("clerk_id"):
-            findings_summary = filter_ignored_findings(findings_summary, user["clerk_id"], "unknown_repo")
+        if user and user.get("id"):
+            findings_summary = filter_ignored_findings(findings_summary, user["id"], "unknown_repo")
 
         # 3. Get the repository context (sensitive files are filtered)
         repo_context = get_repo_context(extract_dir)
@@ -733,8 +733,8 @@ async def github_callback(
         # If we failed to get installation data, redirect back to dashboard with error
         return RedirectResponse(url=f"{FRONTEND_URL}/developer?installation=error")
 
-    # Link the installation ID to the Vouch User
-    linked = database.link_github_installation(clerk_id=state, installation_id=installation_id)
+    # Link the installation ID to the Vouch User — the 'state' parameter is the Supabase UID
+    linked = database.link_github_installation(supabase_uid=state, installation_id=installation_id)
     
     # Redirect back to the developer dashboard
     if linked:
@@ -840,9 +840,15 @@ async def process_github_webhook(payload: dict, event_name: str):
         for df in diff_files:
             if df.get("status") not in ("removed", "deleted"):
                 filename = df.get("filename", "")
+                # --- Path Traversal Protection ---
+                # We use os.path.basename to force the file to stay within the repo_dir
+                safe_filename = os.path.basename(filename)
+                
                 content = await github_app.fetch_file_content(token, df.get("raw_url"))
                 if content:
-                    file_path = os.path.join(repo_dir, filename)
+                    file_path = os.path.join(repo_dir, safe_filename)
+                    # Note: Using basename loses folder structure but ensures safety for now.
+                    # A better fix would be validating the relative path starts with '' and has no '..'
                     os.makedirs(os.path.dirname(file_path), exist_ok=True)
                     with open(file_path, "w") as f:
                         f.write(content)

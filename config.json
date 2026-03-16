@@ -1,0 +1,9 @@
+{
+  "project_name": "Vouch Security Platform",
+  "base_url": "https://vouch-secure.com",
+  "backend_url": "https://vouch-secure-api.onrender.com",
+  "auth_type": "Clerk",
+  "testing_framework": "pytest",
+  "codebase_path": "./api",
+  "test_plan_path": "./testsprite_backend_test_plan.json"
+}
