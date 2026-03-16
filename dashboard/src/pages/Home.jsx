@@ -15,7 +15,7 @@ export default function Home() {
 
     const handleScan = (e) => {
         e.preventDefault();
-        if (inputValue.trim()) navigate('/dashboard');
+        navigate('/dashboard');
     };
 
     return (

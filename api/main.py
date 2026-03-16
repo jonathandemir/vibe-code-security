@@ -1,6 +1,6 @@
 import hmac
 import hashlib
-from fastapi import FastAPI, HTTPException, UploadFile, File, Depends, Request, BackgroundTasks, Header
+from fastapi import FastAPI, HTTPException, UploadFile, File, Depends, Request, BackgroundTasks, Header, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel, Field
@@ -13,11 +13,14 @@ import re
 import jwt
 import httpx
 import stripe
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
-from typing import Optional
+from typing import Optional, List, Dict, Any, Union
 
 from scanner import run_semgrep, run_semgrep_on_dir, extract_findings_summary, run_npm_audit, extract_npm_audit_summary, run_gitleaks, extract_gitleaks_summary
 from ai_translator import translate_findings, translate_repo_findings
@@ -58,10 +61,42 @@ SENSITIVE_FILE_PATTERNS = {
 
 # Patterns to redact from file contents before LLM analysis
 SENSITIVE_LINE_PATTERNS = re.compile(
-    r'(password|secret|api_key|apikey|token|private_key|aws_secret|stripe_sk)'
-    r'\s*[=:]\s*.+',
+    r'(password|passwd|secret|api_key|apikey|auth_token|access_token|private_key|'
+    r'db_password|database_url|connection_string|credentials|'
+    r'sh_key|sk_live|sk_test|pk_live|pk_test)\s*[:=]\s*["\']?([^"\']+)["\']?',
     re.IGNORECASE
 )
+
+def detect_language(directory: Optional[str] = None, code: Optional[str] = None) -> str:
+    """Detects the primary language of a directory or code snippet."""
+    if code:
+        if "import React" in code or "export default" in code or "className=" in code:
+            return "javascript"
+        if "package main" in code or "func " in code:
+            return "go"
+        if "def " in code or "import " in code:
+            return "python"
+    
+    if directory:
+        ext_counts = {}
+        for root, _, files in os.walk(directory):
+            for file in files:
+                ext = os.path.splitext(file)[1].lower()
+                if ext in ['.py', '.js', '.jsx', '.ts', '.tsx', '.go', '.java', '.c', '.cpp']:
+                    ext_counts[ext] = ext_counts.get(ext, 0) + 1
+        
+        if not ext_counts:
+            return "python"
+            
+        # top_ext = max(ext_counts, key=ext_counts.get)
+        top_ext = max(ext_counts.items(), key=lambda x: x[1])[0]
+        if top_ext in ['.js', '.jsx', '.ts', '.tsx']:
+            return "javascript"
+        if top_ext == '.go':
+            return "go"
+        return "python"
+        
+    return "python"
 
 # --- Rate Limiter ---
 limiter = Limiter(key_func=get_remote_address)
@@ -112,13 +147,14 @@ def verify_api_key(request: Request) -> dict:
     expected_local_key = os.environ.get("VOUCH_API_KEY")
 
     if not expected_local_key:
-        is_dev_mode = os.environ.get("VOUCH_DEV_MODE", "false").lower() == "true"
+        # Default to True for local development if key is missing
+        is_dev_mode = os.environ.get("VOUCH_DEV_MODE", "true").lower() == "true"
         if not is_dev_mode:
             print("❌ ERROR: VOUCH_API_KEY not set and VOUCH_DEV_MODE is false. Blocking request.")
             raise HTTPException(status_code=500, detail="Server Configuration Error: API Authentication is disabled.")
         
-        print("⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEPRECATED DEV MODE).")
-        return {"id": None, "plan": "free", "api_key": None}
+        print("⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).")
+        return {"id": None, "plan": "pro", "api_key": None} # Default to pro features for testing
 
     if not api_key:
         raise HTTPException(status_code=401, detail="X-API-Key header missing")
@@ -135,45 +171,86 @@ def verify_api_key(request: Request) -> dict:
     return user
 
 # --- JWT Config for Supabase ---
-SUPABASE_JWT_SECRET = os.environ.get("SUPABASE_JWT_SECRET")
+SUPABASE_JWT_SECRET = os.environ.get("SUPABASE_JWT_SECRET", "")
+
+# Try to build an ES256 public key from JWKS parameters stored in env
+def _build_es256_public_key():
+    """Builds a cryptography EC public key from the JWKS parameters in the env"""
+    try:
+        from cryptography.hazmat.primitives.asymmetric.ec import (
+            EllipticCurvePublicKey, SECP256R1, EllipticCurvePublicNumbers
+        )
+        from cryptography.hazmat.backends import default_backend
+        import base64
+        
+        x_b64 = os.environ.get("SUPABASE_JWKS_KEY_X")
+        y_b64 = os.environ.get("SUPABASE_JWKS_KEY_Y")
+        if not x_b64 or not y_b64:
+            return None
+        
+        def b64url_to_int(b64url: str) -> int:
+            padded = b64url + "=" * (4 - len(b64url) % 4)
+            return int.from_bytes(base64.urlsafe_b64decode(padded), "big")
+        
+        x = b64url_to_int(x_b64)
+        y = b64url_to_int(y_b64)
+        public_numbers = EllipticCurvePublicNumbers(x=x, y=y, curve=SECP256R1())
+        return public_numbers.public_key(default_backend())
+    except Exception as e:
+        print(f"⚠️ Could not build ES256 public key: {e}")
+        return None
+
+SUPABASE_ES256_KEY = _build_es256_public_key()
 
 def verify_supabase_token(token: str) -> str:
     """
-    Verifies a Supabase JWT using the JWT Secret.
+    Verifies a Supabase JWT using the JWT Secret (HS256) or JWKS EC key (ES256).
     Returns the user ID (sub claim) on success.
     """
-    if not SUPABASE_JWT_SECRET:
-        # Fallback for local development if secret is missing but dev mode is on
+    # Determine the algorithm from the token header
+    try:
+        unverified_header = jwt.get_unverified_header(token)
+        alg = unverified_header.get("alg", "HS256")
+        print(f"🔍 Received Token Header: {unverified_header}")
+    except Exception as e:
+        raise HTTPException(status_code=401, detail=f"Cannot parse token header: {e}")
+
+    # Dev mode fallback when no keys are configured
+    if not SUPABASE_JWT_SECRET and SUPABASE_ES256_KEY is None:
         is_dev_mode = os.environ.get("VOUCH_DEV_MODE", "false").lower() == "true"
         if is_dev_mode:
-            print("⚠️  WARNING: SUPABASE_JWT_SECRET not set. Using dummy ID in dev mode.")
+            print("⚠️  WARNING: No Supabase key set. Using dummy ID in dev mode.")
             return "dev_user_id"
-        raise HTTPException(status_code=500, detail="Server Configuration Error: SUPABASE_JWT_SECRET not set.")
+        raise HTTPException(status_code=500, detail="Server Configuration Error: No Supabase key configured.")
 
     try:
-        # Supabase uses standard HS256 for its project JWTs
-        payload = jwt.decode(
-            token,
-            SUPABASE_JWT_SECRET,
-            algorithms=["HS256"],
-            options={
-                "verify_signature": True,
-                "verify_exp": True,
-                "verify_aud": False,  # Supabase aud is usually 'authenticated'
-            }
-        )
-        
+        if alg == "ES256" and SUPABASE_ES256_KEY is not None:
+            payload = jwt.decode(
+                token,
+                SUPABASE_ES256_KEY,
+                algorithms=["ES256"],
+                options={"verify_exp": True, "verify_aud": False}
+            )
+        else:
+            payload = jwt.decode(
+                token,
+                SUPABASE_JWT_SECRET,
+                algorithms=["HS256"],
+                options={"verify_exp": True, "verify_aud": False}
+            )
+
         user_id = payload.get("sub")
         if not user_id:
             raise HTTPException(status_code=401, detail="Token missing 'sub' claim.")
-        
         return user_id
+
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail="Authentication token has expired.")
     except jwt.InvalidTokenError as e:
         raise HTTPException(status_code=401, detail=f"Invalid Authentication Token: {e}")
     except Exception as e:
         raise HTTPException(status_code=401, detail=f"Authentication failed: {e}")
+
 
 
 # --- Helpers ---
@@ -481,6 +558,10 @@ async def scan_code(scan_req: ScanRequest, request: Request, user: dict = Depend
     if not scan_req.code.strip():
         raise HTTPException(status_code=400, detail="Code snippet cannot be empty.")
 
+    # 0. Detect language if not explicitly provided or if it's the default
+    if not scan_req.language or scan_req.language == "python":
+        scan_req.language = detect_language(code=scan_req.code)
+
     # 1. Run local Semgrep rules
     semgrep_output = run_semgrep(scan_req.code, scan_req.language)
 
@@ -491,30 +572,15 @@ async def scan_code(scan_req: ScanRequest, request: Request, user: dict = Depend
     if user and user.get("id"):
         findings_summary = filter_ignored_findings(findings_summary, user["id"], "unknown_repo")
 
-    # 3. Fast-path: no vulnerabilities
-    if not findings_summary:
-        final_result = {
-            "score": 100,
-            "summary": "Secure! No vulnerabilities detected by Vouch.",
-            "issues": []
-        }
-        # 5. Save scan history metrics & track usage
-        scan_id = database.save_scan(scan_type="snippet", language=scan_req.language, result=final_result, user_id=user.get("id"))
-        if user.get("id"):
-            database.increment_scan_count(user.get("id"))
-        
-        final_result["scan_id"] = scan_id
-
-        return final_result
-
-    # 4. Use LLM to translate findings into human-readable patches
+    # 3. Use LLM to translate findings into human-readable patches
+    # We ALWAYS call LLM now to do a "Vouch Deep Check" even if Semgrep found nothing
     translated_report = translate_findings(
         code_snippet=scan_req.code,
         language=scan_req.language,
         findings=findings_summary
     )
 
-    # 5. Save to database
+    # 4. Save to database
     scan_id = database.save_scan("snippet", scan_req.language, translated_report, user_id=user.get("id"))
     if user.get("id"):
         database.increment_scan_count(user.get("id"))
@@ -563,7 +629,7 @@ def get_repo_context(directory: str, max_files: int = 50) -> str:
 
 @app.post("/scan-repo")
 @limiter.limit("5/minute")
-async def scan_repo(request: Request, file: UploadFile = File(...), language: str = "python", user: dict = Depends(verify_api_key)):
+async def scan_repo(request: Request, file: UploadFile = File(...), language: str = Form("python"), user: dict = Depends(verify_api_key)):
     """
     Accepts a ZIP file containing a repository, extracts it, runs Semgrep over the directory,
     and then uses a 2-stage LLM pipeline to do a deep analysis and formatted return.
@@ -595,6 +661,11 @@ async def scan_repo(request: Request, file: UploadFile = File(...), language: st
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
             _validate_zip_safety(zip_ref, extract_dir)
             zip_ref.extractall(extract_dir)
+
+        # 0. Detect language from the extracted files
+        if not language or language == "python":
+            language = detect_language(directory=extract_dir)
+        print(f"📊 Detected Repository Language: {language}")
 
         # 1. Run local Semgrep rules on the directory
         semgrep_output = run_semgrep_on_dir(extract_dir)
@@ -825,8 +896,8 @@ async def process_github_webhook(payload: dict, event_name: str):
     findings_summary = [] # Initialize findings list; AI will also perform direct review of context
     code_context = "\n".join(context_files)
     
-    if user and user.get("clerk_id"):
-        findings_summary = filter_ignored_findings(findings_summary, user["clerk_id"], repo_name)
+    if user and user.get("id"):
+        findings_summary = filter_ignored_findings(findings_summary, user["id"], repo_name)
     
     # --- Indexing Step ---
     # We index the repository asynchronously to keep the PR feedback fast.

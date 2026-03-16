@@ -43,7 +43,7 @@ function formatTimestamp(isoString) {
 }
 
 function ScanHistory({ scans, onSelect, onDelete, activeScanId }) {
-    if (!scans || scans.length === 0) {
+    if (!scans || !Array.isArray(scans) || scans.length === 0) {
         return (
             <div className="glass-panel p-4 text-center text-slate-500">
                 <Clock className="w-8 h-8 mx-auto mb-2 text-slate-600" />

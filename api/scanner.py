@@ -50,8 +50,11 @@ def run_semgrep(code_content: str, language: str = "python") -> dict:
         # Override HOME to bypass semantic grep permission issues in restricted environments
         custom_env = os.environ.copy()
         custom_env["HOME"] = "/tmp"
+        custom_env["SEMGREP_USER_CONFIG"] = "/tmp/.semgrep"
         custom_env["SEMGREP_USER_LOG_FILE"] = "/dev/null"
         custom_env["TMPDIR"] = "/tmp"
+        custom_env["SEMGREP_SEND_METRICS"] = "off"
+        custom_env["SEMGREP_SKIP_VERSION_CHECK"] = "1"
 
         result = subprocess.run(cmd, capture_output=True, text=True, env=custom_env)
         
@@ -96,8 +99,12 @@ def run_semgrep_on_dir(directory_path: str) -> dict:
         
         custom_env = os.environ.copy()
         custom_env["HOME"] = "/tmp"
+        custom_env["SEMGREP_USER_CONFIG"] = "/tmp/.semgrep"
         custom_env["SEMGREP_USER_LOG_FILE"] = "/dev/null"
         custom_env["TMPDIR"] = "/tmp"
+        # Disable metrics to avoid outbound calls that might fail
+        custom_env["SEMGREP_SEND_METRICS"] = "off"
+        custom_env["SEMGREP_SKIP_VERSION_CHECK"] = "1"
 
         result = subprocess.run(cmd, capture_output=True, text=True, env=custom_env)
         

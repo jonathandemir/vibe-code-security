@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, ChevronDown } from 'lucide-react';
 import { useSession } from '../hooks/useSession';
@@ -16,12 +17,13 @@ export default function Pricing() {
     const [openFaq, setOpenFaq] = useState(null);
     const { session } = useSession();
     const [loadingTier, setLoadingTier] = useState(null);
+    const navigate = useNavigate();
 
     const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000';
 
     const handleCheckout = async (tier) => {
         if (!session) {
-            alert("Please log in or create an account via the Dashboard before subscribing.");
+            navigate('/dashboard');
             return;
         }
         setLoadingTier(tier);

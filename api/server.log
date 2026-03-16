@@ -1,0 +1,1576 @@
+INFO:     Will watch for changes in these directories: ['/Users/jonathandemir/projects/vibe_code_security/api']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [83329] using WatchFiles
+INFO:     Started server process [83332]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+⚠️ tree_sitter_languages not found. Indexing features will be disabled.
+✅ Vouch SQLite DB initialized.
+⚠️  API Key authentication is DISABLED (VOUCH_API_KEY not set).
+❌ ERROR: VOUCH_API_KEY not set and VOUCH_DEV_MODE is false. Blocking request.
+❌ ERROR: VOUCH_API_KEY not set and VOUCH_DEV_MODE is false. Blocking request.
+INFO:     127.0.0.1:49716 - "GET /scans HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:49717 - "GET /scans HTTP/1.1" 500 Internal Server Error
+❌ ERROR: VOUCH_API_KEY not set and VOUCH_DEV_MODE is false. Blocking request.
+INFO:     127.0.0.1:49721 - "POST /scan-repo HTTP/1.1" 500 Internal Server Error
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [83332]
+INFO:     Started server process [84474]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+⚠️ tree_sitter_languages not found. Indexing features will be disabled.
+✅ Vouch SQLite DB initialized.
+⚠️  API Key authentication is DISABLED (VOUCH_API_KEY not set).
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:49919 - "GET /scans HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49920 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:49934 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:49935 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+Failed to run gitleaks (is it installed?): [Errno 2] No such file or directory: 'gitleaks'
+📁 Indexing repository in-place: /tmp/tmp_9hqb00p/extracted
+Skipping indexing for naaimex-app/tailwind.config.js (missing dependency)
+Skipping indexing for naaimex-app/vite.config.js (missing dependency)
+Skipping indexing for naaimex-app/eslint.config.js (missing dependency)
+Skipping indexing for naaimex-app/postcss.config.js (missing dependency)
+Skipping indexing for naaimex-app/src/main.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/App.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/components/Footer.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/components/ScrollToTop.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/components/Navbar.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/components/home/Protocol.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/components/home/Features.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/components/home/Hero.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/components/home/SubpageTeasers.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/components/home/Philosophy.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/components/sortiment/MeatSelector.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/components/sortiment/CowMap.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/components/sortiment/CowSVG.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/data/cutsData.js (missing dependency)
+Skipping indexing for naaimex-app/src/pages/Qualitaet.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/Impressum.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/Historie.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/Kontakt.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/Partner.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/Home.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/Sortiment.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/Datenschutz.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/Events.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/sortiment/JapanWagyu.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/sortiment/Rind.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/sortiment/Seafood.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/sortiment/LammWeideschaf.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/sortiment/WeiterePalette.jsx (missing dependency)
+Skipping indexing for naaimex-app/src/pages/sortiment/Gefluegel.jsx (missing dependency)
+WARNING: GEMINI_API_KEY not set. Returning mock AI translation.
+INFO:     127.0.0.1:49937 - "POST /scan-repo HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:49937 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+Failed to run gitleaks (is it installed?): [Errno 2] No such file or directory: 'gitleaks'
+📁 Indexing repository in-place: /tmp/tmpa4hkqjim/extracted
+Skipping indexing for SmartLuxxs_V2_App/tailwind.config.js (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/eslint.config.js (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/vite.config.ts (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/postcss.config.js (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/App.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/main.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/vite-env.d.ts (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/context/IframeModalContext.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/Hero.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/Navbar.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ProcessSection.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/SmartCalculator.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/KrankenkasseHero.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/USPs.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/CookieBanner.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/FAQSection.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/Footer.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/LazyLuchs.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/SmartLuchsReact.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/TrustSection.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/SmartLuchsChatWidget.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/PKVSection.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/LogoTicker.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/aspect-ratio.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/alert-dialog.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/pagination.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/tabs.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/card.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/slider.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/popover.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/progress.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/SmartLuchs.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/toaster.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/input-otp.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/chart.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/hover-card.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/sheet.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/scroll-area.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/resizable.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/label.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/sonner.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/navigation-menu.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/accordion.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/drawer.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/tooltip.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/alert.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/switch.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/calendar.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/breadcrumb.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/radio-group.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/command.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/toggle-group.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/avatar.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/menubar.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/dialog.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/badge.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/table.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/separator.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/button.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/toggle.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/toast.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/checkbox.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/collapsible.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/dropdown-menu.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/select.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/textarea.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/input.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/skeleton.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/context-menu.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/form.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/ui/carousel.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/home/HomeKrankenkasseSection.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/home/HomeMainHeroSection.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/home/HomeZahnzusatzSection.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/home/HomeKrankentagegeldSection.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/home/HomeBKVSection.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/home/HomeReiseSection.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/home/HomeInvestmentSection.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/wizard/UniversalModal.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/wizard/Step3Completion.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/wizard/Step2PersonalInfo.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/components/wizard/Step1Calculator.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/hooks/useDocumentMeta.ts (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/hooks/use-toast.ts (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/lib/utils.ts (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/data/blogPosts.ts (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/pages/ModuleBPage.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/pages/LegalPages.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/pages/ModuleCPage.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/pages/LandingPage.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/pages/PlaceholderPage.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/pages/ModuleEPage.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/pages/BlogPostPage.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/pages/KrankenkassePage.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/pages/ModuleDPage.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/pages/BKVPage.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/pages/BlogListPage.tsx (missing dependency)
+Skipping indexing for SmartLuxxs_V2_App/src/services/chatService.ts (missing dependency)
+WARNING: GEMINI_API_KEY not set. Returning mock AI translation.
+INFO:     127.0.0.1:49945 - "POST /scan-repo HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:49945 - "GET /scans HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49952 - "OPTIONS /developer/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49953 - "OPTIONS /developer/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49952 - "GET /developer/me HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:49953 - "GET /developer/me HTTP/1.1" 500 Internal Server Error
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:49955 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:49956 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+Failed to run gitleaks (is it installed?): [Errno 2] No such file or directory: 'gitleaks'
+📁 Indexing repository in-place: /tmp/tmpy9nsotop/extracted
+Skipping indexing for vscode-extension/src/extension.ts (missing dependency)
+WARNING: GEMINI_API_KEY not set. Returning mock AI translation.
+INFO:     127.0.0.1:50025 - "POST /scan-repo HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:50025 - "GET /scans HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50030 - "GET /scans/88e93141-fcfe-4dcc-81b4-b3f40972f693 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50030 - "GET /scans/88e93141-fcfe-4dcc-81b4-b3f40972f693 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50030 - "GET /scans/88e93141-fcfe-4dcc-81b4-b3f40972f693 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50030 - "GET /scans/84242fd9-6aac-4ae0-b901-b9c6e27eefef HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:50067 - "GET /scans HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50068 - "GET /scans HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'scanner.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [84474]
+WARNING:  WatchFiles detected changes in 'scanner.py'. Reloading...
+INFO:     Started server process [86885]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [86885]
+INFO:     Started server process [86886]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [86886]
+Process SpawnProcess-5:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/multiprocessing/process.py", line 320, in _bootstrap
+    self.run()
+    ~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv_fresh/lib/python3.14/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+    ~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv_fresh/lib/python3.14/site-packages/uvicorn/server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv_fresh/lib/python3.14/site-packages/uvicorn/server.py", line 79, in serve
+    await self._serve(sockets)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv_fresh/lib/python3.14/site-packages/uvicorn/server.py", line 86, in _serve
+    config.load()
+    ~~~~~~~~~~~^^
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv_fresh/lib/python3.14/site-packages/uvicorn/config.py", line 441, in load
+    self.loaded_app = import_from_string(self.app)
+                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv_fresh/lib/python3.14/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1398, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1371, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1342, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 938, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 893, in get_code
+  File "<frozen importlib._bootstrap_external>", line 823, in source_to_code
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+  File "/Users/jonathandemir/projects/vibe_code_security/api/main.py", line 99
+    )
+    ^
+SyntaxError: unmatched ')'
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+Process SpawnProcess-6:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/multiprocessing/process.py", line 320, in _bootstrap
+    self.run()
+    ~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv_fresh/lib/python3.14/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+    ~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv_fresh/lib/python3.14/site-packages/uvicorn/server.py", line 75, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/runners.py", line 204, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/asyncio/runners.py", line 127, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv_fresh/lib/python3.14/site-packages/uvicorn/server.py", line 79, in serve
+    await self._serve(sockets)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv_fresh/lib/python3.14/site-packages/uvicorn/server.py", line 86, in _serve
+    config.load()
+    ~~~~~~~~~~~^^
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv_fresh/lib/python3.14/site-packages/uvicorn/config.py", line 441, in load
+    self.loaded_app = import_from_string(self.app)
+                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv_fresh/lib/python3.14/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1398, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1371, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1342, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 938, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 893, in get_code
+  File "<frozen importlib._bootstrap_external>", line 823, in source_to_code
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+  File "/Users/jonathandemir/projects/vibe_code_security/api/main.py", line 99
+    )
+    ^
+SyntaxError: unmatched ')'
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Started server process [86906]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'scanner.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [86906]
+INFO:     Started server process [86926]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'scanner.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [86926]
+INFO:     Started server process [86927]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [86927]
+INFO:     Started server process [86932]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [86932]
+INFO:     Started server process [86938]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+⚠️ tree_sitter_languages not found. Indexing features will be disabled.
+✅ Vouch SQLite DB initialized.
+⚠️  API Key authentication is DISABLED (VOUCH_API_KEY not set).
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+📊 Detected Repository Language: javascript
+Failed to run gitleaks (is it installed?): [Errno 2] No such file or directory: 'gitleaks'
+📁 Indexing repository in-place: /tmp/tmpfo7t0889/extracted
+Skipping indexing for Naaimex-Website/naaimex-app/tailwind.config.js (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/vite.config.js (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/eslint.config.js (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/postcss.config.js (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/main.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/App.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/components/Footer.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/components/ScrollToTop.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/components/Navbar.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/components/home/Protocol.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/components/home/Features.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/components/home/Hero.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/components/home/SubpageTeasers.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/components/home/Philosophy.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/components/sortiment/MeatSelector.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/components/sortiment/CowMap.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/components/sortiment/CowSVG.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/data/cutsData.js (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/Qualitaet.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/Impressum.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/Historie.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/Kontakt.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/Partner.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/Home.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/Sortiment.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/Datenschutz.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/Events.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/sortiment/JapanWagyu.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/sortiment/Rind.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/sortiment/Seafood.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/sortiment/LammWeideschaf.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/sortiment/WeiterePalette.jsx (missing dependency)
+Skipping indexing for Naaimex-Website/naaimex-app/src/pages/sortiment/Gefluegel.jsx (missing dependency)
+WARNING: GEMINI_API_KEY not set. Returning mock AI translation.
+INFO:     127.0.0.1:50370 - "POST /scan-repo HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:50370 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+📊 Detected Repository Language: javascript
+Failed to run gitleaks (is it installed?): [Errno 2] No such file or directory: 'gitleaks'
+📁 Indexing repository in-place: /tmp/tmphmqscjnu/extracted
+WARNING: GEMINI_API_KEY not set. Returning mock AI translation.
+INFO:     127.0.0.1:50374 - "POST /scan-repo HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:50374 - "GET /scans HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50387 - "OPTIONS /scan HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+WARNING: GEMINI_API_KEY not set. Returning mock AI translation.
+INFO:     127.0.0.1:50387 - "POST /scan HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:50387 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+WARNING: GEMINI_API_KEY not set. Returning mock AI translation.
+INFO:     127.0.0.1:50425 - "POST /scan HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:50425 - "GET /scans HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52250 - "OPTIONS /developer/create-checkout-session HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52250 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:52255 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [86938]
+INFO:     Started server process [90655]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [90655]
+INFO:     Started server process [90664]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+⚠️ tree_sitter_languages not found. Indexing features will be disabled.
+✅ Vouch SQLite DB initialized.
+⚠️  API Key authentication is DISABLED (VOUCH_API_KEY not set).
+INFO:     127.0.0.1:52337 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:52362 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:52362 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [90664]
+INFO:     Started server process [90770]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+⚠️ tree_sitter_languages not found. Indexing features will be disabled.
+✅ Vouch SQLite DB initialized.
+⚠️  API Key authentication is DISABLED (VOUCH_API_KEY not set).
+INFO:     127.0.0.1:52474 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [90770]
+INFO:     Started server process [90861]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+⚠️ tree_sitter_languages not found. Indexing features will be disabled.
+✅ Vouch SQLite DB initialized.
+⚠️  API Key authentication is DISABLED (VOUCH_API_KEY not set).
+INFO:     127.0.0.1:52706 - "OPTIONS /developer/create-checkout-session HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52706 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [90861]
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+INFO:     Started server process [92212]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+⚠️ tree_sitter_languages not found. Indexing features will be disabled.
+✅ Vouch SQLite DB initialized.
+⚠️  API Key authentication is DISABLED (VOUCH_API_KEY not set).
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:53291 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:53291 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:53303 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:53303 - "GET /scans HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53311 - "OPTIONS /developer/create-checkout-session HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53311 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:53693 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:53693 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:53693 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:53693 - "GET /scans HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53743 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:53926 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:54195 - "OPTIONS /developer/create-checkout-session HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54195 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:54554 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [92212]
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+INFO:     Started server process [92819]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+⚠️ tree_sitter_languages not found. Indexing features will be disabled.
+✅ Vouch SQLite DB initialized.
+⚠️  API Key authentication is DISABLED (VOUCH_API_KEY not set).
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidTokenError Details: The specified alg value is not allowed. Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:56247 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [92819]
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+INFO:     Started server process [93064]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+⚠️ tree_sitter_languages not found. Indexing features will be disabled.
+✅ Vouch SQLite DB initialized.
+⚠️  API Key authentication is DISABLED (VOUCH_API_KEY not set).
+INFO:     127.0.0.1:57320 - "OPTIONS /developer/create-checkout-session HTTP/1.1" 200 OK
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:57320 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [93064]
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+python-dotenv could not parse statement starting at line 6
+python-dotenv could not parse statement starting at line 7
+python-dotenv could not parse statement starting at line 8
+python-dotenv could not parse statement starting at line 9
+python-dotenv could not parse statement starting at line 10
+python-dotenv could not parse statement starting at line 11
+python-dotenv could not parse statement starting at line 12
+python-dotenv could not parse statement starting at line 13
+INFO:     Started server process [93977]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+⚠️ tree_sitter_languages not found. Indexing features will be disabled.
+✅ Vouch SQLite DB initialized.
+⚠️  API Key authentication is DISABLED (VOUCH_API_KEY not set).
+INFO:     127.0.0.1:60088 - "OPTIONS /developer/create-checkout-session HTTP/1.1" 200 OK
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60088 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:60170 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:60170 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:60170 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:60170 - "GET /scans HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60226 - "OPTIONS /developer/create-checkout-session HTTP/1.1" 200 OK
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:60226 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:60226 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:60226 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:60730 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:60730 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:61362 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:61362 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:61807 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:61807 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:61807 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:61807 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:61807 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:61807 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:62282 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:62282 - "GET /scans HTTP/1.1" 200 OK
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62357 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62357 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62357 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62357 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62357 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62357 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62357 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62357 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62357 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62357 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62357 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62357 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62357 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62489 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:62489 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:63171 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:63171 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:63171 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:63171 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:63539 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:63539 - "GET /scans HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63539 - "OPTIONS /developer/me HTTP/1.1" 200 OK
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63539 - "GET /developer/me HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63557 - "GET /developer/me HTTP/1.1" 401 Unauthorized
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:63651 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:63651 - "GET /scans HTTP/1.1" 200 OK
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63651 - "GET /developer/me HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63651 - "GET /developer/me HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63651 - "GET /developer/me HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63651 - "GET /developer/me HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:63651 - "OPTIONS /developer/generate-key HTTP/1.1" 200 OK
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63651 - "POST /developer/generate-key HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:63651 - "OPTIONS /developer/create-checkout-session HTTP/1.1" 200 OK
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63739 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63739 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63739 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63739 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63739 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63739 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63739 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63739 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63739 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63739 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63739 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63739 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:63861 - "OPTIONS /developer/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63862 - "OPTIONS /developer/me HTTP/1.1" 200 OK
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63861 - "GET /developer/me HTTP/1.1" 401 Unauthorized
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63862 - "GET /developer/me HTTP/1.1" 401 Unauthorized
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:63861 - "GET /scans HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63862 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:63861 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:63862 - "GET /scans HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63976 - "OPTIONS /developer/create-checkout-session HTTP/1.1" 200 OK
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+❌ InvalidAlgorithmError: Sent ES256 but expected HS256. (Likely stale token).
+INFO:     127.0.0.1:63976 - "POST /developer/create-checkout-session HTTP/1.1" 401 Unauthorized
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:64096 - "GET /scans HTTP/1.1" 200 OK
+⚠️  WARNING: VOUCH_API_KEY not set. API is open (DEV MODE).
+INFO:     127.0.0.1:64097 - "GET /scans HTTP/1.1" 200 OK
+INFO:     Will watch for changes in these directories: ['/Users/jonathandemir/projects/vibe_code_security/api']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [1573] using WatchFiles
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/google/auth/__init__.py:54: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/google/oauth2/__init__.py:40: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+INFO:     Started server process [1643]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+✅ Vouch SQLite DB initialized.
+⚠️  API Key authentication is DISABLED (VOUCH_API_KEY not set).
+INFO:     127.0.0.1:51685 - "GET /docs HTTP/1.1" 200 OK
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:52531 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:53410 - "OPTIONS /developer/create-checkout-session HTTP/1.1" 200 OK
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:53410 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [1643]
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/google/auth/__init__.py:54: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/google/oauth2/__init__.py:40: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+INFO:     Started server process [2488]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Will watch for changes in these directories: ['/Users/jonathandemir/projects/vibe_code_security/api']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [2805] using WatchFiles
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/google/auth/__init__.py:54: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/google/oauth2/__init__.py:40: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+INFO:     Started server process [2869]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+✅ Vouch SQLite DB initialized.
+🔑 API Key authentication is ENABLED.
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:54685 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/protocols/http/httptools_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/applications.py", line 1138, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 107, in app
+    response = await f(request)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 426, in app
+    raw_response = await run_endpoint_function(
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 314, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/main.py", line 376, in create_checkout_session
+    user = database.get_or_create_user(supabase_uid)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/database.py", line 152, in get_or_create_user
+    cur.execute(
+sqlite3.IntegrityError: NOT NULL constraint failed: users.clerk_id
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:54695 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/protocols/http/httptools_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/applications.py", line 1138, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 107, in app
+    response = await f(request)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 426, in app
+    raw_response = await run_endpoint_function(
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 314, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/main.py", line 376, in create_checkout_session
+    user = database.get_or_create_user(supabase_uid)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/database.py", line 152, in get_or_create_user
+    cur.execute(
+sqlite3.IntegrityError: NOT NULL constraint failed: users.clerk_id
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:54736 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/protocols/http/httptools_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/applications.py", line 1138, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 107, in app
+    response = await f(request)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 426, in app
+    raw_response = await run_endpoint_function(
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 314, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/main.py", line 376, in create_checkout_session
+    user = database.get_or_create_user(supabase_uid)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/database.py", line 152, in get_or_create_user
+    cur.execute(
+sqlite3.IntegrityError: NOT NULL constraint failed: users.clerk_id
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:54746 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/protocols/http/httptools_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/applications.py", line 1138, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 107, in app
+    response = await f(request)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 426, in app
+    raw_response = await run_endpoint_function(
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 314, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/main.py", line 376, in create_checkout_session
+    user = database.get_or_create_user(supabase_uid)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/database.py", line 152, in get_or_create_user
+    cur.execute(
+sqlite3.IntegrityError: NOT NULL constraint failed: users.clerk_id
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:54756 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/protocols/http/httptools_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/applications.py", line 1138, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 107, in app
+    response = await f(request)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 426, in app
+    raw_response = await run_endpoint_function(
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 314, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/main.py", line 376, in create_checkout_session
+    user = database.get_or_create_user(supabase_uid)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/database.py", line 152, in get_or_create_user
+    cur.execute(
+sqlite3.IntegrityError: NOT NULL constraint failed: users.clerk_id
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:54774 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/protocols/http/httptools_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/applications.py", line 1138, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 107, in app
+    response = await f(request)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 426, in app
+    raw_response = await run_endpoint_function(
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 314, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/main.py", line 376, in create_checkout_session
+    user = database.get_or_create_user(supabase_uid)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/database.py", line 152, in get_or_create_user
+    cur.execute(
+sqlite3.IntegrityError: NOT NULL constraint failed: users.clerk_id
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:54776 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/protocols/http/httptools_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/applications.py", line 1138, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 107, in app
+    response = await f(request)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 426, in app
+    raw_response = await run_endpoint_function(
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 314, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/main.py", line 376, in create_checkout_session
+    user = database.get_or_create_user(supabase_uid)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/database.py", line 152, in get_or_create_user
+    cur.execute(
+sqlite3.IntegrityError: NOT NULL constraint failed: users.clerk_id
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:54794 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/protocols/http/httptools_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/applications.py", line 1138, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 107, in app
+    response = await f(request)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 426, in app
+    raw_response = await run_endpoint_function(
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 314, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/main.py", line 376, in create_checkout_session
+    user = database.get_or_create_user(supabase_uid)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/database.py", line 152, in get_or_create_user
+    cur.execute(
+sqlite3.IntegrityError: NOT NULL constraint failed: users.clerk_id
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:54798 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/protocols/http/httptools_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/applications.py", line 1138, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 93, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 144, in simple_response
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 107, in app
+    response = await f(request)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 426, in app
+    raw_response = await run_endpoint_function(
+  File "/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/fastapi/routing.py", line 314, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/main.py", line 376, in create_checkout_session
+    user = database.get_or_create_user(supabase_uid)
+  File "/Users/jonathandemir/projects/vibe_code_security/api/database.py", line 152, in get_or_create_user
+    cur.execute(
+sqlite3.IntegrityError: NOT NULL constraint failed: users.clerk_id
+WARNING:  WatchFiles detected changes in 'main.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2869]
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/google/auth/__init__.py:54: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/google/oauth2/__init__.py:40: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+INFO:     Started server process [5407]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+✅ Vouch SQLite DB initialized.
+🔑 API Key authentication is ENABLED.
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:57449 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+INFO:     Will watch for changes in these directories: ['/Users/jonathandemir/projects/vibe_code_security/api']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [5911] using WatchFiles
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/google/auth/__init__.py:54: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/jonathandemir/projects/vibe_code_security/api/venv/lib/python3.9/site-packages/google/oauth2/__init__.py:40: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+INFO:     Started server process [5979]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+✅ Vouch SQLite DB initialized.
+🔑 API Key authentication is ENABLED.
+INFO:     127.0.0.1:52851 - "GET /scans HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:52852 - "GET /scans HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:52851 - "GET /scans HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:52852 - "GET /scans HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:52956 - "GET /scans HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:52957 - "GET /scans HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:53014 - "OPTIONS /developer/create-checkout-session HTTP/1.1" 200 OK
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:53014 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:53137 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error
+🔍 Received Token Header: {'alg': 'ES256', 'kid': '6b143590-582b-4468-9969-6548980286d9', 'typ': 'JWT'}
+INFO:     127.0.0.1:54129 - "POST /developer/create-checkout-session HTTP/1.1" 500 Internal Server Error

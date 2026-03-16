@@ -12,17 +12,7 @@ function App() {
   const { session, loading } = useSession();
   const navigate = useNavigate();
 
-  // Auth gate: show the auth screen if not logged in
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-neutral-400">Loading...</div>
-      </div>
-    );
-  }
-  if (!session) {
-    return <VouchAuthView />;
-  }
+  // Auth gate handled just before render to respect Rules of Hooks
 
   const [code, setCode] = useState('');
   const [isScanning, setIsScanning] = useState(false);
@@ -70,14 +60,29 @@ function App() {
       const zip = new window.JSZip();
 
       const processEntry = async (entry, path = '') => {
+        // Skip junk and hidden folders
+        const skipFolders = ['.git', 'node_modules', '.venv', 'venv', '__pycache__', 'dist', 'build', '.next'];
+        if (skipFolders.includes(entry.name) || entry.name.startsWith('.')) return;
+
         if (entry.isFile) {
           const file = await new Promise((resolve) => entry.file(resolve));
-          zip.file(path + file.name, file);
+          // Skip large files (> 5MB) to prevent browser crash, or hidden files
+          if (file.size < 5 * 1024 * 1024 && !file.name.startsWith('.')) {
+             zip.file(path + file.name, file);
+          }
         } else if (entry.isDirectory) {
           const dirReader = entry.createReader();
-          const entries = await new Promise((resolve) => {
-            dirReader.readEntries(resolve);
-          });
+          const readAllEntries = async () => {
+            let allEntries = [];
+            let results = await new Promise((resolve) => dirReader.readEntries(resolve));
+            while (results.length > 0) {
+              allEntries.push(...results);
+              results = await new Promise((resolve) => dirReader.readEntries(resolve));
+            }
+            return allEntries;
+          };
+
+          const entries = await readAllEntries();
           for (const child of entries) {
             await processEntry(child, path + entry.name + '/');
           }
@@ -95,6 +100,12 @@ function App() {
       }
 
       const content = await zip.generateAsync({ type: "blob" });
+      
+      // Check size (50MB limit)
+      if (content.size > 50 * 1024 * 1024) {
+        throw new Error("Folder too large. Max upload size is 50MB (compressed). Try excluding non-essential files.");
+      }
+
       setPendingUpload({ blob: content, name: "repo.zip" });
       setIsZipping(false);
     } catch (err) {
@@ -122,11 +133,24 @@ function App() {
       const zip = new window.JSZip();
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        // file.webkitRelativePath contains the full path including the root folder name
-        zip.file(file.webkitRelativePath || file.name, file);
+        const path = file.webkitRelativePath || file.name;
+        
+        // Skip junk paths
+        if (path.includes('.git/') || path.includes('node_modules/') || path.includes('/.') || path.startsWith('.')) continue;
+        
+        // Skip large files (> 5MB)
+        if (file.size > 5 * 1024 * 1024) continue;
+
+        zip.file(path, file);
       }
 
       const content = await zip.generateAsync({ type: "blob" });
+
+      // Check size (50MB limit)
+      if (content.size > 50 * 1024 * 1024) {
+        throw new Error("Folder too large. Max upload size is 50MB (compressed). Try excluding non-essential files.");
+      }
+
       setPendingUpload({ blob: content, name: "repo.zip" });
       setIsZipping(false);
     } catch (err) {
@@ -171,6 +195,11 @@ function App() {
       return;
     }
 
+    if (code.length > 500000) {
+      setError("Code snippet too large. Max 500KB allowed.");
+      return;
+    }
+
     setError(null);
     setIsScanning(true);
     setResults(null);
@@ -178,10 +207,28 @@ function App() {
 
     try {
       let response;
+      let detectedLanguage = 'python'; // Default
+
+      if (pendingUpload) {
+        // Detect language from file extensions in the zip (we'll use a simple heuristic)
+        // This is a bit hard with just the blob, so we'll rely on the backend as well
+        // but for the UI sidebar, we'll try to guess if we can.
+        detectedLanguage = 'python'; // Fallback
+      } else {
+        const firstLine = code.trim().split('\n')[0];
+        if (firstLine.includes('import React') || code.includes('export default') || code.includes('className=')) {
+          detectedLanguage = 'javascript';
+        } else if (code.includes('package main') || code.includes('func ')) {
+          detectedLanguage = 'go';
+        } else if (code.includes('def ') || code.includes('import ')) {
+          detectedLanguage = 'python';
+        }
+      }
+
       if (pendingUpload) {
         const formData = new FormData();
         formData.append("file", pendingUpload.blob, pendingUpload.name);
-        formData.append("language", "python");
+        formData.append("language", detectedLanguage);
 
         response = await fetch(`${API_BASE}/scan-repo`, {
           method: 'POST',
@@ -199,7 +246,7 @@ function App() {
           },
           body: JSON.stringify({
             code: code,
-            language: 'python' // Hardcoded for MVP, could be dynamic
+            language: detectedLanguage
           }),
         });
       }
@@ -251,6 +298,18 @@ function App() {
       console.error("Failed to delete scan:", err);
     }
   };
+
+  // Auth gate: show the auth screen if not logged in (moved down to respect Hooks)
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-pulse text-neutral-400">Loading...</div>
+      </div>
+    );
+  }
+  if (!session) {
+    return <VouchAuthView />;
+  }
 
   return (
     <div className="min-h-screen bg-[#0A0A14] text-slate-200 selection:bg-[#7B61FF]/30 selection:text-[#F0EFF4] font-sans">
@@ -321,8 +380,11 @@ function App() {
                 <Code2 className="w-5 h-5 text-[#7B61FF]" />
                 <h2 className="text-lg font-sans font-semibold">Source Code</h2>
               </div>
-              <div className="flex items-center gap-2 text-xs font-mono text-neutral-500 bg-[#0A0A14] px-3 py-1.5 rounded-full border border-white/5">
-                <UploadCloud className="w-3.5 h-3.5" /> Drop Folder to Scan
+              <div className="flex flex-col items-end gap-1">
+                <div className="flex items-center gap-2 text-xs font-mono text-neutral-500 bg-[#0A0A14] px-3 py-1.5 rounded-full border border-white/5">
+                  <UploadCloud className="w-3.5 h-3.5" /> Drop Folder to Scan
+                </div>
+                <p className="text-[10px] text-neutral-600 font-mono">Max: 50MB (Zip) | 500KB (Text)</p>
               </div>
             </div>
 
@@ -357,7 +419,10 @@ function App() {
             )}
 
             <button
-              onClick={handleScan}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleScan();
+              }}
               disabled={isScanning || isZipping || (!code.trim() && !pendingUpload)}
               className="btn-magnetic mt-4 w-full py-4 px-6 rounded-lg font-sans font-bold text-white bg-gradient-to-r from-[#7B61FF] to-[#4529a6] hover:from-[#654ad6] hover:to-[#7B61FF] transition-all shadow-[0_0_20px_rgba(123,97,255,0.3)] hover:shadow-[0_0_30px_rgba(123,97,255,0.5)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >

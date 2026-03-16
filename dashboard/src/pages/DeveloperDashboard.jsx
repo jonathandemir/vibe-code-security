@@ -175,7 +175,7 @@ export default function DeveloperDashboard() {
                 {/* Header */}
                 <div className="space-y-2">
                     <h1 className="text-3xl font-bold tracking-tight">
-                        Welcome, <span className="text-[#7B61FF]">{user?.user_metadata?.name || user?.email?.split('@')[0] || 'Developer'}</span>
+                        Welcome, <span className="text-[#7B61FF]">{user?.user_metadata?.name || (user?.email ? user.email.split('@')[0] : 'Developer')}</span>
                     </h1>
                     <p className="text-neutral-400">
                         Manage your API key, monitor usage, and upgrade your plan.
@@ -338,13 +338,34 @@ export default function DeveloperDashboard() {
                     </div>
                 )}
 
-                {/* Upgrade CTA (only for free users) */}
-                {plan === 'free' && (
+                {/* Upgrade / Expansion CTA */}
+                {plan === 'pro' ? (
+                    <div className="glass-panel p-8 rounded-2xl border border-cyan-400/20 bg-gradient-to-r from-cyan-400/5 to-transparent space-y-6">
+                        <div>
+                            <h2 className="text-xl font-bold">Need More Power?</h2>
+                            <p className="text-neutral-400 mt-2">
+                                You are currently on the Pro Tier. Buy Expansion Credits if you're hitting your monthly limit.
+                            </p>
+                        </div>
+
+                        <div className="max-w-md">
+                            <button
+                                onClick={() => handleCheckout('credits')}
+                                disabled={loadingTier === 'credits'}
+                                className="flex items-center justify-center w-full p-4 rounded-xl border border-cyan-400/40 bg-cyan-400/10 hover:bg-cyan-400/20 shadow-[0_0_20px_rgba(34,211,238,0.1)] transition-all"
+                            >
+                                <span className="text-lg font-bold text-white">
+                                    {loadingTier === 'credits' ? 'Loading...' : 'Buy Expansion Credits ($10)'}
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                ) : (
                     <div className="glass-panel p-8 rounded-2xl border border-[#7B61FF]/20 bg-gradient-to-r from-[#7B61FF]/5 to-transparent space-y-6">
                         <div>
                             <h2 className="text-xl font-bold">Upgrade your Workflow</h2>
                             <p className="text-neutral-400 mt-2">
-                                You are currently on the Free Tier (10 Scans / month, 0 Deep Auto Fixes).
+                                You are currently on the {plan.charAt(0).toUpperCase() + plan.slice(1)} Tier.
                                 Upgrade to unlock full developer velocity.
                             </p>
                         </div>
